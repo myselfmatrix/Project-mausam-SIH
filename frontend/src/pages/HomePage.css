@@ -73,3 +73,27 @@
   font-size: 0.95rem;
   font-weight: 500;
 }
+
+.cta-section {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.cta-button {
+  padding: 15px 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}

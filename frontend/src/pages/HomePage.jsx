@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { get } from '../services/api'
 import './HomePage.css'
 
-export default function HomePage() {
+export default function HomePage({ onGetStarted }) {
   const [backendStatus, setBackendStatus] = useState('Loading...')
   const [personas] = useState([
     { id: 1, name: 'Health Conscious', icon: '❤️' },
@@ -42,6 +42,12 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="cta-section">
+        <button className="cta-button" onClick={onGetStarted}>
+          Get Started
+        </button>
       </section>
     </div>
   )

@@ -1,20 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { getWeatherByLocation, getPersonalizedWeather } = require('../controllers/weatherController');
 
-// Get weather for location
-router.get('/:location', (req, res) => {
-  res.json({ 
-    location: req.params.location,
-    message: 'Weather data endpoint'
-  });
-});
-
-// Get personalized weather by persona
-router.get('/persona/:personaType', (req, res) => {
-  res.json({
-    persona: req.params.personaType,
-    message: 'Personalized weather endpoint'
-  });
-});
+router.get('/:location', getWeatherByLocation);
+router.get('/personalized/data', getPersonalizedWeather);
 
 module.exports = router;
