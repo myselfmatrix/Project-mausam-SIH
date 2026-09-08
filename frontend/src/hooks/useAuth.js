@@ -13,6 +13,8 @@ export const useAuth = () => {
       const data = await post('/auth/signup', { name, email, password })
       setUser(data)
       localStorage.setItem('userId', data.userId)
+      localStorage.setItem('userName', name)
+      localStorage.setItem('userEmail', email)
       return data
     } catch (err) {
       setError(err.message)
@@ -29,6 +31,8 @@ export const useAuth = () => {
       const data = await post('/auth/login', { email, password })
       setUser(data)
       localStorage.setItem('userId', data.userId)
+      if (data.name) localStorage.setItem('userName', data.name)
+      if (data.email) localStorage.setItem('userEmail', data.email)
       return data
     } catch (err) {
       setError(err.message)

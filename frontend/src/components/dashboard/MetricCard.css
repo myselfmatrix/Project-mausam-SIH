@@ -1,0 +1,128 @@
+.metric-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.metric-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.metric-card.status-safe { border-left-color: var(--color-safe); }
+.metric-card.status-info { border-left-color: var(--color-info); }
+.metric-card.status-caution { border-left-color: var(--color-caution); }
+.metric-card.status-warning { border-left-color: var(--color-warning); }
+.metric-card.status-critical { border-left-color: var(--color-critical); }
+
+.metric-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+}
+
+.metric-card.status-safe .metric-card-icon { background: var(--color-safe-bg); color: var(--color-safe); }
+.metric-card.status-info .metric-card-icon { background: var(--color-info-bg); color: var(--color-info); }
+.metric-card.status-caution .metric-card-icon { background: var(--color-caution-bg); color: var(--color-caution); }
+.metric-card.status-warning .metric-card-icon { background: var(--color-warning-bg); color: var(--color-warning); }
+.metric-card.status-critical .metric-card-icon { background: var(--color-critical-bg); color: var(--color-critical); }
+
+.metric-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.metric-card-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.metric-card-value {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.metric-card-caption {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.metric-card-badge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  padding: 2px 9px;
+  border-radius: var(--radius-full);
+  background: var(--color-brand-600);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ============ CUSTOMIZE MODE ============ */
+.metric-card.is-customizing {
+  padding-right: 40px;
+  border-style: dashed;
+}
+
+.metric-card-controls {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metric-card-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.metric-card-control:hover:not(:disabled) {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+.metric-card-control:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.metric-card-control.is-active {
+  background: var(--color-brand-600);
+  border-color: var(--color-brand-600);
+  color: #fff;
+}

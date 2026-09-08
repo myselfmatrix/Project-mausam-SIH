@@ -1,0 +1,92 @@
+/*
+  MAUSAM design tokens.
+  Namespaced (--color-*, --space-*, etc.) so it never collides with the
+  page-scoped variables (--bg-deep, --accent-1, ...) used by the earlier
+  marketing pages (Home/Auth) that still await their own pass to this system.
+*/
+:root {
+  /* Brand */
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dbe7ff;
+  --color-brand-300: #93b4ff;
+  --color-brand-500: #2f6fed;
+  --color-brand-600: #1d5fd6;
+  --color-brand-700: #1848a6;
+  --color-brand-900: #102c66;
+
+  --color-teal-500: #0891b2;
+  --color-teal-600: #0e7490;
+
+  /* Neutrals (light surface) */
+  --color-bg: #f4f6fa;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f1f4f9;
+  --color-surface-sunken: #eaeef4;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-text-on-brand: #ffffff;
+
+  /* Semantic status */
+  --color-safe: #16a34a;
+  --color-safe-bg: #ecfdf3;
+  --color-safe-border: #bbf0cf;
+
+  --color-info: #2563eb;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
+
+  --color-caution: #d97706;
+  --color-caution-bg: #fffbeb;
+  --color-caution-border: #fde68a;
+
+  --color-warning: #ea580c;
+  --color-warning-bg: #fff7ed;
+  --color-warning-border: #fed7aa;
+
+  --color-critical: #dc2626;
+  --color-critical-bg: #fef2f2;
+  --color-critical-border: #fecaca;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius scale */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* Shadows (subtle) */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.5rem;
+
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+}

@@ -1,0 +1,103 @@
+.alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.alert-banner.status-info { background: var(--color-info-bg); border-color: var(--color-info-border); }
+.alert-banner.status-caution { background: var(--color-caution-bg); border-color: var(--color-caution-border); }
+.alert-banner.status-warning { background: var(--color-warning-bg); border-color: var(--color-warning-border); }
+.alert-banner.status-critical { background: var(--color-critical-bg); border-color: var(--color-critical-border); }
+
+.alert-banner-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.status-info .alert-banner-icon { color: var(--color-info); }
+.status-caution .alert-banner-icon { color: var(--color-caution); }
+.status-warning .alert-banner-icon { color: var(--color-warning); }
+.status-critical .alert-banner-icon { color: var(--color-critical); }
+
+.alert-banner-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.alert-banner-top {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.alert-banner-what {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.alert-banner-when {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.alert-banner-why {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.alert-banner-action {
+  margin: 4px 0 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.alert-banner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  align-self: center;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition-fast);
+}
+
+.alert-banner-link:hover {
+  background: var(--color-surface-alt);
+}
+
+@media (max-width: 640px) {
+  .alert-banner {
+    flex-wrap: wrap;
+  }
+  .alert-banner-link {
+    width: 100%;
+    justify-content: center;
+  }
+}

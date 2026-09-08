@@ -1,0 +1,92 @@
+.fli {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fli-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: 0 14px;
+  height: 54px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.fli-field:focus-within {
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px var(--color-brand-100);
+}
+
+.fli.has-error .fli-field {
+  border-color: var(--color-critical);
+}
+
+.fli-icon {
+  display: flex;
+  color: var(--color-text-muted);
+  margin-right: 10px;
+  margin-top: 9px;
+  flex-shrink: 0;
+}
+
+.fli-field input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  padding: 18px 0 0;
+}
+
+.fli-field input:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-text);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.fli-field label {
+  position: absolute;
+  left: 42px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: top 0.2s ease, transform 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+
+.fli.is-floated .fli-field label {
+  top: 15px;
+  transform: translateY(0);
+  font-size: 0.7rem;
+  color: var(--color-brand-600);
+}
+
+.fli-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-top: 9px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.fli-toggle:hover {
+  color: var(--color-text);
+}
+
+.fli-error {
+  font-size: 0.78rem;
+  color: var(--color-critical);
+  padding-left: 4px;
+}

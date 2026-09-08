@@ -1,127 +1,86 @@
-import { useState, useEffect } from 'react'
-import { get, post } from '../services/api'
+import { useState } from 'react'
+import { post } from '../services/api'
+import { getPersona } from '../data/personaData'
+import { getWeather, DEFAULT_LOCATION } from '../data/weatherData'
+import { ALERTS } from '../data/alertData'
+import DashboardNavbar from '../components/layout/DashboardNavbar'
+import DashboardSidebar from '../components/layout/DashboardSidebar'
+import MobileNav from '../components/layout/MobileNav'
+import OverviewTab from '../components/dashboard/tabs/OverviewTab'
+import WeatherTab from '../components/dashboard/tabs/WeatherTab'
+import LocationsTab from '../components/dashboard/tabs/LocationsTab'
+import AlertsTab from '../components/dashboard/tabs/AlertsTab'
+import PersonalizeTab from '../components/dashboard/tabs/PersonalizeTab'
+import SettingsTab from '../components/dashboard/tabs/SettingsTab'
+import '../components/layout/Layout.css'
 import './DashboardPage.css'
 
-export default function DashboardPage({ userId, userPersona, onPersonaSelect }) {
-  const [weather, setWeather] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [location, setLocation] = useState('Delhi')
+// Weather comes from local mock data (data/weatherData.js) by design for
+// this frontend-first prototype — swap getWeather() for a real fetch to
+// /api/weather/personalized/data (already implemented server-side) once
+// live conditions are wired up, without touching any tab component.
+export default function DashboardPage({ userId, userName, userEmail, userPersona, onPersonaSelect }) {
+  const [activeTab, setActiveTab] = useState('overview')
+  const [location] = useState(DEFAULT_LOCATION)
 
-  useEffect(() => {
-    fetchWeather()
-  }, [userPersona, location])
+  const persona = getPersona(userPersona)
+  const weather = getWeather(location)
+  const unreadAlerts = ALERTS.filter((a) => !a.read)
+  const topAlert = ALERTS.find((a) => a.severity === 'critical' || a.severity === 'warning') || ALERTS[0]
 
-  const fetchWeather = async () => {
-    setLoading(true)
+  const handlePersonaChange = async (newPersona) => {
+    if (newPersona === userPersona) return
+    onPersonaSelect(newPersona)
     try {
-      const data = await get(`/weather/personalized/data?personaType=${userPersona}&location=${location}`)
-      setWeather(data)
-    } catch (error) {
-      console.error('Failed to fetch weather:', error)
-    } finally {
-      setLoading(false)
+      await post('/users/persona', { userId, persona: newPersona })
+    } catch (err) {
+      console.error('Failed to update persona:', err)
     }
   }
 
-  const handlePersonaChange = async (newPersona) => {
-    try {
-      await post('/users/persona', { userId, persona: newPersona })
-      onPersonaSelect(newPersona)
-    } catch (error) {
-      console.error('Failed to update persona:', error)
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('userId')
+    localStorage.removeItem('userName')
+    localStorage.removeItem('userEmail')
+    window.location.reload()
   }
 
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>🌤️ Mausam Dashboard</h1>
-        <button onClick={() => {
-          localStorage.removeItem('userId')
-          window.location.reload()
-        }}>
-          Logout
-        </button>
-      </header>
+    <div className="dshell">
+      <DashboardNavbar
+        location={weather.location}
+        unreadCount={unreadAlerts.length}
+        onOpenLocations={() => setActiveTab('locations')}
+        onOpenAlerts={() => setActiveTab('alerts')}
+        onLogout={handleLogout}
+      />
 
-      <div className="dashboard-content">
-        <section className="persona-selector">
-          <h2>Change Persona</h2>
-          <div className="persona-buttons">
-            {[
-              { id: 'health', name: '❤️ Health', label: 'Health Conscious' },
-              { id: 'fitness', name: '🏃 Fitness', label: 'Fitness' },
-              { id: 'beach', name: '🏖️ Beach', label: 'Beach' },
-              { id: 'travel', name: '✈️ Travel', label: 'Travel' },
-              { id: 'parent', name: '👨‍👩‍👧 Parent', label: 'Parent' },
-              { id: 'gardener', name: '🌱 Gardener', label: 'Gardener' },
-              { id: 'commuter', name: '🚗 Commuter', label: 'Commuter' },
-              { id: 'event', name: '🎉 Event', label: 'Event Planner' }
-            ].map(p => (
-              <button
-                key={p.id}
-                className={`persona-btn ${userPersona === p.id ? 'active' : ''}`}
-                onClick={() => handlePersonaChange(p.id)}
-              >
-                {p.name}
-              </button>
-            ))}
-          </div>
-        </section>
+      <div className="dshell-body">
+        <DashboardSidebar activeTab={activeTab} onSelect={setActiveTab} />
 
-        <section className="weather-section">
-          <h2>Weather for {location}</h2>
-          <div className="location-input">
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Enter location"
+        <main className="dshell-main">
+          {activeTab === 'overview' && (
+            <OverviewTab
+              weather={weather}
+              persona={persona}
+              userName={userName}
+              topAlert={topAlert}
+              onViewAlerts={() => setActiveTab('alerts')}
             />
-            <button onClick={fetchWeather}>Search</button>
-          </div>
-
-          {loading ? (
-            <p>Loading weather data...</p>
-          ) : weather ? (
-            <div className="weather-cards">
-              <div className="weather-card">
-                <h3>Current Weather</h3>
-                <div className="weather-info">
-                  <p className="temp">{weather.weather.temperature}°C</p>
-                  <p className="condition">{weather.weather.condition}</p>
-                  <p className="feels-like">Feels like: {weather.weather.feelsLike}°C</p>
-                </div>
-              </div>
-
-              <div className="weather-card">
-                <h3>Details</h3>
-                <ul className="details-list">
-                  <li>Humidity: {weather.weather.humidity}%</li>
-                  <li>Wind Speed: {weather.weather.windSpeed} km/h</li>
-                  <li>Visibility: {weather.weather.visibility} km</li>
-                  <li>Pressure: {weather.weather.pressure} mb</li>
-                  <li>Sunrise: {weather.weather.sunrise}</li>
-                  <li>Sunset: {weather.weather.sunset}</li>
-                </ul>
-              </div>
-
-              <div className="weather-card">
-                <h3>Health Indicators</h3>
-                <ul className="details-list">
-                  <li>AQI: {weather.weather.aqi}</li>
-                  <li>UV Index: {weather.weather.uvIndex}</li>
-                </ul>
-              </div>
-
-              <div className="weather-card recommendation">
-                <h3>Recommendation</h3>
-                <p>{weather.recommendation}</p>
-              </div>
-            </div>
-          ) : null}
-        </section>
+          )}
+          {activeTab === 'weather' && <WeatherTab weather={weather} />}
+          {activeTab === 'locations' && <LocationsTab />}
+          {activeTab === 'alerts' && <AlertsTab />}
+          {activeTab === 'personalize' && (
+            <PersonalizeTab activePersonaId={userPersona} onPersonaChange={handlePersonaChange} />
+          )}
+          {activeTab === 'settings' && (
+            <SettingsTab userName={userName} userEmail={userEmail} onLogout={handleLogout} />
+          )}
+        </main>
       </div>
+
+      <MobileNav activeTab={activeTab} onSelect={setActiveTab} />
     </div>
   )
 }
