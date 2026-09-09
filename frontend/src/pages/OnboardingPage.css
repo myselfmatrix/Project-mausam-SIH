@@ -1,10 +1,15 @@
 .ob-shell {
+  position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
+  /* Onboarding shares the auth flow's night sky — it's the same "before you're
+     inside the product" moment, so it shouldn't flip with the theme. */
+  background: var(--color-bg-deep);
   color: var(--color-text);
   font-family: var(--font-sans);
+  overflow: hidden;
 }
 
 .ob-shell * {
@@ -13,8 +18,12 @@
 
 /* ============ TOPBAR / PROGRESS ============ */
 .ob-topbar {
+  position: relative;
+  z-index: 2;
   padding: 20px 24px;
-  background: var(--color-surface);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -28,27 +37,9 @@
   flex-wrap: wrap;
 }
 
+/* Brand lockup is the shared <Logo>. */
 .ob-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  font-size: 1.05rem;
-  color: var(--color-text);
-  letter-spacing: -0.01em;
   flex-shrink: 0;
-}
-
-.ob-logo-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: var(--radius-md);
-  background: var(--color-brand-600);
-  color: #fff;
-  font-size: 0.8rem;
 }
 
 .ob-progress-text {
@@ -96,7 +87,7 @@
 .ob-progress-dot.is-active {
   border-color: var(--color-brand-600);
   color: var(--color-brand-600);
-  background: var(--color-brand-50);
+  background: var(--color-accent-tint);
 }
 
 .ob-progress-dot.is-done {
@@ -119,6 +110,8 @@
 
 /* ============ MAIN / STEP CONTENT ============ */
 .ob-main {
+  position: relative;
+  z-index: 2;
   flex: 1;
   display: flex;
   align-items: center;
@@ -154,7 +147,7 @@
   width: 52px;
   height: 52px;
   border-radius: var(--radius-lg);
-  background: var(--color-brand-50);
+  background: var(--color-accent-tint);
   color: var(--color-brand-600);
   margin-bottom: var(--space-5);
 }
@@ -181,12 +174,12 @@
 }
 
 .ob-location-card:hover {
-  border-color: var(--color-brand-300);
+  border-color: var(--color-accent);
 }
 
 .ob-location-card.is-selected {
   border-color: var(--color-brand-500);
-  background: var(--color-brand-50);
+  background: var(--color-accent-tint);
 }
 
 .ob-location-icon {
@@ -251,7 +244,7 @@
   height: 34px;
   flex-shrink: 0;
   border-radius: var(--radius-md);
-  background: var(--color-brand-50);
+  background: var(--color-accent-tint);
   color: var(--color-brand-600);
 }
 
@@ -274,8 +267,12 @@
 
 /* ============ FOOTER NAV ============ */
 .ob-footer {
+  position: relative;
+  z-index: 2;
   border-top: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: var(--space-5) 24px;
 }
 

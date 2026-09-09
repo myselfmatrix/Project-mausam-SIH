@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { post } from '../services/api'
+import { AnimatePresence, motion } from 'framer-motion'
+import { post, clearSession } from '../services/api'
 import { getPersona } from '../data/personaData'
 import { getWeather, DEFAULT_LOCATION } from '../data/weatherData'
 import { ALERTS } from '../data/alertData'
@@ -14,6 +15,14 @@ import PersonalizeTab from '../components/dashboard/tabs/PersonalizeTab'
 import SettingsTab from '../components/dashboard/tabs/SettingsTab'
 import '../components/layout/Layout.css'
 import './DashboardPage.css'
+
+// Short enough that switching tabs still feels instant.
+const tabMotion = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -6 },
+  transition: { duration: 0.26, ease: [0.22, 1, 0.36, 1] },
+}
 
 // Weather comes from local mock data (data/weatherData.js) by design for
 // this frontend-first prototype — swap getWeather() for a real fetch to
@@ -32,17 +41,37 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
     if (newPersona === userPersona) return
     onPersonaSelect(newPersona)
     try {
-      await post('/users/persona', { userId, persona: newPersona })
+      // The account comes from the bearer token — no userId in the body.
+      await post('/users/persona', { persona: newPersona })
     } catch (err) {
+      // Non-blocking: the persona is already applied locally.
       console.error('Failed to update persona:', err)
     }
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('userId')
-    localStorage.removeItem('userName')
-    localStorage.removeItem('userEmail')
+    clearSession()
     window.location.reload()
+  }
+
+  const tabs = {
+    overview: (
+      <OverviewTab
+        weather={weather}
+        persona={persona}
+        userName={userName}
+        topAlert={topAlert}
+        onViewAlerts={() => setActiveTab('alerts')}
+        onPersonaChange={handlePersonaChange}
+      />
+    ),
+    weather: <WeatherTab weather={weather} />,
+    locations: <LocationsTab />,
+    alerts: <AlertsTab />,
+    personalize: (
+      <PersonalizeTab activePersonaId={userPersona} onPersonaChange={handlePersonaChange} />
+    ),
+    settings: <SettingsTab userName={userName} userEmail={userEmail} onLogout={handleLogout} />,
   }
 
   return (
@@ -56,27 +85,21 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
       />
 
       <div className="dshell-body">
-        <DashboardSidebar activeTab={activeTab} onSelect={setActiveTab} />
+        <DashboardSidebar
+          activeTab={activeTab}
+          onSelect={setActiveTab}
+          userName={userName}
+          userEmail={userEmail}
+          persona={persona}
+          unreadCount={unreadAlerts.length}
+        />
 
         <main className="dshell-main">
-          {activeTab === 'overview' && (
-            <OverviewTab
-              weather={weather}
-              persona={persona}
-              userName={userName}
-              topAlert={topAlert}
-              onViewAlerts={() => setActiveTab('alerts')}
-            />
-          )}
-          {activeTab === 'weather' && <WeatherTab weather={weather} />}
-          {activeTab === 'locations' && <LocationsTab />}
-          {activeTab === 'alerts' && <AlertsTab />}
-          {activeTab === 'personalize' && (
-            <PersonalizeTab activePersonaId={userPersona} onPersonaChange={handlePersonaChange} />
-          )}
-          {activeTab === 'settings' && (
-            <SettingsTab userName={userName} userEmail={userEmail} onLogout={handleLogout} />
-          )}
+          <AnimatePresence mode="wait">
+            <motion.div key={activeTab} {...tabMotion}>
+              {tabs[activeTab]}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 

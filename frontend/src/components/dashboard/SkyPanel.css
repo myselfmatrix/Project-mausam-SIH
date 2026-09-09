@@ -1,0 +1,522 @@
+/*
+  The dashboard hero: a live sky rather than a coloured rectangle. Palette,
+  cloud density and precipitation all come from the current condition, and the
+  sun/moon disc tracks real time between sunrise and sunset.
+
+  Everything here is CSS — no canvas, no images — so it costs nothing to render
+  and can't fail to load.
+*/
+
+.sky {
+  --sky-a: #1b3f8f;
+  --sky-b: #2f6fed;
+  --sky-c: #7cc4ff;
+  --sky-ink: #ffffff;
+  --sky-ink-soft: rgba(255, 255, 255, 0.78);
+  --sky-ink-faint: rgba(255, 255, 255, 0.58);
+
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--sky-ink);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---- Condition palettes ---- */
+
+.sky-clear.is-day {
+  --sky-a: #1f6fd0;
+  --sky-b: #3ba0ef;
+  --sky-c: #9fdcff;
+}
+
+.sky-partly.is-day {
+  --sky-a: #245ec0;
+  --sky-b: #4a8fe0;
+  --sky-c: #b6d9f5;
+}
+
+.sky-cloudy.is-day {
+  --sky-a: #46577a;
+  --sky-b: #6f83a6;
+  --sky-c: #b9c6da;
+}
+
+.sky-rain.is-day {
+  --sky-a: #2a3c5c;
+  --sky-b: #46608a;
+  --sky-c: #8fa9c9;
+}
+
+.sky-storm.is-day {
+  --sky-a: #1d2438;
+  --sky-b: #363f5e;
+  --sky-c: #6d7898;
+}
+
+/* Night versions of the same five */
+.sky.is-night {
+  --sky-a: #070d20;
+  --sky-b: #12203f;
+  --sky-c: #2b4270;
+}
+
+.sky-rain.is-night,
+.sky-storm.is-night {
+  --sky-a: #05080f;
+  --sky-b: #0d1628;
+  --sky-c: #1e2b45;
+}
+
+/* ---- Canvas ---- */
+
+.sky-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sky-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(170deg, var(--sky-a) 0%, var(--sky-b) 52%, var(--sky-c) 100%);
+}
+
+/* Stars only exist at night; a radial-gradient field is cheaper than markup. */
+.sky-stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+  background-image: radial-gradient(1.5px 1.5px at 12% 22%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 27% 64%, #fff, transparent),
+    radial-gradient(1px 1px at 41% 15%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 58% 41%, #fff, transparent),
+    radial-gradient(1px 1px at 68% 12%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 77% 58%, #fff, transparent),
+    radial-gradient(1px 1px at 88% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 95% 70%, #fff, transparent),
+    radial-gradient(1px 1px at 34% 82%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 7% 48%, #fff, transparent);
+  animation: sky-twinkle 5.5s ease-in-out infinite;
+}
+
+.sky.is-night .sky-stars {
+  opacity: 0.85;
+}
+
+@keyframes sky-twinkle {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* Sun / moon disc, positioned by inline style along the arc */
+.sky-disc {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  transition: left 60s linear, top 60s linear;
+}
+
+.sky-disc-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 58px;
+  height: 58px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 32%, #fffdf3, #ffe9a8 55%, #ffd166 100%);
+}
+
+.sky.is-night .sky-disc-core {
+  background: radial-gradient(circle at 36% 34%, #ffffff, #dfe8f7 58%, #aab8d4 100%);
+  /* Carve a crescent out of the disc so it reads as a moon, not a pale sun. */
+  box-shadow: inset -13px -5px 0 -4px rgba(10, 16, 34, 0.55);
+}
+
+.sky-disc-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 190px;
+  height: 190px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 226, 150, 0.5) 0%, transparent 66%);
+  animation: sky-pulse 6s ease-in-out infinite;
+}
+
+.sky.is-night .sky-disc-glow {
+  background: radial-gradient(circle, rgba(190, 214, 255, 0.34) 0%, transparent 66%);
+}
+
+@keyframes sky-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.12);
+    opacity: 0.65;
+  }
+}
+
+/* Clouds — soft blurred lozenges drifting at different speeds */
+.sky-cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.34);
+  filter: blur(26px);
+  opacity: 0;
+  will-change: transform;
+}
+
+.sky-cloud-1 {
+  width: 46%;
+  height: 62%;
+  top: -18%;
+  left: -12%;
+  animation: sky-drift-a 44s linear infinite;
+}
+.sky-cloud-2 {
+  width: 38%;
+  height: 52%;
+  top: 22%;
+  left: 42%;
+  animation: sky-drift-b 58s linear infinite;
+}
+.sky-cloud-3 {
+  width: 52%;
+  height: 46%;
+  top: 48%;
+  left: 8%;
+  animation: sky-drift-a 72s linear infinite reverse;
+}
+
+.sky-partly .sky-cloud {
+  opacity: 0.5;
+}
+.sky-cloudy .sky-cloud {
+  opacity: 0.85;
+}
+.sky-rain .sky-cloud {
+  opacity: 0.7;
+  background: rgba(226, 235, 248, 0.4);
+}
+.sky-storm .sky-cloud {
+  opacity: 0.85;
+  background: rgba(190, 202, 224, 0.36);
+}
+
+@keyframes sky-drift-a {
+  from {
+    transform: translateX(-14%);
+  }
+  to {
+    transform: translateX(118%);
+  }
+}
+@keyframes sky-drift-b {
+  from {
+    transform: translateX(-32%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Rain */
+.sky-rain-layer,
+.sky-rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.sky-rain i {
+  position: absolute;
+  top: -18%;
+  width: 1px;
+  height: 26px;
+  border-radius: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(211, 231, 255, 0.75));
+  animation-name: sky-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes sky-fall {
+  to {
+    transform: translateY(560px);
+  }
+}
+
+/* Lightning */
+.sky-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(226, 238, 255, 0.85);
+  opacity: 0;
+  animation: sky-lightning 9s ease-out infinite;
+}
+
+@keyframes sky-lightning {
+  0%,
+  92%,
+  100% {
+    opacity: 0;
+  }
+  93% {
+    opacity: 0.5;
+  }
+  94% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0.32;
+  }
+  96% {
+    opacity: 0;
+  }
+}
+
+/* Bottom scrim so the text always has contrast whatever the sky is doing */
+.sky-haze {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 8, 18, 0.62) 0%, rgba(4, 8, 18, 0.16) 45%, transparent 72%);
+}
+
+/* ---- Readout ---- */
+
+.sky-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: clamp(var(--space-6), 3vw, var(--space-10));
+  min-height: 260px;
+}
+
+.sky-place {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sky-place span {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sky-ink-faint);
+}
+
+.sky-temp {
+  display: flex;
+  align-items: flex-start;
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 8vw, 5.2rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  margin: var(--space-3) 0 var(--space-2);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+}
+
+.sky-temp-unit {
+  font-size: 0.34em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-top: 0.35em;
+  color: var(--sky-ink-soft);
+}
+
+.sky-condition {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.sky-feels {
+  margin-top: 4px;
+  font-size: var(--text-sm);
+  color: var(--sky-ink-soft);
+}
+
+/* Sun arc */
+.sky-sun {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.sky-sun-arc {
+  position: relative;
+  width: 150px;
+}
+
+.sky-sun-arc svg {
+  display: block;
+  width: 100%;
+  height: 72px;
+  overflow: visible;
+}
+
+.sky-arc-track,
+.sky-arc-fill {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.sky-arc-track {
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-dasharray: 3 5;
+}
+
+.sky-arc-fill {
+  stroke: #fff;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.sky-arc-label {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sky-ink-faint);
+}
+
+.sky-sun-times {
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--sky-ink-soft);
+}
+
+.sky-sun-times span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ---- Stat strip ---- */
+
+.sky-stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(6, 10, 22, 0.34);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.sky-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--sky-ink-soft);
+}
+
+.sky-stat:last-child {
+  border-right: 0;
+}
+
+.sky-stat-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sky-stat-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sky-ink-faint);
+}
+
+.sky-stat-value {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--sky-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 780px) {
+  .sky-body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    min-height: 0;
+  }
+  .sky-sun {
+    align-items: flex-start;
+    width: 100%;
+  }
+  .sky-sun-arc {
+    width: 100%;
+    max-width: 220px;
+  }
+  .sky-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sky-stat:nth-child(2) {
+    border-right: 0;
+  }
+  .sky-stat:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .sky-disc-core {
+    width: 44px;
+    height: 44px;
+  }
+  .sky-disc-glow {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-cloud,
+  .sky-disc-glow,
+  .sky-stars,
+  .sky-flash {
+    animation: none;
+  }
+  .sky-rain {
+    display: none;
+  }
+}

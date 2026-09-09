@@ -70,7 +70,12 @@ export default function WeatherTab({ weather }) {
                 initial={{ height: 0 }}
                 animate={{ height: `${heightPct}%` }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
-                style={{ background: d.day === 'Today' ? 'var(--color-brand-600)' : 'var(--color-brand-300)' }}
+                style={{
+                  background:
+                    d.day === 'Today'
+                      ? 'var(--color-accent)'
+                      : 'color-mix(in srgb, var(--color-accent) 42%, transparent)',
+                }}
               />
               <span className="trend-bar-label">{d.day}</span>
             </div>

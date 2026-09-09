@@ -1,0 +1,152 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--color-text);
+  cursor: inherit;
+  text-decoration: none;
+}
+
+button.logo {
+  cursor: pointer;
+}
+
+.logo-mark {
+  display: block;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.lg-stop-cyan {
+  stop-color: var(--color-cyan-300);
+}
+.lg-stop-blue {
+  stop-color: var(--color-brand-400);
+}
+.lg-stop-violet {
+  stop-color: var(--color-violet-500);
+}
+
+.logo-terminator {
+  fill: var(--color-bg-deep);
+}
+
+.logo-satellite {
+  fill: var(--color-cyan-300);
+}
+
+.logo-word {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: 0.16em;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+/* Idle life: the satellite drifts, the disc breathes. Very slow so it reads as
+   "alive" rather than "animated GIF". */
+.logo-satellite {
+  transform-origin: 24px 24px;
+  animation: logo-orbit 14s linear infinite;
+}
+
+.logo-mark .logo-planet {
+  transform-origin: 24px 24px;
+  animation: logo-breathe 6s ease-in-out infinite;
+}
+
+@keyframes logo-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+}
+
+.logo:hover .logo-mark .logo-ring-front,
+.logo:hover .logo-mark .logo-ring-back {
+  filter: drop-shadow(0 0 6px var(--color-accent-ring));
+}
+
+.logo-mark .logo-ring-front,
+.logo-mark .logo-ring-back {
+  transition: filter var(--transition-base);
+}
+
+/* Stroke-draw entrance, driven by the intro sequence */
+.logo-mark.is-animated .logo-ring-back,
+.logo-mark.is-animated .logo-ring-front {
+  stroke-dasharray: 84;
+  stroke-dashoffset: 84;
+  animation: logo-draw 1.05s var(--ease-out-expo) forwards;
+}
+
+.logo-mark.is-animated .logo-ring-front {
+  animation-delay: 0.18s;
+}
+
+.logo-mark.is-animated .logo-planet,
+.logo-mark.is-animated .logo-terminator {
+  opacity: 0;
+  transform-origin: 24px 24px;
+  animation: logo-pop 0.7s var(--ease-out-expo) 0.42s forwards;
+}
+
+.logo-mark.is-animated .logo-satellite {
+  opacity: 0;
+  animation: logo-fade 0.5s ease 0.9s forwards, logo-orbit 14s linear 1.4s infinite;
+}
+
+@keyframes logo-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logo-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logo-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-satellite,
+  .logo-mark .logo-planet {
+    animation: none;
+  }
+  .logo-mark.is-animated .logo-ring-back,
+  .logo-mark.is-animated .logo-ring-front,
+  .logo-mark.is-animated .logo-planet,
+  .logo-mark.is-animated .logo-terminator,
+  .logo-mark.is-animated .logo-satellite {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}

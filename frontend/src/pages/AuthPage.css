@@ -1,110 +1,125 @@
+/* Shared by LoginPage and SignupPage — both render inside <AuthLayout>. */
+
 .auth-eyebrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-size: var(--text-xs);
   font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-brand-600);
-  margin-bottom: 10px;
+  color: var(--color-cyan-300);
 }
 
 .auth-title {
-  font-family: var(--font-sans);
-  font-size: var(--text-3xl);
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 3.4vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.16;
+  margin: var(--space-3) 0 var(--space-2);
   color: var(--color-text);
-  margin: 0 0 8px;
-  letter-spacing: -0.02em;
 }
 
 .auth-subtitle {
+  font-size: var(--text-sm);
+  line-height: 1.6;
   color: var(--color-text-secondary);
-  font-size: var(--text-base);
-  margin: 0 0 32px;
-  line-height: 1.5;
+  margin-bottom: var(--space-8);
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: var(--space-5);
+}
+
+.auth-hint {
+  margin-top: 7px;
+  padding-left: 2px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 
 .auth-error {
-  margin: 0;
-  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
   border-radius: var(--radius-md);
   background: var(--color-critical-bg);
   border: 1px solid var(--color-critical-border);
   color: var(--color-critical);
   font-size: var(--text-sm);
+  font-weight: 600;
 }
 
-.auth-hint {
-  margin: -8px 0 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  padding-left: 4px;
+.auth-error svg {
+  flex-shrink: 0;
 }
 
+/* The submit button is a .btn .btn-primary — this only adds the busy state. */
 .auth-submit {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 15px;
-  border-radius: var(--radius-md);
-  border: none;
-  background: var(--color-brand-600);
-  color: #fff;
-  font-weight: 700;
-  font-size: var(--text-base);
-  cursor: pointer;
-  margin-top: 6px;
-  transition: background var(--transition-fast), opacity var(--transition-fast);
-}
-
-.auth-submit:hover:not(:disabled) {
-  background: var(--color-brand-700);
-}
-
-.auth-submit:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
+  margin-top: var(--space-1);
+  min-height: 48px;
 }
 
 .auth-spinner {
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.32);
   border-top-color: #fff;
   animation: auth-spin 0.7s linear infinite;
 }
 
 @keyframes auth-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-6) 0 var(--space-5);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
 }
 
 .auth-switch {
-  margin: 28px 0 0;
-  text-align: center;
-  color: var(--color-text-muted);
+  margin-top: var(--space-6);
   font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
 }
 
 .auth-switch-link {
+  border: 0;
   background: none;
-  border: none;
   padding: 0;
-  color: var(--color-brand-600);
-  font-weight: 700;
-  cursor: pointer;
   font-size: inherit;
-  font-family: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  font-weight: 700;
+  color: var(--color-cyan-300);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition-fast);
+}
+
+.auth-switch-link:hover {
+  border-bottom-color: currentColor;
 }
 
 @media (prefers-reduced-motion: reduce) {

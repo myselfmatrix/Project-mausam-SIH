@@ -5,6 +5,7 @@ import {
   Sprout, LocateFixed, Sparkles, Bell,
 } from 'lucide-react'
 import { PERSONAS, getPersona } from '../data/personaData'
+import Logo from '../components/brand/Logo'
 // Reuse the persona-card / interest-chip visual language already
 // established in the dashboard's Personalize tab instead of inventing a
 // new one.
@@ -107,12 +108,15 @@ export default function OnboardingPage({ onComplete }) {
   const personaObj = getPersona(persona)
 
   return (
-    <div className="ob-shell">
+    <div className="ob-shell night-surface">
+      {/* Veil only — no aurora here. Auth gets away with the colour blobs
+          because the planet and the glass card anchor them; this screen is a
+          wide, mostly-empty content area where they just read as noise. */}
+      <div className="atmos-backdrop" />
+
       <header className="ob-topbar">
         <div className="ob-topbar-inner">
-          <span className="ob-logo">
-            <span className="ob-logo-mark">M</span> MAUSAM
-          </span>
+          <Logo size={28} className="ob-logo" />
 
           <div>
             <p className="ob-progress-text">

@@ -1,22 +1,29 @@
 import { useState } from 'react'
-import { post } from '../services/api'
+import { post, setToken } from '../services/api'
+
+// Both endpoints return the same shape: { token, userId, name, email, ... }
+function persistSession(data) {
+  setToken(data.token)
+  localStorage.setItem('userId', data.userId)
+  if (data.name) localStorage.setItem('userName', data.name)
+  if (data.email) localStorage.setItem('userEmail', data.email)
+}
 
 export const useAuth = () => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const signup = async (name, email, password) => {
+  const run = async (endpoint, payload) => {
     setLoading(true)
     setError(null)
     try {
-      const data = await post('/auth/signup', { name, email, password })
+      const data = await post(endpoint, payload)
+      persistSession(data)
       setUser(data)
-      localStorage.setItem('userId', data.userId)
-      localStorage.setItem('userName', name)
-      localStorage.setItem('userEmail', email)
       return data
     } catch (err) {
+      // err.message now carries the server's own wording.
       setError(err.message)
       throw err
     } finally {
@@ -24,23 +31,14 @@ export const useAuth = () => {
     }
   }
 
-  const login = async (email, password) => {
-    setLoading(true)
-    setError(null)
-    try {
-      const data = await post('/auth/login', { email, password })
-      setUser(data)
-      localStorage.setItem('userId', data.userId)
-      if (data.name) localStorage.setItem('userName', data.name)
-      if (data.email) localStorage.setItem('userEmail', data.email)
-      return data
-    } catch (err) {
-      setError(err.message)
-      throw err
-    } finally {
-      setLoading(false)
-    }
+  return {
+    user,
+    loading,
+    error,
+    clearError: () => setError(null),
+    // Signup returns a token too, so the account is signed in immediately —
+    // no round trip back through the login form.
+    signup: (name, email, password) => run('/auth/signup', { name, email, password }),
+    login: (email, password) => run('/auth/login', { email, password }),
   }
-
-  return { user, loading, error, signup, login }
 }

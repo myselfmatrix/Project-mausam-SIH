@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, Lock, AlertCircle } from 'lucide-react'
+import { Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import AuthLayout from '../components/AuthLayout'
 import FloatingLabelInput from '../components/FloatingLabelInput'
@@ -24,8 +24,10 @@ export default function LoginPage({ onLoginSuccess, onSwitchToSignup, onBackHome
   return (
     <AuthLayout onBackHome={onBackHome}>
       <span className="auth-eyebrow">Welcome back</span>
-      <h1 className="auth-title">Log in to Mausam</h1>
-      <p className="auth-subtitle">Pick up right where your sky left off.</p>
+      <h1 className="auth-title">Sign in to MAUSAM</h1>
+      <p className="auth-subtitle">
+        Your personalized forecast is where you left it.
+      </p>
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <FloatingLabelInput
@@ -58,19 +60,19 @@ export default function LoginPage({ onLoginSuccess, onSwitchToSignup, onBackHome
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
             >
-              <AlertCircle size={14} style={{ verticalAlign: -2, marginRight: 4 }} />
+              <AlertCircle size={15} />
               {error}
             </motion.p>
           )}
         </AnimatePresence>
 
-        <button type="submit" className="auth-submit" disabled={loading} data-cursor-hover>
-          {loading ? <span className="auth-spinner" /> : 'Log In'}
+        <button type="submit" className="btn btn-primary btn-lg btn-block auth-submit" disabled={loading}>
+          {loading ? <span className="auth-spinner" /> : <>Sign in <ArrowRight size={16} /></>}
         </button>
       </form>
 
       <p className="auth-switch">
-        New to Mausam?{' '}
+        New to MAUSAM?{' '}
         <button type="button" className="auth-switch-link" onClick={onSwitchToSignup}>
           Create an account
         </button>

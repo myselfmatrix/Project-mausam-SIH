@@ -21,7 +21,9 @@
   height: 38px;
   flex-shrink: 0;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.6);
+  /* Sits on a status-tinted banner, so it has to follow the surface rather
+     than being a fixed white chip — that reads as a bright blob in dark. */
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
 }
 
 .status-info .alert-banner-icon { color: var(--color-info); }

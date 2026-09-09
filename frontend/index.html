@@ -1,15 +1,49 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#6c5ce7" />
-    <meta name="description" content="Mausam — Personalized weather intelligence for your lifestyle." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <meta name="theme-color" content="#05070e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)" />
+    <meta
+      name="description"
+      content="MAUSAM — personalized weather intelligence. The same forecast, re-prioritized around the day you're actually having."
+    />
+
+    <meta property="og:title" content="MAUSAM — Weather that understands you" />
+    <meta
+      property="og:description"
+      content="Personalized weather intelligence for 8 kinds of days. Smart India Hackathon 2026 · SIH26076."
+    />
+    <meta property="og:type" content="website" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <title>Mausam — Weather That Gets You</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>MAUSAM — Weather That Understands You</title>
+
+    <script>
+      // Resolve the theme before first paint so there is no light/dark flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('mausam_theme')
+          if (saved === 'light' || saved === 'dark') {
+            document.documentElement.setAttribute('data-theme', saved)
+          }
+        } catch (e) {
+          /* storage blocked — keep the dark default */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,12 +1,12 @@
 import { MapPin, ChevronDown, Search, Bell, LogOut } from 'lucide-react'
+import Logo from '../brand/Logo'
+import ThemeToggle from '../ui/ThemeToggle'
 import './Layout.css'
 
 export default function DashboardNavbar({ location, unreadCount, onOpenLocations, onOpenAlerts, onLogout }) {
   return (
     <header className="dnav">
-      <span className="dnav-logo">
-        <span className="dnav-logo-mark">M</span> MAUSAM
-      </span>
+      <Logo size={28} className="dnav-logo" />
 
       <button type="button" className="dnav-location" onClick={onOpenLocations}>
         <MapPin size={14} />
@@ -15,7 +15,8 @@ export default function DashboardNavbar({ location, unreadCount, onOpenLocations
       </button>
 
       <div className="dnav-actions">
-        <button type="button" className="dnav-icon-btn" onClick={onOpenLocations} aria-label="Search locations">
+        <ThemeToggle className="dnav-theme" />
+        <button type="button" className="dnav-icon-btn dnav-search" onClick={onOpenLocations} aria-label="Search locations">
           <Search size={17} strokeWidth={2} />
         </button>
         <button type="button" className="dnav-icon-btn" onClick={onOpenAlerts} aria-label="Notifications">

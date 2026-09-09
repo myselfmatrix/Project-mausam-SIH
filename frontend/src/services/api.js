@@ -1,26 +1,101 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+
+const TOKEN_KEY = 'mausam_token'
+
+/* ------------------------------------------------------------------ */
+/* Session token                                                       */
+/* ------------------------------------------------------------------ */
+
+export const getToken = () => {
+  try {
+    return localStorage.getItem(TOKEN_KEY)
+  } catch {
+    return null
+  }
+}
+
+export const setToken = (token) => {
+  try {
+    if (token) localStorage.setItem(TOKEN_KEY, token)
+  } catch {
+    // storage blocked — the session just won't survive a reload
+  }
+}
+
+export const clearSession = () => {
+  try {
+    for (const key of [TOKEN_KEY, 'userId', 'userName', 'userEmail']) {
+      localStorage.removeItem(key)
+    }
+  } catch {
+    // nothing we can do; the in-memory state is cleared by the caller
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Requests                                                            */
+/* ------------------------------------------------------------------ */
+
+export class ApiError extends Error {
+  constructor(message, status, body) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
+    this.body = body
+  }
+}
 
 export const apiCall = async (endpoint, options = {}) => {
+  const token = getToken()
+
+  let response
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...options,
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
       },
-      ...options,
-    });
-
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('API call failed:', error);
-    throw error;
+    })
+  } catch {
+    // fetch only rejects for network-level failures, so this is genuinely
+    // "the server isn't reachable" rather than an error status.
+    throw new ApiError(
+      'Cannot reach the server. Make sure the backend is running on ' + API_BASE_URL + '.',
+      0,
+    )
   }
-};
 
-export const get = (endpoint) => apiCall(endpoint);
-export const post = (endpoint, data) => apiCall(endpoint, { method: 'POST', body: JSON.stringify(data) });
-export const put = (endpoint, data) => apiCall(endpoint, { method: 'PUT', body: JSON.stringify(data) });
+  // Read as text first: error responses aren't guaranteed to be JSON, and a
+  // 204 has no body at all.
+  const raw = await response.text()
+  let body = null
+  if (raw) {
+    try {
+      body = JSON.parse(raw)
+    } catch {
+      body = null
+    }
+  }
+
+  if (!response.ok) {
+    // The API answers with { error }. Surfacing that instead of statusText is
+    // the difference between "Email or password is incorrect." and the
+    // useless "API Error: Unauthorized".
+    const message =
+      body?.error ||
+      body?.message ||
+      (raw && raw.length < 200 ? raw : '') ||
+      `Request failed (${response.status})`
+    throw new ApiError(message, response.status, body)
+  }
+
+  return body
+}
+
+export const get = (endpoint) => apiCall(endpoint)
+export const post = (endpoint, data) =>
+  apiCall(endpoint, { method: 'POST', body: JSON.stringify(data) })
+export const put = (endpoint, data) =>
+  apiCall(endpoint, { method: 'PUT', body: JSON.stringify(data) })

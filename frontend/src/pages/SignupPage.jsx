@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Mail, Lock, AlertCircle } from 'lucide-react'
+import { User, Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import AuthLayout from '../components/AuthLayout'
 import FloatingLabelInput from '../components/FloatingLabelInput'
@@ -73,14 +73,14 @@ export default function SignupPage({ onSignupSuccess, onSwitchToLogin, onBackHom
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
             >
-              <AlertCircle size={14} style={{ verticalAlign: -2, marginRight: 4 }} />
+              <AlertCircle size={15} />
               {error}
             </motion.p>
           )}
         </AnimatePresence>
 
-        <button type="submit" className="auth-submit" disabled={loading} data-cursor-hover>
-          {loading ? <span className="auth-spinner" /> : 'Create Account'}
+        <button type="submit" className="btn btn-primary btn-lg btn-block auth-submit" disabled={loading}>
+          {loading ? <span className="auth-spinner" /> : <>Create account <ArrowRight size={16} /></>}
         </button>
       </form>
 
