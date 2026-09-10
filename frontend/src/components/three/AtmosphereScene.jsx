@@ -359,7 +359,7 @@ export default function AtmosphereScene({
   const glowScale = density === 'lite' ? 0.7 : 1
 
   return (
-    <div className={`atmos-scene ${className}`} aria-hidden="true">
+    <div className={`atmos-scene ${interactive ? 'is-interactive' : ''} ${className}`} aria-hidden="true">
       <SceneBoundary fallback={<CssFallback className={className} />}>
         <Canvas
           dpr={[1, compact ? 1.5 : 1.8]}

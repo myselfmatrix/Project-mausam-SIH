@@ -529,6 +529,17 @@
   pointer-events: none;
 }
 
+/* Lets the Rig's cursor-parallax (in AtmosphereScene.jsx) actually receive
+   pointer events — without this the canvas is a static picture no matter
+   how the mouse moves over it. Scoped to `interactive` scenes and to
+   hover-capable pointers only: touch has no "hover" to track, and a touch
+   drag over the canvas should scroll the page, not get eaten by the globe. */
+@media (hover: hover) and (pointer: fine) {
+  .atmos-scene.is-interactive {
+    pointer-events: auto;
+  }
+}
+
 .atmos-scene canvas {
   display: block;
   width: 100% !important;

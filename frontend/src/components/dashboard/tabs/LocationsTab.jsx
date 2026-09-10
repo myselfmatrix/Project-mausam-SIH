@@ -10,10 +10,14 @@ const fadeUp = {
 }
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.05 } } }
 
-// Local-only for this prototype (SAVED_LOCATIONS is mock data). Wire this up
-// to /api/users/locations once the backend endpoint returns full weather
-// summaries per saved location, not just a location name.
-export default function LocationsTab() {
+// The saved-locations list itself (SAVED_LOCATIONS) is local-only mock data
+// for this prototype — wire it to /api/users/locations once that endpoint
+// returns full weather summaries per saved location, not just a name.
+// "Primary" is NOT tracked locally, though: it's derived from `activeLocation`
+// (owned by DashboardPage, persisted to localStorage) so that setting a card
+// as primary actually drives what the rest of the dashboard displays, instead
+// of just flipping a cosmetic badge that nothing else reads.
+export default function LocationsTab({ activeLocation, onSetPrimary }) {
   const [locations, setLocations] = useState(SAVED_LOCATIONS)
   const [showForm, setShowForm] = useState(false)
   const [category, setCategory] = useState('')
@@ -21,10 +25,6 @@ export default function LocationsTab() {
 
   const handleRemove = (id) => {
     setLocations((prev) => prev.filter((l) => l.id !== id))
-  }
-
-  const handleSetPrimary = (id) => {
-    setLocations((prev) => prev.map((l) => ({ ...l, isPrimary: l.id === id })))
   }
 
   const handleAdd = (e) => {
@@ -41,7 +41,6 @@ export default function LocationsTab() {
         condition: 'Clear',
         rainProbability: 10,
         alertStatus: 'safe',
-        isPrimary: false,
       },
     ])
     setCategory('')
@@ -97,40 +96,48 @@ export default function LocationsTab() {
       )}
 
       <motion.div className="locations-grid" variants={stagger}>
-        {locations.map((loc) => (
-          <motion.div className="location-card" key={loc.id} variants={fadeUp}>
-            <div className="location-card-top">
-              <span className="location-card-category">{loc.category}</span>
-              {loc.isPrimary ? (
-                <span className="location-card-primary">Primary</span>
-              ) : (
+        {locations.map((loc) => {
+          const isPrimary = loc.city === activeLocation
+          return (
+            <motion.div className={`location-card ${isPrimary ? 'is-primary' : ''}`} key={loc.id} variants={fadeUp}>
+              <div className="location-card-top">
+                <span className="location-card-category">{loc.category}</span>
+                {isPrimary ? (
+                  <span className="location-card-primary">Primary</span>
+                ) : (
+                  <button
+                    type="button"
+                    className="location-card-remove"
+                    onClick={() => handleRemove(loc.id)}
+                    aria-label={`Remove ${loc.city}`}
+                  >
+                    <X size={15} />
+                  </button>
+                )}
+              </div>
+              <p className="location-card-city">{loc.city}</p>
+              <p className="location-card-region">{loc.region}</p>
+              <div className="location-card-bottom">
+                <div>
+                  <span className="location-card-temp">{loc.temperature}°</span>
+                  <p className="location-card-condition">{loc.condition}</p>
+                </div>
+                <span className={`location-card-status status-${loc.alertStatus}`} title={loc.alertStatus} />
+              </div>
+              {!isPrimary && (
                 <button
                   type="button"
-                  className="location-card-remove"
-                  onClick={() => handleRemove(loc.id)}
-                  aria-label={`Remove ${loc.city}`}
+                  className="btn-ghost-sm"
+                  style={{ marginTop: 12, width: '100%' }}
+                  onClick={() => onSetPrimary?.(loc.city)}
                 >
-                  <X size={15} />
+                  <Star size={13} style={{ marginRight: 4, verticalAlign: -2 }} />
+                  Set as primary
                 </button>
               )}
-            </div>
-            <p className="location-card-city">{loc.city}</p>
-            <p className="location-card-region">{loc.region}</p>
-            <div className="location-card-bottom">
-              <div>
-                <span className="location-card-temp">{loc.temperature}°</span>
-                <p className="location-card-condition">{loc.condition}</p>
-              </div>
-              <span className={`location-card-status status-${loc.alertStatus}`} title={loc.alertStatus} />
-            </div>
-            {!loc.isPrimary && (
-              <button type="button" className="btn-ghost-sm" style={{ marginTop: 12, width: '100%' }} onClick={() => handleSetPrimary(loc.id)}>
-                <Star size={13} style={{ marginRight: 4, verticalAlign: -2 }} />
-                Set as primary
-              </button>
-            )}
-          </motion.div>
-        ))}
+            </motion.div>
+          )
+        })}
 
         <motion.button type="button" className="add-location-card" onClick={() => setShowForm(true)} variants={fadeUp}>
           <Plus size={22} />

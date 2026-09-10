@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Play, WifiOff, RotateCw, LogOut } from 'lucide-react'
+import { Play, Pause, WifiOff, RotateCw, LogOut } from 'lucide-react'
 import './Tabs.css'
 
 const fadeUp = {
@@ -26,6 +26,15 @@ export default function SettingsTab({ userName, userEmail, onLogout }) {
   const [dataSaver, setDataSaver] = useState(false)
   const [offlinePreview, setOfflinePreview] = useState(false)
   const [voiceLang, setVoiceLang] = useState('English')
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  // No narration audio exists yet — this simulates playback timing so the
+  // control gives real feedback instead of sitting dead when clicked.
+  useEffect(() => {
+    if (!isPlaying) return
+    const id = setTimeout(() => setIsPlaying(false), 4000)
+    return () => clearTimeout(id)
+  }, [isPlaying])
 
   const initial = (userName || userEmail || 'M')[0].toUpperCase()
 
@@ -71,12 +80,20 @@ export default function SettingsTab({ userName, userEmail, onLogout }) {
       <motion.div className="settings-card" variants={fadeUp}>
         <p className="settings-card-title">Today's Weather Brief</p>
         <div className="voice-brief-card" style={{ border: 'none', padding: 0 }}>
-          <button type="button" className="voice-brief-play" aria-label="Play brief">
-            <Play size={18} fill="currentColor" />
+          <button
+            type="button"
+            className={`voice-brief-play ${isPlaying ? 'is-playing' : ''}`}
+            onClick={() => setIsPlaying((v) => !v)}
+            aria-label={isPlaying ? 'Pause brief' : 'Play brief'}
+            aria-pressed={isPlaying}
+          >
+            {isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
           </button>
           <div className="voice-brief-body">
             <p className="voice-brief-title">30-second audio summary</p>
-            <p className="voice-brief-meta">Narration coming soon — UI preview only</p>
+            <p className="voice-brief-meta">
+              {isPlaying ? 'Playing… (narration audio coming soon)' : 'Tap play for a spoken summary'}
+            </p>
           </div>
           <select className="voice-lang-select" value={voiceLang} onChange={(e) => setVoiceLang(e.target.value)}>
             <option>English</option>
@@ -110,7 +127,7 @@ export default function SettingsTab({ userName, userEmail, onLogout }) {
           <div className="offline-banner">
             <WifiOff size={16} />
             You're offline — showing weather data from 12 minutes ago.
-            <button type="button" className="offline-banner-retry">
+            <button type="button" className="offline-banner-retry" onClick={() => setOfflinePreview(false)}>
               <RotateCw size={12} style={{ marginRight: 4, verticalAlign: -1 }} />
               Retry
             </button>

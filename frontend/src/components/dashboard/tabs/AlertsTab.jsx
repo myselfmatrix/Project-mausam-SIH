@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ALERTS, ALERT_CATEGORIES } from '../../../data/alertData'
+import { ALERT_CATEGORIES } from '../../../data/alertData'
 import './Tabs.css'
 
 const fadeUp = {
@@ -17,15 +17,13 @@ function timeAgo(iso) {
   return `${Math.floor(hours / 24)}d ago`
 }
 
-export default function AlertsTab() {
-  const [alerts, setAlerts] = useState(ALERTS)
+// `alerts`/`onMarkRead` are owned by DashboardPage (not local state) so that
+// marking an alert read here actually decrements the unread badge shown in
+// the sidebar and top nav, instead of only updating this tab's own copy.
+export default function AlertsTab({ alerts, onMarkRead }) {
   const [category, setCategory] = useState('All')
 
   const filtered = category === 'All' ? alerts : alerts.filter((a) => a.category === category)
-
-  const markRead = (id) => {
-    setAlerts((prev) => prev.map((a) => (a.id === id ? { ...a, read: true } : a)))
-  }
 
   return (
     <motion.div className="tab-panel" initial="hidden" animate="show" variants={stagger}>
@@ -58,7 +56,7 @@ export default function AlertsTab() {
             key={a.id}
             className={`alert-card status-${a.severity} ${!a.read ? 'is-unread' : ''}`}
             variants={fadeUp}
-            onClick={() => markRead(a.id)}
+            onClick={() => onMarkRead(a.id)}
           >
             {!a.read && <span className="alert-card-dot" />}
             <div className="alert-card-body">

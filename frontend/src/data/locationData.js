@@ -1,4 +1,6 @@
-// Mock saved-locations data (spec example set, kept verbatim).
+// Mock saved-locations data (spec example set, kept verbatim). "Primary" is
+// derived at render time in LocationsTab by comparing `city` against the
+// dashboard's active location — not tracked here.
 export const SAVED_LOCATIONS = [
   {
     id: 'loc-home',
@@ -9,7 +11,6 @@ export const SAVED_LOCATIONS = [
     condition: 'Partly Cloudy',
     rainProbability: 65,
     alertStatus: 'caution',
-    isPrimary: true,
   },
   {
     id: 'loc-college',
@@ -20,7 +21,6 @@ export const SAVED_LOCATIONS = [
     condition: 'Sunny',
     rainProbability: 10,
     alertStatus: 'safe',
-    isPrimary: false,
   },
   {
     id: 'loc-office',
@@ -31,7 +31,6 @@ export const SAVED_LOCATIONS = [
     condition: 'Hazy Sun',
     rainProbability: 15,
     alertStatus: 'warning',
-    isPrimary: false,
   },
   {
     id: 'loc-travel',
@@ -42,6 +41,5 @@ export const SAVED_LOCATIONS = [
     condition: 'Light Rain',
     rainProbability: 80,
     alertStatus: 'info',
-    isPrimary: false,
   },
 ]

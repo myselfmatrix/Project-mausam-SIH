@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { CalendarDays, MapPin } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { CalendarDays, MapPin, Radio } from 'lucide-react'
 import AlertBanner from '../AlertBanner'
 import MetricCard from '../MetricCard'
 import ComfortGauge from '../ComfortGauge'
 import SkyPanel from '../SkyPanel'
 import HourlyStrip from '../HourlyStrip'
 import CustomizeDashboard from '../CustomizeDashboard'
+import WeatherError from '../WeatherError'
 import { getComfortScore } from '../../../utils/personalization'
 import { getMetric } from '../../../data/metricDefs'
 import { PERSONAS } from '../../../data/personaData'
@@ -37,6 +38,10 @@ export default function OverviewTab({
   topAlert,
   onViewAlerts,
   onPersonaChange,
+  weatherLoading = false,
+  weatherError = null,
+  weatherIsLive = false,
+  onRetryWeather,
 }) {
   const [customizeMode, setCustomizeMode] = useState(false)
   const comfort = getComfortScore(persona.id, weather)
@@ -54,6 +59,13 @@ export default function OverviewTab({
             </span>
             <span>
               <MapPin size={13} strokeWidth={2.2} /> {weather.location}
+            </span>
+            <span
+              className={`ov-live ${weatherLoading ? 'is-syncing' : weatherIsLive ? 'is-live' : 'is-cached'}`}
+              title={weatherLoading ? 'Syncing latest conditions' : weatherIsLive ? 'Live data' : 'Showing cached data'}
+            >
+              <Radio size={11} strokeWidth={2.4} />
+              {weatherLoading ? 'Syncing' : weatherIsLive ? 'Live' : 'Cached'}
             </span>
           </p>
           <h1>
@@ -89,6 +101,19 @@ export default function OverviewTab({
         )}
       </motion.header>
 
+      <AnimatePresence>
+        {weatherError && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <WeatherError error={weatherError} onRetry={onRetryWeather} isRetrying={weatherLoading} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {topAlert && (
         <motion.div variants={fadeUp}>
           <AlertBanner alert={topAlert} onViewAll={onViewAlerts} />
@@ -107,7 +132,7 @@ export default function OverviewTab({
           status={comfort.status}
           factors={comfort.factors}
         />
-        <HourlyStrip />
+        <HourlyStrip hours={weather.hourlyForecast} />
       </motion.div>
 
       <motion.div className="ov-section-bar" variants={fadeUp}>

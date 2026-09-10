@@ -2,6 +2,10 @@ import { motion } from 'framer-motion'
 import { CloudRain, Droplets, Wind, Eye, Gauge, Sun } from 'lucide-react'
 import MetricCard from '../MetricCard'
 import { HOURLY_FORECAST, DAILY_FORECAST } from '../../../data/weatherData'
+
+// DAILY_FORECAST has no per-location variant yet (7-day data isn't modeled
+// per city), so the trend/forecast sections stay global while current
+// conditions and the hourly strip follow the selected location.
 import './Tabs.css'
 
 const fadeUp = {
@@ -46,7 +50,7 @@ export default function WeatherTab({ weather }) {
         Hourly forecast
       </motion.p>
       <motion.div className="hourly-strip" variants={fadeUp}>
-        {HOURLY_FORECAST.map((h) => (
+        {(weather.hourlyForecast || HOURLY_FORECAST).map((h) => (
           <div className="hourly-item" key={h.time}>
             <span className="hourly-item-time">{h.time}</span>
             <span className="hourly-item-temp">{h.temp}°</span>

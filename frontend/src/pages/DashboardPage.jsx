@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { post, clearSession } from '../services/api'
 import { getPersona } from '../data/personaData'
-import { getWeather, DEFAULT_LOCATION } from '../data/weatherData'
+import { DEFAULT_LOCATION } from '../data/weatherData'
 import { ALERTS } from '../data/alertData'
+import { useWeather } from '../hooks/useWeather'
 import DashboardNavbar from '../components/layout/DashboardNavbar'
 import DashboardSidebar from '../components/layout/DashboardSidebar'
 import MobileNav from '../components/layout/MobileNav'
@@ -24,18 +25,36 @@ const tabMotion = {
   transition: { duration: 0.26, ease: [0.22, 1, 0.36, 1] },
 }
 
-// Weather comes from local mock data (data/weatherData.js) by design for
-// this frontend-first prototype — swap getWeather() for a real fetch to
-// /api/weather/personalized/data (already implemented server-side) once
-// live conditions are wired up, without touching any tab component.
+const LOCATION_STORAGE_KEY = 'mausam_location'
+
 export default function DashboardPage({ userId, userName, userEmail, userPersona, onPersonaSelect }) {
   const [activeTab, setActiveTab] = useState('overview')
-  const [location] = useState(DEFAULT_LOCATION)
+  const [location, setLocationState] = useState(() => {
+    try {
+      return localStorage.getItem(LOCATION_STORAGE_KEY) || DEFAULT_LOCATION
+    } catch {
+      return DEFAULT_LOCATION
+    }
+  })
+  const [alerts, setAlerts] = useState(ALERTS)
 
   const persona = getPersona(userPersona)
-  const weather = getWeather(location)
-  const unreadAlerts = ALERTS.filter((a) => !a.read)
-  const topAlert = ALERTS.find((a) => a.severity === 'critical' || a.severity === 'warning') || ALERTS[0]
+  const { weather, isLoading, error, retry, isLive } = useWeather(location, userPersona)
+  const unreadAlerts = alerts.filter((a) => !a.read)
+  const topAlert = alerts.find((a) => a.severity === 'critical' || a.severity === 'warning') || alerts[0]
+
+  const handleLocationChange = (city) => {
+    setLocationState(city)
+    try {
+      localStorage.setItem(LOCATION_STORAGE_KEY, city)
+    } catch {
+      // storage blocked — the choice just won't survive a reload
+    }
+  }
+
+  const handleMarkAlertRead = (id) => {
+    setAlerts((prev) => prev.map((a) => (a.id === id ? { ...a, read: true } : a)))
+  }
 
   const handlePersonaChange = async (newPersona) => {
     if (newPersona === userPersona) return
@@ -63,11 +82,17 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
         topAlert={topAlert}
         onViewAlerts={() => setActiveTab('alerts')}
         onPersonaChange={handlePersonaChange}
+        weatherLoading={isLoading}
+        weatherError={error}
+        weatherIsLive={isLive}
+        onRetryWeather={retry}
       />
     ),
     weather: <WeatherTab weather={weather} />,
-    locations: <LocationsTab />,
-    alerts: <AlertsTab />,
+    locations: (
+      <LocationsTab activeLocation={location} onSetPrimary={handleLocationChange} />
+    ),
+    alerts: <AlertsTab alerts={alerts} onMarkRead={handleMarkAlertRead} />,
     personalize: (
       <PersonalizeTab activePersonaId={userPersona} onPersonaChange={handlePersonaChange} />
     ),

@@ -661,24 +661,40 @@
     margin-left: auto;
   }
 
-  /* Planet moves above the copy and becomes its own block */
+  /* The copy reads first, then the globe — matches how a phone screen
+     actually reads top-down, and gives the globe context instead of an
+     unexplained object floating above the badge. `order` is CSS-only, so
+     desktop's DOM order and absolute positioning are untouched. */
   .hero {
     flex-direction: column;
     justify-content: flex-start;
     min-height: auto;
     padding-bottom: var(--space-16);
   }
+  .hero-inner {
+    order: 1;
+    padding-top: var(--space-6);
+  }
   .hero-scene {
+    order: 2;
     position: relative;
     top: auto;
     right: auto;
     transform: none;
-    width: min(460px, 92vw);
-    max-height: 46vh;
-    margin: var(--space-6) auto 0;
+    width: min(420px, 88vw);
+    max-height: 40vh;
+    margin: var(--space-2) auto var(--space-2);
+    overflow: hidden;
+    border-radius: var(--radius-xl);
   }
-  .hero-inner {
-    padding-top: var(--space-6);
+  /* The camera frame leaves headroom for the Moon's full orbit — necessary
+     on the wide desktop box, but it reads as dead space around a
+     small-looking planet inside a narrow phone box. A modest crop tightens
+     the framing; capped well under the Moon's max orbital excursion
+     (~1.22x) so it's never clipped mid-swing. */
+  .hero-scene .atmos-scene,
+  .hero-scene .atmos-fallback {
+    transform: scale(1.16);
   }
   .hero-copy {
     max-width: none;
