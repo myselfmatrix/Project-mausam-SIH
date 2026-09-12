@@ -6,7 +6,8 @@ import './Logo.css'
  * from outside it. Rendered as inline SVG (not an <img>) so the intro sequence
  * can animate the individual paths and so it inherits currentColor on hover.
  *
- * `animated` exposes the stroke-draw classes used by the opening sequence.
+ * `animated` exposes the stroke-draw classes in Logo.css, for contexts that
+ * want the mark to draw itself in rather than simply appear.
  */
 export function LogoMark({ size = 32, animated = false, className = '' }) {
   const uid = useId().replace(/:/g, '')

@@ -2,17 +2,21 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, ShieldCheck, Target, Zap } from 'lucide-react'
 import Logo from './brand/Logo'
 import AtmosphereScene from './three/LazyAtmosphere'
+import LanguageSwitcher from './ui/LanguageSwitcher'
+import { useTranslation } from '../i18n/useTranslation'
 import './AuthLayout.css'
 
 const PERKS = [
-  { icon: Target, text: '8 personas, one weather feed — tuned to how you live' },
-  { icon: Zap, text: 'Prioritized insights, not just raw numbers' },
-  { icon: ShieldCheck, text: 'Clear, colour-coded alerts you can act on' },
+  { icon: Target, key: 'auth.perkPersonas' },
+  { icon: Zap, key: 'auth.perkInsights' },
+  { icon: ShieldCheck, key: 'auth.perkAlerts' },
 ]
 
 const EASE = [0.22, 1, 0.36, 1]
 
 export default function AuthLayout({ children, onBackHome }) {
+  const { t } = useTranslation()
+
   return (
     <div className="auth-shell night-surface">
       <div className="atmos-backdrop" />
@@ -24,8 +28,14 @@ export default function AuthLayout({ children, onBackHome }) {
       </div>
 
       <button type="button" className="auth-back" onClick={onBackHome}>
-        <ArrowLeft size={15} /> Back to home
+        <ArrowLeft size={15} /> {t('auth.backToHome')}
       </button>
+
+      {/* Someone who needs another language needs it before they can read the
+          form, not after signing in. */}
+      <div className="auth-lang">
+        <LanguageSwitcher />
+      </div>
 
       <div className="auth-grid">
         <motion.div
@@ -37,13 +47,22 @@ export default function AuthLayout({ children, onBackHome }) {
           <Logo size={34} />
 
           <h2 className="auth-story-title">
-            Weather that <span className="serif-accent">understands</span> the day you’re having.
+            {(() => {
+              const [before = '', after = ''] = t('hero.title').split('{accent}')
+              return (
+                <>
+                  {before}
+                  <span className="serif-accent">{t('hero.titleAccent')}</span>
+                  {after}
+                </>
+              )
+            })()}
           </h2>
 
           <ul className="auth-perks">
             {PERKS.map((p, i) => (
               <motion.li
-                key={p.text}
+                key={p.key}
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.18 + i * 0.09, duration: 0.42, ease: EASE }}
@@ -51,14 +70,12 @@ export default function AuthLayout({ children, onBackHome }) {
                 <span className="auth-perk-icon">
                   <p.icon size={15} strokeWidth={2.2} />
                 </span>
-                {p.text}
+                {t(p.key)}
               </motion.li>
             ))}
           </ul>
 
-          <p className="auth-story-note">
-            Smart India Hackathon 2026 · Problem Statement SIH26076
-          </p>
+          <p className="auth-story-note">{t('auth.storyNote')}</p>
         </motion.div>
 
         <motion.div

@@ -1,4 +1,5 @@
 import { NAV_ITEMS } from './navItems'
+import { useTranslation } from '../../i18n/useTranslation'
 import './Layout.css'
 
 /** "Aarav Sharma" → "AS". Falls back to a single letter, then to a dash. */
@@ -16,8 +17,10 @@ export default function DashboardSidebar({
   persona,
   unreadCount = 0,
 }) {
+  const { t, n } = useTranslation()
+
   return (
-    <aside className="dsidebar" aria-label="Dashboard sections">
+    <aside className="dsidebar" aria-label={t('tab.sections')}>
       <nav className="dsidebar-nav">
         {NAV_ITEMS.map((item) => {
           const isActive = activeTab === item.id
@@ -31,9 +34,9 @@ export default function DashboardSidebar({
             >
               <span className="dsidebar-rail" aria-hidden="true" />
               <item.icon size={18} strokeWidth={2} />
-              <span className="dsidebar-label">{item.label}</span>
+              <span className="dsidebar-label">{t(item.labelKey)}</span>
               {item.id === 'alerts' && unreadCount > 0 && (
-                <span className="dsidebar-count">{unreadCount}</span>
+                <span className="dsidebar-count">{n(unreadCount)}</span>
               )}
             </button>
           )
@@ -46,7 +49,7 @@ export default function DashboardSidebar({
           {initials(userName)}
         </span>
         <span className="dsidebar-user-meta">
-          <span className="dsidebar-user-name">{userName || 'Signed in'}</span>
+          <span className="dsidebar-user-name">{userName || t('dnav.signedIn')}</span>
           <span className="dsidebar-user-mail">{userEmail || ''}</span>
         </span>
       </div>
@@ -56,10 +59,10 @@ export default function DashboardSidebar({
           type="button"
           className="dsidebar-persona"
           onClick={() => onSelect('personalize')}
-          title="Change persona"
+          title={t('dnav.changePersona')}
         >
           <persona.icon size={14} strokeWidth={2.2} />
-          <span>{persona.title}</span>
+          <span>{t(persona.titleKey)}</span>
         </button>
       )}
     </aside>

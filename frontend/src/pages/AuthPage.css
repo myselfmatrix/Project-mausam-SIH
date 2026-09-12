@@ -127,3 +127,12 @@
     animation-duration: 1.4s;
   }
 }
+
+/* The switch-to-signup link is the only way out of this screen for someone on
+   the wrong form; a bare 18px-tall text link is not a thumb target. */
+@media (hover: none) and (pointer: coarse) {
+  .auth-switch-link {
+    display: inline-block;
+    padding: 8px 4px;
+  }
+}

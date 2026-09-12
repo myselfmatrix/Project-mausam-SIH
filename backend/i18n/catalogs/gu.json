@@ -1,0 +1,602 @@
+{
+  "common": {
+    "getStarted": "શરૂ કરો",
+    "signIn": "સાઇન ઇન",
+    "logOut": "લોગ આઉટ",
+    "back": "પાછળ",
+    "continue": "આગળ વધો",
+    "cancel": "રદ કરો",
+    "retry": "ફરી પ્રયાસ કરો",
+    "retrying": "પ્રયાસ ચાલુ છે…",
+    "save": "સાચવો",
+    "appearance": "દેખાવ",
+    "openMenu": "મેનુ ખોલો",
+    "closeMenu": "મેનુ બંધ કરો",
+    "notSet": "નક્કી નથી",
+    "na": "ઉપલબ્ધ નથી"
+  },
+
+  "language": {
+    "label": "ભાષા",
+    "choose": "ભાષા પસંદ કરો",
+    "current": "ભાષા: {language}",
+    "changed": "ભાષા બદલીને {language} કરી"
+  },
+
+  "nav": {
+    "howItWorks": "આ કેવી રીતે કામ કરે છે",
+    "personas": "પર્સોના",
+    "alerts": "ચેતવણીઓ",
+    "features": "વિશેષતાઓ"
+  },
+
+  "hero": {
+    "badge": "સ્માર્ટ ઇન્ડિયા હેકાથોન 2026 · SIH26076",
+    "title": "હવામાન, જે તમારા દિવસને {accent} છે.",
+    "titleAccent": "સમજે",
+    "lede": "MAUSAM એક જ કાચી આગાહીને આઠ અલગ-અલગ હોમપેજમાં ફેરવે છે — દરેક એ જ પરિસ્થિતિઓના ક્રમમાં ગોઠવાયેલું, જે ખરેખર તમારું આગલું પગલું બદલે છે.",
+    "seeHow": "જુઓ આ કેવી રીતે કામ કરે છે",
+    "statPersonas": "પર્સોના",
+    "statSeverity": "તીવ્રતા સ્તર",
+    "statExplainable": "સમજાવી શકાય તેવા નિયમો",
+    "chipAirQuality": "હવાની ગુણવત્તા",
+    "chipUvIndex": "UV સૂચકાંક",
+    "chipRainChance": "વરસાદની શક્યતા",
+    "chipHigh": "વધુ",
+    "chipNext6h": "આગામી 6 કલાક"
+  },
+
+  "stats": {
+    "personasLabel": "પર્સોના",
+    "personasNote": "એક ફીડ, આઠ દૃષ્ટિકોણ",
+    "factorsLabel": "હવામાન પરિબળો",
+    "factorsNote": "જોડાયેલા અને વજનવાળા",
+    "severityLabel": "તીવ્રતા સ્તર",
+    "severityNote": "સલામતથી ગંભીર સુધી",
+    "explainableLabel": "સમજાવી શકાય તેવું",
+    "explainableNote": "નિયમ આધારિત, બ્લેક બોક્સ નહીં"
+  },
+
+  "steps": {
+    "eyebrow": "આ કેવી રીતે કામ કરે છે",
+    "title": "તમારા દિવસને અનુકૂળ હોમપેજ, માત્ર ત્રણ પગલાંમાં",
+    "oneTitle": "કહો શું મહત્વનું છે",
+    "oneDesc": "તમારા રોજિંદા જીવનની સૌથી નજીકનું પર્સોના પસંદ કરો — આરોગ્ય, ફિટનેસ, પ્રવાસ, ખેતી અને બીજું ઘણું.",
+    "twoTitle": "અમે આકાશને અલગ રીતે વાંચીએ છીએ",
+    "twoDesc": "એ જ હવામાન ડેટા એવા પરિબળો સાથે જોડાય છે જેની તમારા પર્સોનાને ખરેખર પરવા છે.",
+    "threeTitle": "પ્રાથમિકતા પ્રમાણે માહિતી મેળવો",
+    "threeDesc": "તમારું ડેશબોર્ડ ખોલો અને કાચા આંકડાને બદલે હવે શું કરવું એ ક્રમમાં ગોઠવાયેલું હોમપેજ મેળવો."
+  },
+
+  "story": {
+    "eyebrow": "મૂળ વિચાર",
+    "title": "એક આકાશ. {accent} અલગ-અલગ દિવસો.",
+    "titleAccent": "આઠ",
+    "lede": "સ્ક્રોલ કરતા રહો — એ જ {location}ની આગાહીમાંથી, ડેશબોર્ડ પેનલ દરેક પર્સોના માટે પોતાને ફરીથી ગોઠવે છે.",
+    "yourHomepage": "તમારું હોમપેજ",
+    "comfortFor": "{location} માટે આરામ સ્કોર",
+    "foot": "{temperature}°C · {condition} · બધા માટે એકસરખું"
+  },
+
+  "alertsSection": {
+    "eyebrow": "સ્માર્ટ ચેતવણીઓ",
+    "title": "શું, ક્યારે, શા માટે — અને હવે શું કરવું એ કહેતી ચેતવણીઓ"
+  },
+
+  "features": {
+    "eyebrow": "MAUSAM જ કેમ",
+    "title": "હવામાન પ્રોડક્ટને ભરોસાપાત્ર બનાવવા માટે જરૂરી બધું",
+    "personaTitle": "પર્સોના આધારિત સમજ",
+    "personaDesc": "એ જ આગાહી, તમારા દિવસ પર ખરેખર અસર કરતી બાબતોના ક્રમમાં.",
+    "locationTitle": "અનેક સ્થળો",
+    "locationDesc": "ઘર, ઓફિસ, કોલેજ કે પ્રવાસનું સ્થળ — સાથે-સાથે જુઓ.",
+    "alertsTitle": "કારણ પણ કહેતી ચેતવણીઓ",
+    "alertsDesc": "શું, ક્યારે, શા માટે મહત્વનું અને શું કરવું — માત્ર એક આંકડો નહીં.",
+    "scoringTitle": "પારદર્શક સ્કોરિંગ",
+    "scoringDesc": "નિયમ આધારિત આરામ સ્કોર, જેની પાછળનાં દરેક પરિબળ તમે જોઈ શકો છો.",
+    "severityTitle": "સ્પષ્ટ તીવ્રતા સ્તર",
+    "severityDesc": "આખી એપમાં એકસરખાં, રંગથી ઓળખાતાં સ્તર — સલામતથી ગંભીર સુધી.",
+    "mobileTitle": "પહેલાં મોબાઇલ માટે બનેલું",
+    "mobileDesc": "તમારા ખિસ્સાના ફોન માટે ડિઝાઇન કરેલું, તેમાં ઠાંસી બેસાડેલું નહીં."
+  },
+
+  "cta": {
+    "title": "હવામાનને {accent} જોવા તૈયાર છો?",
+    "titleAccent": "નવી નજરે",
+    "lede": "ખાતું બનાવો અને એવું હોમપેજ મેળવો જે ખરેખર તમારો દિવસ સમજે છે."
+  },
+
+  "footer": {
+    "tagline": "વ્યક્તિગત હવામાન સમજ — એક આગાહી, તેને વાંચવાની આઠ રીતો.",
+    "meta": "સ્માર્ટ ઇન્ડિયા હેકાથોન 2026નું પ્રોટોટાઇપ · સમસ્યા વિધાન SIH26076",
+    "disclaimer": "પૃથ્વી વિજ્ઞાન મંત્રાલય (IMD)ની સ્માર્ટ ઓટોમેશન થીમ માટે વિદ્યાર્થીઓ દ્વારા રજૂ કરાયેલો વૈચારિક પ્રોજેક્ટ. આ IMDનું સત્તાવાર ઉત્પાદન નથી, અને દર્શાવેલા હવામાન આંકડા નમૂના ડેટા છે. ગ્લોબ અને ચંદ્રની તસવીરો: NASA Visible Earth (Blue Marble / Black Marble), પબ્લિક ડોમેન."
+  },
+
+  "auth": {
+    "backToHome": "હોમ પર પાછા",
+    "perkPersonas": "8 પર્સોના, એક હવામાન ફીડ — તમારી જીવનશૈલી પ્રમાણે",
+    "perkInsights": "પ્રાથમિકતા પ્રમાણે માહિતી, માત્ર કાચા આંકડા નહીં",
+    "perkAlerts": "સ્પષ્ટ, રંગથી ઓળખાતી ચેતવણીઓ જેના પર તમે પગલાં લઈ શકો",
+    "storyNote": "સ્માર્ટ ઇન્ડિયા હેકાથોન 2026 · સમસ્યા વિધાન SIH26076",
+    "fieldName": "પૂરું નામ",
+    "fieldEmail": "ઇમેઇલ સરનામું",
+    "fieldPassword": "પાસવર્ડ",
+    "loginEyebrow": "ફરી સ્વાગત છે",
+    "loginTitle": "MAUSAMમાં સાઇન ઇન કરો",
+    "loginSubtitle": "તમારી વ્યક્તિગત આગાહી જ્યાં છોડી હતી ત્યાં જ છે.",
+    "loginSwitchPrompt": "MAUSAM પર નવા છો?",
+    "loginSwitchAction": "ખાતું બનાવો",
+    "signupEyebrow": "મફત શરૂઆત કરો",
+    "signupTitle": "તમારું ખાતું બનાવો",
+    "signupSubtitle": "એક મિનિટનું સેટઅપ, અને જીવનભર તમને અનુકૂળ હવામાન.",
+    "signupSubmit": "ખાતું બનાવો",
+    "signupHint": "ઓછામાં ઓછા 6 અક્ષર",
+    "signupSwitchPrompt": "પહેલેથી ખાતું છે?",
+    "signupSwitchAction": "લોગ ઇન કરો"
+  },
+
+  "onboarding": {
+    "progress": "પગલું {current} / {total} · {label}",
+    "personaLabel": "પર્સોના",
+    "personaTitle": "તમારા માટે શું મહત્વનું છે?",
+    "personaSubtitle": "તમારા રોજિંદા જીવનની સૌથી નજીકનું પસંદ કરો. પર્સનલાઇઝમાં ગમે ત્યારે બદલી શકો છો.",
+    "locationLabel": "સ્થળ",
+    "locationTitle": "તમે મોટાભાગનો સમય ક્યાં વિતાવો છો?",
+    "locationSubtitle": "MAUSAM તમારું ડેશબોર્ડ મૂળભૂત રીતે આ સ્થળની આસપાસ ગોઠવશે.",
+    "prioritiesLabel": "પ્રાથમિકતાઓ",
+    "prioritiesTitle": "MAUSAM શેને પ્રાથમિકતા આપે?",
+    "prioritiesSubtitle": "જેટલા ઇચ્છો તેટલા પસંદ કરો — પછી પર્સનલાઇઝમાં બદલી શકાય.",
+    "finishLabel": "પૂર્ણ",
+    "finishTitle": "તમારું MAUSAM તૈયાર છે.",
+    "finishSubtitle": "આ જ બાબતોના આધારે તમારું ડેશબોર્ડ ગોઠવાશે.",
+    "optCurrent": "વર્તમાન સ્થળ",
+    "optHome": "ઘર",
+    "optCollege": "કોલેજ",
+    "optOffice": "ઓફિસ",
+    "optFarm": "ખેતર",
+    "optCustom": "અન્ય",
+    "customPlaceholder": "દા.ત. સેક્ટર 62, નોઇડા",
+    "customLocation": "પોતાનું સ્થળ",
+    "summaryPersona": "પર્સોના",
+    "summaryLocation": "સ્થળ",
+    "summaryPriorities": "પ્રાથમિકતાઓ",
+    "noPriorities": "કંઈ પસંદ કર્યું નથી — પર્સનલાઇઝમાં ગમે ત્યારે ઉમેરો",
+    "goToDashboard": "ડેશબોર્ડ પર જાઓ"
+  },
+
+  "interest": {
+    "weatherAlerts": "હવામાન ચેતવણીઓ",
+    "airQuality": "હવાની ગુણવત્તા",
+    "uv": "UV",
+    "rain": "વરસાદ",
+    "travel": "પ્રવાસ",
+    "outdoorActivity": "બહારની પ્રવૃત્તિ",
+    "commute": "અવરજવર",
+    "agriculture": "ખેતી",
+    "marine": "દરિયાઈ પરિસ્થિતિ"
+  },
+
+  "persona": {
+    "healthLabel": "આરોગ્ય",
+    "healthTitle": "આરોગ્ય પ્રત્યે સજાગ",
+    "healthDesc": "AQI, UV, ભેજ અને ગરમીના જોખમ પર નજર રાખો",
+    "fitnessLabel": "ફિટનેસ",
+    "fitnessTitle": "બહારની ફિટનેસના શોખીન",
+    "fitnessDesc": "બહાર કસરત માટે શ્રેષ્ઠ સમય શોધો",
+    "beachLabel": "દરિયાકિનારો",
+    "beachTitle": "દરિયાકિનારો / સર્ફર",
+    "beachDesc": "ભરતી, મોજાં અને દરિયાની સ્થિતિ પર નજર રાખો",
+    "travelLabel": "પ્રવાસ",
+    "travelTitle": "પ્રવાસી",
+    "travelDesc": "તમારા ગંતવ્યના હવામાન માટે તૈયાર રહો",
+    "parentLabel": "પરિવાર",
+    "parentTitle": "માતા-પિતા / પરિવાર",
+    "parentDesc": "શાળાની અવરજવર સલામત અને સમયસર રાખો",
+    "gardenerLabel": "ખેતી",
+    "gardenerTitle": "ખેતી / બાગકામ",
+    "gardenerDesc": "સિંચાઈ, વાવણી અને હિમ સામે રક્ષણનું આયોજન કરો",
+    "commuterLabel": "અવરજવર",
+    "commuterTitle": "રોજિંદા પ્રવાસી",
+    "commuterDesc": "કામ પર નીકળતા પહેલાં જ જાણી લો",
+    "eventLabel": "કાર્યક્રમો",
+    "eventTitle": "કાર્યક્રમ આયોજક",
+    "eventDesc": "બહારના કાર્યક્રમોનું આયોજન આત્મવિશ્વાસથી કરો"
+  },
+
+  "metric": {
+    "temperature": "તાપમાન",
+    "temperatureCaption": "લાગે છે {feelsLike}° · મહત્તમ {high}° લઘુત્તમ {low}°",
+    "workoutWindow": "કસરત માટે શ્રેષ્ઠ સમય",
+    "workoutWindowCaption": "{quality} પરિસ્થિતિ",
+    "uvIndex": "UV સૂચકાંક",
+    "heatRisk": "ગરમીનું જોખમ",
+    "heatRiskCaption": "તાપમાન અને ભેજના આધારે",
+    "windSpeed": "પવનની ગતિ",
+    "windSpeedCaption": "{direction} દિશાથી",
+    "rainProbability": "વરસાદની શક્યતા",
+    "rainProbabilityCaption": "આગામી 12 કલાક",
+    "sunriseSunset": "સૂર્યોદય / સૂર્યાસ્ત",
+    "sunriseSunsetCaption": "સ્થાનિક સમય",
+    "aqi": "હવાની ગુણવત્તા",
+    "humidity": "ભેજ",
+    "humidityCaption": "સાપેક્ષ ભેજ",
+    "destinationWeather": "તમારા ગંતવ્ય પર",
+    "packingTip": "સામાન ભરવાની સલાહ",
+    "packingTipValue": "સૂચન",
+    "schoolCommute": "શાળાની અવરજવરનો સમય",
+    "schoolCommuteRain": "આ સમયમાં વરસાદની શક્યતા",
+    "schoolCommuteClear": "આ સમયમાં હવામાન સ્વચ્છ",
+    "rainDuringSchool": "શાળાના સમયે વરસાદ",
+    "visibility": "દૃશ્યતા",
+    "visibilityCaption": "તમારા રોજિંદા રસ્તા પર",
+    "fog": "ધુમ્મસનું જોખમ",
+    "fogCaption": "વહેલી સવારનું જોખમ",
+    "rainTiming": "વરસાદ ક્યારે",
+    "rainTimingCaption": "કલાકવાર આગાહીના આધારે",
+    "rainTimingAround": "આશરે {time}",
+    "rainTimingNone": "શક્યતા નથી",
+    "storm": "તોફાનનું જોખમ",
+    "stormCaption": "આજે",
+    "rainfallPrediction": "વરસાદની આગાહી",
+    "rainfallPredictionValue": "{percent}% શક્યતા",
+    "rainfallPredictionCaption": "આગામી 24 કલાક",
+    "soilMoisture": "જમીનનો ભેજ",
+    "soilIrrigate": "સિંચાઈની ભલામણ",
+    "soilWaterlogging": "પાણી ભરાવાનું જોખમ",
+    "soilAdequate": "પૂરતો",
+    "frost": "હિમનું જોખમ",
+    "frostCaption": "રાત્રિનું લઘુત્તમ",
+    "frostRisk": "આજે રાત્રે જોખમ",
+    "frostNone": "જોખમ નથી",
+    "temperatureTrend": "7 દિવસનો વલણ",
+    "temperatureTrendCaption": "આજની સરખામણીએ",
+    "trendWarming": "અઠવાડિયા દરમિયાન ગરમી વધશે",
+    "trendCooling": "અઠવાડિયા દરમિયાન ઠંડક વધશે",
+    "trendSteady": "આ અઠવાડિયે ઠીક-ઠીક સ્થિર",
+    "irrigationGuidance": "સિંચાઈ માર્ગદર્શન",
+    "irrigateToday": "આજે સિંચાઈ કરો",
+    "irrigateSkip": "આજે રહેવા દો",
+    "irrigationCaption": "જમીનનો ભેજ {percent}%",
+    "tide": "આગામી ભરતી",
+    "waveHeight": "મોજાંની ઊંચાઈ",
+    "waveHeightCaption": "હાલની સ્થિતિ",
+    "seaConditions": "દરિયાની સ્થિતિ",
+    "seaConditionsCaption": "તરવા અને સર્ફિંગની સલામતી",
+    "waterTemperature": "પાણીનું તાપમાન",
+    "waterTemperatureCaption": "દરિયાની સપાટી",
+    "outdoorComfort": "બહારનો આરામ",
+    "outdoorComfortCaption": "બહારના મેળાવડા માટે"
+  },
+
+  "value": {
+    "likely": "શક્ય",
+    "unlikely": "અશક્ય",
+    "active": "સક્રિય",
+    "rough": "તોફાની",
+    "moderate": "મધ્યમ",
+    "calm": "શાંત",
+    "great": "ઉત્તમ",
+    "good": "સારું",
+    "fair": "ઠીક",
+    "low": "ઓછું",
+    "high": "વધુ"
+  },
+
+  "uv": {
+    "low": "ઓછું",
+    "moderate": "મધ્યમ",
+    "high": "વધુ",
+    "veryHigh": "ખૂબ વધુ"
+  },
+
+  "heat": {
+    "low": "ઓછું",
+    "moderate": "મધ્યમ",
+    "high": "વધુ",
+    "extreme": "અતિશય"
+  },
+
+  "score": {
+    "excellent": "ઉત્કૃષ્ટ",
+    "good": "સારું",
+    "fair": "ઠીક",
+    "poor": "ખરાબ",
+    "avoid": "ટાળો"
+  },
+
+  "severity": {
+    "safe": "સલામત",
+    "info": "માહિતી",
+    "caution": "સાવચેતી",
+    "warning": "ચેતવણી",
+    "critical": "ગંભીર"
+  },
+
+  "tab": {
+    "overview": "ઝાંખી",
+    "weather": "હવામાન",
+    "locations": "સ્થળો",
+    "alerts": "ચેતવણીઓ",
+    "personalize": "પર્સનલાઇઝ",
+    "settings": "સેટિંગ્સ",
+    "sections": "ડેશબોર્ડ વિભાગો"
+  },
+
+  "dnav": {
+    "searchLocations": "સ્થળો શોધો",
+    "notifications": "સૂચનાઓ",
+    "signedIn": "સાઇન ઇન થયેલ",
+    "changePersona": "પર્સોના બદલો"
+  },
+
+  "greeting": {
+    "lateNight": "હજુ જાગો છો?",
+    "morning": "સુપ્રભાત",
+    "afternoon": "નમસ્કાર",
+    "evening": "શુભ સાંજ",
+    "night": "શુભ રાત્રિ"
+  },
+
+  "overview": {
+    "live": "લાઇવ",
+    "cached": "સંગ્રહિત",
+    "syncing": "સિંક થઈ રહ્યું છે",
+    "liveTitle": "લાઇવ ડેટા",
+    "cachedTitle": "સંગ્રહિત ડેટા દર્શાવાઈ રહ્યો છે",
+    "syncingTitle": "તાજી સ્થિતિ સિંક થઈ રહી છે",
+    "subtitle": "આજે તમારા {persona} માટે આ મહત્વનું છે.",
+    "viewingAs": "આ રૂપે જોઈ રહ્યા છો",
+    "comfortTitle": "{persona} આરામ સ્કોર",
+    "prioritized": "તમારા માટે પ્રાથમિકતા ક્રમે — {persona}"
+  },
+
+  "gauge": {
+    "outOf": "10માંથી",
+    "noImpact": "કોઈ અસર નથી",
+    "empty": "અત્યારે કંઈ પણ તમારી વિરુદ્ધ નથી.",
+    "note": "નિયમ આધારિત: 10માંથી ઉપરના વજનવાળા ગુણ બાદ કરીને."
+  },
+
+  "hourly": {
+    "title": "આગામી 12 કલાક",
+    "legendTemp": "તાપમાન",
+    "legendRain": "વરસાદની શક્યતા",
+    "now": "અત્યારે",
+    "rainTitle": "વરસાદની {percent}% શક્યતા"
+  },
+
+  "sky": {
+    "humidity": "ભેજ",
+    "wind": "પવન",
+    "visibility": "દૃશ્યતા",
+    "pressure": "દબાણ",
+    "daylight": "દિવસ",
+    "night": "રાત",
+    "feelsLike": "લાગે છે {feelsLike}° · મહત્તમ {high}° / લઘુત્તમ {low}°"
+  },
+
+  "weatherTab": {
+    "title": "હવામાન",
+    "subtitle": "{location}, {region}ની સંપૂર્ણ આગાહી",
+    "current": "હાલની સ્થિતિ",
+    "hourly": "કલાકવાર આગાહી",
+    "trend": "7 દિવસનો વલણ",
+    "forecast": "7 દિવસની આગાહી",
+    "peakMidday": "બપોરની આસપાસ સૌથી વધુ",
+    "currentCaption": "હાલ",
+    "wind": "પવન"
+  },
+
+  "locations": {
+    "title": "સાચવેલાં સ્થળો",
+    "subtitle": "તમારી દિનચર્યામાં મહત્વનાં સ્થળોનું હવામાન.",
+    "savedCount": "{count} સાચવેલાં",
+    "add": "સ્થળ ઉમેરો",
+    "addNew": "નવું સ્થળ ઉમેરો",
+    "labelPlaceholder": "લેબલ (દા.ત. ઘર, ઓફિસ)",
+    "cityPlaceholder": "શહેર",
+    "saveLocation": "સ્થળ સાચવો",
+    "primary": "મુખ્ય",
+    "setPrimary": "મુખ્ય બનાવો",
+    "remove": "{city} દૂર કરો",
+    "defaultCategory": "સાચવેલું"
+  },
+
+  "locationCategory": {
+    "home": "ઘર",
+    "college": "કોલેજ",
+    "office": "ઓફિસ",
+    "travel": "પ્રવાસ",
+    "saved": "સાચવેલું"
+  },
+
+  "alertsTab": {
+    "title": "ચેતવણીઓ",
+    "subtitle": "તમારા દિવસ પર અસર કરી શકે એવું બધું, એક જ જગ્યાએ.",
+    "empty": "આ શ્રેણીમાં અત્યારે કોઈ ચેતવણી નથી.",
+    "viewAll": "બધી ચેતવણીઓ જુઓ"
+  },
+
+  "alertCategory": {
+    "all": "બધું",
+    "weather": "હવામાન",
+    "health": "આરોગ્ય",
+    "travel": "પ્રવાસ",
+    "commute": "અવરજવર",
+    "agriculture": "ખેતી",
+    "marine": "દરિયાઈ"
+  },
+
+  "alertData": {
+    "rainWhat": "ભારે વરસાદની શક્યતા",
+    "rainWhen": "આજે સાંજે 5:00 – 7:00",
+    "rainWhy": "તમારી રોજિંદી અવરજવરનો સમય આ જ ગાળામાં આવે છે.",
+    "rainAction": "20 મિનિટ વહેલા નીકળો, અથવા સાંજે 7:30 પછી.",
+    "aqiWhat": "હવાની ગુણવત્તા ખરાબ છે (AQI 142)",
+    "aqiWhen": "બપોર દરમિયાન",
+    "aqiWhy": "લાંબો સમય બહાર રહેવાથી ગળા અને આંખમાં બળતરા થઈ શકે છે.",
+    "aqiAction": "બપોરે 12થી 4 વચ્ચે કઠિન બહારની પ્રવૃત્તિ ઘટાડો.",
+    "stormWhat": "મુંબઈ માટે વાવાઝોડાની ચેતવણી",
+    "stormWhen": "આજે બપોરે 2:00થી",
+    "stormWhy": "તમારા સાચવેલા ગંતવ્ય પર ગંભીર હવામાનની ચેતવણી લાગુ છે.",
+    "stormAction": "એરપોર્ટ જતા પહેલાં ફ્લાઇટની સ્થિતિ તપાસો.",
+    "sowingWhat": "આ અઠવાડિયે વાવણી માટે સારી પરિસ્થિતિ",
+    "sowingWhen": "બુધ – શુક્ર",
+    "sowingWhy": "જમીનનો ભેજ અને વરસાદનું વલણ, બંને વહેલી વાવણીની તરફેણમાં છે.",
+    "sowingAction": "કંઈ કરવાની જરૂર નથી — માત્ર જાણ માટે.",
+    "fogWhat": "નદી નજીકના રસ્તે દૃશ્યતા ઘટવાની શક્યતા",
+    "fogWhen": "વહેલી સવારે, 8:00 પહેલાં",
+    "fogWhy": "તમારા રસ્તાના નીચાણવાળા ભાગોમાં ધુમ્મસ બની રહ્યું છે.",
+    "fogAction": "10–15 મિનિટ વધુ રાખો અને વાહન ચલાવતી વખતે ફોગ લેમ્પ વાપરો.",
+    "seaWhat": "કિનારા પાસે દરિયો તોફાની",
+    "seaWhen": "આખો દિવસ",
+    "seaWhy": "2 મીટરથી ઊંચાં મોજાંની શક્યતા — તરવું સલામત નથી.",
+    "seaAction": "સ્થિતિ સુધરે ત્યાં સુધી પાણીની પ્રવૃત્તિ ટાળો."
+  },
+
+  "time": {
+    "justNow": "હમણાં જ",
+    "hoursAgo": "{count} કલાક પહેલાં",
+    "daysAgo": "{count} દિવસ પહેલાં"
+  },
+
+  "personalize": {
+    "title": "MAUSAM પર્સનલાઇઝ કરો",
+    "subtitle": "કહો શું મહત્વનું છે, અને તમારું ડેશબોર્ડ એ પ્રમાણે ગોઠવાશે.",
+    "whatMatters": "તમારા માટે શું મહત્વનું છે?",
+    "notifyMe": "મને આ વિશે જણાવો",
+    "quietHours": "શાંત કલાકો",
+    "pauseNonCritical": "બિન-જરૂરી ચેતવણીઓ રોકો",
+    "quietWindow": "રાત્રે 10:00 – સવારે 7:00"
+  },
+
+  "settings": {
+    "title": "સેટિંગ્સ",
+    "subtitle": "તમારી પ્રોફાઇલ, એકમો અને કનેક્ટિવિટી પસંદગીઓ.",
+    "defaultName": "MAUSAM વપરાશકર્તા",
+    "units": "એકમો",
+    "temperature": "તાપમાન",
+    "windSpeed": "પવનની ગતિ",
+    "briefTitle": "આજનો હવામાન સારાંશ",
+    "briefSummary": "30 સેકન્ડનો ઓડિયો સારાંશ",
+    "briefPlaying": "ચાલી રહ્યું છે… (અવાજ ટૂંક સમયમાં)",
+    "briefIdle": "બોલાયેલો સારાંશ સાંભળવા પ્લે દબાવો",
+    "briefPlay": "સારાંશ ચલાવો",
+    "briefPause": "સારાંશ થોભાવો",
+    "connectivity": "કનેક્ટિવિટી",
+    "dataSaver": "ડેટા સેવર મોડ",
+    "dataSaverDesc": "માત્ર તાપમાન, ચેતવણી અને વરસાદને પ્રાથમિકતા આપો",
+    "dataSaverToggle": "ડેટા સેવર મોડ બદલો",
+    "dataSaverActive": "ડેટા સેવર ચાલુ",
+    "offlinePreview": "ઓફલાઇન સ્થિતિ જુઓ",
+    "offlineDesc": "કનેક્શન વિના MAUSAM કેવું દેખાય છે તે જુઓ",
+    "offlineToggle": "ઓફલાઇન પૂર્વાવલોકન બદલો",
+    "offlineBanner": "તમે ઓફલાઇન છો — 12 મિનિટ પહેલાંનો હવામાન ડેટા દર્શાવાઈ રહ્યો છે.",
+    "language": "પ્રદર્શન ભાષા",
+    "languageDesc": "આખી એપમાં લાગુ પડે છે, તમે સાઇન ઇન કરો તે દરેક ઉપકરણ પર."
+  },
+
+  "customize": {
+    "start": "ડેશબોર્ડ કસ્ટમાઇઝ કરો",
+    "done": "કસ્ટમાઇઝ પૂર્ણ",
+    "reset": "લેઆઉટ રીસેટ કરો",
+    "hidden": "છુપાવેલા:",
+    "show": "{label} બતાવો"
+  },
+
+  "weatherError": {
+    "default": "હવામાન ડેટા ઉપલબ્ધ નથી",
+    "network": "કનેક્શન તૂટ્યું — સંગ્રહિત ડેટા દર્શાવાઈ રહ્યો છે",
+    "timeout": "હવામાન સેવા ધીમી છે",
+    "parse": "ડેટા ફોર્મેટમાં સમસ્યા",
+    "retryTitle": "હવામાન ફરી લોડ કરો"
+  },
+
+  "theme": {
+    "toLight": "આછી થીમ પર જાઓ",
+    "toDark": "ઘેરી થીમ પર જાઓ",
+    "light": "આછી થીમ",
+    "dark": "ઘેરી થીમ"
+  },
+
+  "condition": {
+    "clear": "સ્વચ્છ",
+    "sunny": "તડકો",
+    "partlyCloudy": "આંશિક વાદળછાયું",
+    "cloudy": "વાદળછાયું",
+    "hazy": "ધૂંધળું",
+    "hazySun": "ધૂંધળો તડકો",
+    "lightRain": "હળવો વરસાદ",
+    "rain": "વરસાદ",
+    "heavyRain": "ભારે વરસાદ",
+    "thunderstorm": "વાવાઝોડું",
+    "thunderstorms": "વાવાઝોડાં"
+  },
+
+  "aqiCategory": {
+    "good": "સારી",
+    "moderate": "મધ્યમ",
+    "poor": "ખરાબ",
+    "unhealthy": "અસ્વાસ્થ્યકર"
+  },
+
+  "wind": {
+    "n": "ઉત્તર",
+    "ne": "ઈશાન",
+    "e": "પૂર્વ",
+    "se": "અગ્નિ",
+    "s": "દક્ષિણ",
+    "sw": "નૈઋત્ય",
+    "w": "પશ્ચિમ",
+    "nw": "વાયવ્ય"
+  },
+
+  "day": {
+    "today": "આજે",
+    "mon": "સોમ",
+    "tue": "મંગળ",
+    "wed": "બુધ",
+    "thu": "ગુરુ",
+    "fri": "શુક્ર",
+    "sat": "શનિ",
+    "sun": "રવિ"
+  },
+
+  "city": {
+    "Lucknow": "લખનઉ",
+    "Mumbai": "મુંબઈ",
+    "Delhi": "દિલ્હી",
+    "Jhansi": "ઝાંસી",
+    "Noida": "નોઇડા",
+    "London": "લંડન"
+  },
+
+  "region": {
+    "Uttar Pradesh": "ઉત્તર પ્રદેશ",
+    "Maharashtra": "મહારાષ્ટ્ર",
+    "NCT": "રાષ્ટ્રીય રાજધાની ક્ષેત્ર",
+    "United Kingdom": "યુનાઇટેડ કિંગ્ડમ"
+  },
+
+  "tip": {
+    "rainJacket": "વોટરપ્રૂફ જેકેટ સાથે રાખો — આખો દિવસ હળવો વરસાદ ચાલુ રહેશે.",
+    "maskSensitive": "માસ્ક સાથે રાખો — સંવેદનશીલ લોકો માટે હવા અસ્વાસ્થ્યકર છે.",
+    "mask": "માસ્ક સાથે રાખો — આજે હવા અસ્વાસ્થ્યકર છે.",
+    "thunderstorm": "હળવું રેઇન જેકેટ લો — તમારા ગંતવ્ય પર વાવાઝોડાની શક્યતા છે.",
+    "hydrate": "પાણી પીતા રહો — બપોર દરમિયાન સૂકી ગરમી અને આકરો તડકો.",
+    "monsoon": "બધું વોટરપ્રૂફ રાખો — આ ચોમાસાનો સૌથી સક્રિય સમય છે."
+  },
+
+  "tide": {
+    "high": "ભરતી",
+    "low": "ઓટ"
+  },
+
+  "intro": {
+    "tagline": "તમને સમજતું હવામાન",
+    "statusSky": "આકાશ વંચાઈ રહ્યું છે",
+    "statusPersonas": "આઠ પર્સોના જોડાઈ રહ્યાં છે",
+    "statusPrioritise": "તમારો દિવસ ગોઠવાઈ રહ્યો છે",
+    "skip": "છોડવા માટે ગમે ત્યાં ટેપ કરો"
+  }
+}

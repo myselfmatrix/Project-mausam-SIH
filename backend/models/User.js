@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const { LANGUAGE_CODES, DEFAULT_LANGUAGE } = require('../i18n/languages');
 
 const SALT_ROUNDS = 10;
 
@@ -32,6 +33,13 @@ const userSchema = new mongoose.Schema({
   location: {
     type: String,
     default: null
+  },
+  // Display language. The enum comes from i18n/languages.js so adding a
+  // translation never means remembering to edit the schema too.
+  language: {
+    type: String,
+    enum: LANGUAGE_CODES,
+    default: DEFAULT_LANGUAGE
   },
   savedLocations: [{
     name: String,
@@ -84,7 +92,8 @@ userSchema.methods.toPublicJSON = function toPublicJSON() {
     name: this.name,
     email: this.email,
     persona: this.selectedPersona,
-    location: this.location
+    location: this.location,
+    language: this.language || DEFAULT_LANGUAGE
   };
 };
 

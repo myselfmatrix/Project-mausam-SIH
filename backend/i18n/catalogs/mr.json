@@ -1,0 +1,602 @@
+{
+  "common": {
+    "getStarted": "सुरू करा",
+    "signIn": "साइन इन",
+    "logOut": "लॉग आउट",
+    "back": "मागे",
+    "continue": "पुढे जा",
+    "cancel": "रद्द करा",
+    "retry": "पुन्हा प्रयत्न करा",
+    "retrying": "प्रयत्न सुरू आहे…",
+    "save": "जतन करा",
+    "appearance": "स्वरूप",
+    "openMenu": "मेनू उघडा",
+    "closeMenu": "मेनू बंद करा",
+    "notSet": "निश्चित नाही",
+    "na": "उपलब्ध नाही"
+  },
+
+  "language": {
+    "label": "भाषा",
+    "choose": "भाषा निवडा",
+    "current": "भाषा: {language}",
+    "changed": "भाषा बदलून {language} केली"
+  },
+
+  "nav": {
+    "howItWorks": "हे कसे चालते",
+    "personas": "पर्सोना",
+    "alerts": "सूचना",
+    "features": "वैशिष्ट्ये"
+  },
+
+  "hero": {
+    "badge": "स्मार्ट इंडिया हॅकेथॉन २०२६ · SIH26076",
+    "title": "हवामान, जे तुमचा दिवस {accent}.",
+    "titleAccent": "समजून घेते",
+    "lede": "MAUSAM एकाच कच्च्या अंदाजाचे आठ वेगवेगळे होमपेज बनवते — प्रत्येक त्याच परिस्थितींच्या क्रमाने मांडलेला, ज्या खरोखर तुमचे पुढचे पाऊल बदलतात.",
+    "seeHow": "हे कसे चालते ते पहा",
+    "statPersonas": "पर्सोना",
+    "statSeverity": "तीव्रता पातळ्या",
+    "statExplainable": "स्पष्ट करता येणारे नियम",
+    "chipAirQuality": "हवेची गुणवत्ता",
+    "chipUvIndex": "UV निर्देशांक",
+    "chipRainChance": "पावसाची शक्यता",
+    "chipHigh": "जास्त",
+    "chipNext6h": "पुढील ६ तास"
+  },
+
+  "stats": {
+    "personasLabel": "पर्सोना",
+    "personasNote": "एक फीड, आठ दृष्टिकोन",
+    "factorsLabel": "हवामान घटक",
+    "factorsNote": "जोडलेले आणि भारित",
+    "severityLabel": "तीव्रता पातळ्या",
+    "severityNote": "सुरक्षित ते गंभीर",
+    "explainableLabel": "स्पष्ट करता येणारे",
+    "explainableNote": "नियमाधारित, ब्लॅक बॉक्स नाही"
+  },
+
+  "steps": {
+    "eyebrow": "हे कसे चालते",
+    "title": "तुमच्या दिवसाला साजेसे होमपेज, फक्त तीन पायऱ्यांत",
+    "oneTitle": "काय महत्त्वाचे आहे ते सांगा",
+    "oneDesc": "तुमच्या रोजच्या आयुष्याशी सर्वात जवळचा पर्सोना निवडा — आरोग्य, फिटनेस, प्रवास, शेती आणि बरेच काही.",
+    "twoTitle": "आम्ही आकाश वेगळ्या नजरेने वाचतो",
+    "twoDesc": "तोच हवामान डेटा त्या घटकांशी जोडला जातो ज्यांची तुमच्या पर्सोनाला खरोखर काळजी असते.",
+    "threeTitle": "प्राधान्यक्रमाने माहिती मिळवा",
+    "threeDesc": "तुमचा डॅशबोर्ड उघडा आणि कच्च्या आकड्यांऐवजी पुढे काय करायचे त्या क्रमाने मांडलेला होमपेज मिळवा."
+  },
+
+  "story": {
+    "eyebrow": "मूळ कल्पना",
+    "title": "एक आकाश. {accent} वेगवेगळे दिवस.",
+    "titleAccent": "आठ",
+    "lede": "स्क्रोल करत राहा — डॅशबोर्ड पॅनेल प्रत्येक पर्सोनासाठी स्वतःला पुन्हा मांडते, त्याच {location} च्या अंदाजातून.",
+    "yourHomepage": "तुमचा होमपेज",
+    "comfortFor": "{location} साठी आराम गुण",
+    "foot": "{temperature}°C · {condition} · सर्वांसाठी सारखेच"
+  },
+
+  "alertsSection": {
+    "eyebrow": "स्मार्ट सूचना",
+    "title": "काय, कधी, का — आणि आता काय करायचे हे सांगणाऱ्या सूचना"
+  },
+
+  "features": {
+    "eyebrow": "MAUSAM का",
+    "title": "हवामान उत्पादन विश्वासार्ह वाटण्यासाठी लागणारे सर्व काही",
+    "personaTitle": "पर्सोना आधारित समज",
+    "personaDesc": "तोच अंदाज, तुमच्या दिवसावर खरोखर परिणाम करणाऱ्या गोष्टींच्या क्रमाने.",
+    "locationTitle": "अनेक ठिकाणे",
+    "locationDesc": "घर, ऑफिस, कॉलेज किंवा प्रवासाचे ठिकाण — एकाच वेळी पहा.",
+    "alertsTitle": "कारणही सांगणाऱ्या सूचना",
+    "alertsDesc": "काय, कधी, का महत्त्वाचे आणि काय करायचे — फक्त एक आकडा नाही.",
+    "scoringTitle": "पारदर्शक गुणांकन",
+    "scoringDesc": "नियमाधारित आराम गुण, ज्याच्या मागचे प्रत्येक घटक तुम्ही पाहू शकता.",
+    "severityTitle": "स्पष्ट तीव्रता पातळ्या",
+    "severityDesc": "संपूर्ण अ‍ॅपमध्ये सारख्या, रंगांनी ओळखता येणाऱ्या पातळ्या — सुरक्षित ते गंभीर.",
+    "mobileTitle": "आधी मोबाइलसाठी बनवलेले",
+    "mobileDesc": "तुमच्या खिशातील फोनसाठी डिझाइन केलेले, त्यावर कोंबलेले नाही."
+  },
+
+  "cta": {
+    "title": "हवामान {accent} पाहायला तयार आहात?",
+    "titleAccent": "नव्या नजरेने",
+    "lede": "खाते तयार करा आणि तुमचा दिवस खरोखर समजणारा होमपेज मिळवा."
+  },
+
+  "footer": {
+    "tagline": "वैयक्तिक हवामान समज — एक अंदाज, तो वाचण्याचे आठ मार्ग.",
+    "meta": "स्मार्ट इंडिया हॅकेथॉन २०२६ चा प्रोटोटाइप · समस्या विधान SIH26076",
+    "disclaimer": "पृथ्वी विज्ञान मंत्रालयाच्या (IMD) स्मार्ट ऑटोमेशन विषयासाठी विद्यार्थ्यांनी सादर केलेला संकल्पनात्मक प्रकल्प. हे IMD चे अधिकृत उत्पादन नाही, आणि दाखवलेली हवामान मूल्ये नमुना डेटा आहेत. ग्लोब आणि चंद्राची छायाचित्रे: NASA Visible Earth (Blue Marble / Black Marble), सार्वजनिक डोमेन."
+  },
+
+  "auth": {
+    "backToHome": "होमवर परत",
+    "perkPersonas": "८ पर्सोना, एक हवामान फीड — तुमच्या जीवनशैलीनुसार",
+    "perkInsights": "प्राधान्यक्रमाने माहिती, फक्त कच्चे आकडे नाहीत",
+    "perkAlerts": "स्पष्ट, रंगांनी ओळखता येणाऱ्या सूचना ज्यावर तुम्ही कृती करू शकता",
+    "storyNote": "स्मार्ट इंडिया हॅकेथॉन २०२६ · समस्या विधान SIH26076",
+    "fieldName": "पूर्ण नाव",
+    "fieldEmail": "ईमेल पत्ता",
+    "fieldPassword": "पासवर्ड",
+    "loginEyebrow": "पुन्हा स्वागत आहे",
+    "loginTitle": "MAUSAM मध्ये साइन इन करा",
+    "loginSubtitle": "तुमचा वैयक्तिक अंदाज जिथे सोडला होता तिथेच आहे.",
+    "loginSwitchPrompt": "MAUSAM वर नवीन आहात?",
+    "loginSwitchAction": "खाते तयार करा",
+    "signupEyebrow": "मोफत सुरुवात करा",
+    "signupTitle": "तुमचे खाते तयार करा",
+    "signupSubtitle": "एका मिनिटाची तयारी, आणि कायमचे तुमच्यासाठी बनलेले हवामान.",
+    "signupSubmit": "खाते तयार करा",
+    "signupHint": "किमान ६ अक्षरे",
+    "signupSwitchPrompt": "आधीच खाते आहे?",
+    "signupSwitchAction": "लॉग इन करा"
+  },
+
+  "onboarding": {
+    "progress": "पायरी {current} / {total} · {label}",
+    "personaLabel": "पर्सोना",
+    "personaTitle": "तुमच्यासाठी काय महत्त्वाचे आहे?",
+    "personaSubtitle": "तुमच्या रोजच्या आयुष्याशी सर्वात जवळचा निवडा. पर्सनलाइझमध्ये कधीही बदलू शकता.",
+    "locationLabel": "ठिकाण",
+    "locationTitle": "तुम्ही बहुतेक वेळ कुठे घालवता?",
+    "locationSubtitle": "MAUSAM तुमचा डॅशबोर्ड डीफॉल्टपणे याच ठिकाणाभोवती मांडेल.",
+    "prioritiesLabel": "प्राधान्ये",
+    "prioritiesTitle": "MAUSAM ने कशाला प्राधान्य द्यावे?",
+    "prioritiesSubtitle": "हवे तितके निवडा — नंतर पर्सनलाइझमध्ये बदलता येईल.",
+    "finishLabel": "पूर्ण",
+    "finishTitle": "तुमचा MAUSAM तयार आहे.",
+    "finishSubtitle": "याच गोष्टींच्या आधारे तुमचा डॅशबोर्ड मांडला जाईल.",
+    "optCurrent": "सध्याचे ठिकाण",
+    "optHome": "घर",
+    "optCollege": "कॉलेज",
+    "optOffice": "ऑफिस",
+    "optFarm": "शेत",
+    "optCustom": "इतर",
+    "customPlaceholder": "उदा. सेक्टर ६२, नोएडा",
+    "customLocation": "स्वतःचे ठिकाण",
+    "summaryPersona": "पर्सोना",
+    "summaryLocation": "ठिकाण",
+    "summaryPriorities": "प्राधान्ये",
+    "noPriorities": "काहीही निवडलेले नाही — पर्सनलाइझमध्ये कधीही जोडा",
+    "goToDashboard": "डॅशबोर्डवर जा"
+  },
+
+  "interest": {
+    "weatherAlerts": "हवामान सूचना",
+    "airQuality": "हवेची गुणवत्ता",
+    "uv": "UV",
+    "rain": "पाऊस",
+    "travel": "प्रवास",
+    "outdoorActivity": "बाहेरील हालचाल",
+    "commute": "ये-जा",
+    "agriculture": "शेती",
+    "marine": "सागरी परिस्थिती"
+  },
+
+  "persona": {
+    "healthLabel": "आरोग्य",
+    "healthTitle": "आरोग्याबाबत जागरूक",
+    "healthDesc": "AQI, UV, आर्द्रता आणि उष्णतेचा धोका यावर लक्ष ठेवा",
+    "fitnessLabel": "फिटनेस",
+    "fitnessTitle": "बाहेरील फिटनेसप्रेमी",
+    "fitnessDesc": "बाहेर व्यायामासाठी सर्वोत्तम वेळ शोधा",
+    "beachLabel": "समुद्रकिनारा",
+    "beachTitle": "समुद्रकिनारा / सर्फर",
+    "beachDesc": "भरती-ओहोटी, लाटा आणि सागरी स्थितीवर लक्ष ठेवा",
+    "travelLabel": "प्रवास",
+    "travelTitle": "प्रवासी",
+    "travelDesc": "तुमच्या ठिकाणच्या हवामानासाठी तयार राहा",
+    "parentLabel": "कुटुंब",
+    "parentTitle": "पालक / कुटुंब",
+    "parentDesc": "शाळेची ये-जा सुरक्षित आणि वेळेवर ठेवा",
+    "gardenerLabel": "शेती",
+    "gardenerTitle": "शेती / बागकाम",
+    "gardenerDesc": "सिंचन, पेरणी आणि थंडीपासून संरक्षणाचे नियोजन करा",
+    "commuterLabel": "ये-जा",
+    "commuterTitle": "रोजचा प्रवासी",
+    "commuterDesc": "कामावर निघण्यापूर्वीच जाणून घ्या",
+    "eventLabel": "कार्यक्रम",
+    "eventTitle": "कार्यक्रम नियोजक",
+    "eventDesc": "बाहेरील कार्यक्रमांचे नियोजन आत्मविश्वासाने करा"
+  },
+
+  "metric": {
+    "temperature": "तापमान",
+    "temperatureCaption": "जाणवते {feelsLike}° · कमाल {high}° किमान {low}°",
+    "workoutWindow": "व्यायामासाठी सर्वोत्तम वेळ",
+    "workoutWindowCaption": "{quality} परिस्थिती",
+    "uvIndex": "UV निर्देशांक",
+    "heatRisk": "उष्णतेचा धोका",
+    "heatRiskCaption": "तापमान आणि आर्द्रतेवर आधारित",
+    "windSpeed": "वाऱ्याचा वेग",
+    "windSpeedCaption": "{direction} दिशेकडून",
+    "rainProbability": "पावसाची शक्यता",
+    "rainProbabilityCaption": "पुढील १२ तास",
+    "sunriseSunset": "सूर्योदय / सूर्यास्त",
+    "sunriseSunsetCaption": "स्थानिक वेळ",
+    "aqi": "हवेची गुणवत्ता",
+    "humidity": "आर्द्रता",
+    "humidityCaption": "सापेक्ष आर्द्रता",
+    "destinationWeather": "तुमच्या ठिकाणी",
+    "packingTip": "सामान भरण्याचा सल्ला",
+    "packingTipValue": "सूचना",
+    "schoolCommute": "शाळेच्या ये-जाची वेळ",
+    "schoolCommuteRain": "या वेळेत पावसाची शक्यता",
+    "schoolCommuteClear": "या वेळेत हवामान स्वच्छ",
+    "rainDuringSchool": "शाळेच्या वेळेत पाऊस",
+    "visibility": "दृश्यमानता",
+    "visibilityCaption": "तुमच्या नेहमीच्या मार्गावर",
+    "fog": "धुक्याचा धोका",
+    "fogCaption": "पहाटेचा धोका",
+    "rainTiming": "पाऊस कधी",
+    "rainTimingCaption": "तासवार अंदाजावर आधारित",
+    "rainTimingAround": "सुमारे {time}",
+    "rainTimingNone": "शक्यता नाही",
+    "storm": "वादळाचा धोका",
+    "stormCaption": "आज",
+    "rainfallPrediction": "पर्जन्याचा अंदाज",
+    "rainfallPredictionValue": "{percent}% शक्यता",
+    "rainfallPredictionCaption": "पुढील २४ तास",
+    "soilMoisture": "मातीतील ओलावा",
+    "soilIrrigate": "सिंचनाचा सल्ला",
+    "soilWaterlogging": "पाणी साचण्याचा धोका",
+    "soilAdequate": "पुरेसा",
+    "frost": "थंडीचा धोका",
+    "frostCaption": "रात्रीचे किमान तापमान",
+    "frostRisk": "आज रात्री धोका",
+    "frostNone": "धोका नाही",
+    "temperatureTrend": "७ दिवसांचा कल",
+    "temperatureTrendCaption": "आजच्या तुलनेत",
+    "trendWarming": "आठवडाभर उष्णता वाढेल",
+    "trendCooling": "आठवडाभर थंडी वाढेल",
+    "trendSteady": "या आठवड्यात बऱ्यापैकी स्थिर",
+    "irrigationGuidance": "सिंचन मार्गदर्शन",
+    "irrigateToday": "आज सिंचन करा",
+    "irrigateSkip": "आज नको",
+    "irrigationCaption": "मातीतील ओलावा {percent}%",
+    "tide": "पुढील भरती",
+    "waveHeight": "लाटांची उंची",
+    "waveHeightCaption": "सध्याची स्थिती",
+    "seaConditions": "सागरी स्थिती",
+    "seaConditionsCaption": "पोहणे व सर्फिंग सुरक्षा",
+    "waterTemperature": "पाण्याचे तापमान",
+    "waterTemperatureCaption": "समुद्र पृष्ठभाग",
+    "outdoorComfort": "बाहेरील आराम",
+    "outdoorComfortCaption": "बाहेरील मेळाव्यांसाठी"
+  },
+
+  "value": {
+    "likely": "शक्य",
+    "unlikely": "अशक्य",
+    "active": "सक्रिय",
+    "rough": "खवळलेला",
+    "moderate": "मध्यम",
+    "calm": "शांत",
+    "great": "उत्तम",
+    "good": "चांगले",
+    "fair": "ठीक",
+    "low": "कमी",
+    "high": "जास्त"
+  },
+
+  "uv": {
+    "low": "कमी",
+    "moderate": "मध्यम",
+    "high": "जास्त",
+    "veryHigh": "खूप जास्त"
+  },
+
+  "heat": {
+    "low": "कमी",
+    "moderate": "मध्यम",
+    "high": "जास्त",
+    "extreme": "अतितीव्र"
+  },
+
+  "score": {
+    "excellent": "उत्कृष्ट",
+    "good": "चांगले",
+    "fair": "ठीक",
+    "poor": "वाईट",
+    "avoid": "टाळा"
+  },
+
+  "severity": {
+    "safe": "सुरक्षित",
+    "info": "माहिती",
+    "caution": "सावधगिरी",
+    "warning": "इशारा",
+    "critical": "गंभीर"
+  },
+
+  "tab": {
+    "overview": "आढावा",
+    "weather": "हवामान",
+    "locations": "ठिकाणे",
+    "alerts": "सूचना",
+    "personalize": "पर्सनलाइझ",
+    "settings": "सेटिंग्ज",
+    "sections": "डॅशबोर्ड विभाग"
+  },
+
+  "dnav": {
+    "searchLocations": "ठिकाणे शोधा",
+    "notifications": "सूचना",
+    "signedIn": "साइन इन केलेले",
+    "changePersona": "पर्सोना बदला"
+  },
+
+  "greeting": {
+    "lateNight": "अजून जागे आहात?",
+    "morning": "सुप्रभात",
+    "afternoon": "नमस्कार",
+    "evening": "शुभ संध्याकाळ",
+    "night": "शुभ रात्री"
+  },
+
+  "overview": {
+    "live": "लाइव्ह",
+    "cached": "साठवलेले",
+    "syncing": "सिंक होत आहे",
+    "liveTitle": "लाइव्ह डेटा",
+    "cachedTitle": "साठवलेला डेटा दाखवत आहे",
+    "syncingTitle": "नवीनतम स्थिती सिंक होत आहे",
+    "subtitle": "आज तुमच्या {persona} साठी हे महत्त्वाचे आहे.",
+    "viewingAs": "या रूपात पाहत आहात",
+    "comfortTitle": "{persona} आराम गुण",
+    "prioritized": "तुमच्यासाठी प्राधान्यक्रमाने — {persona}"
+  },
+
+  "gauge": {
+    "outOf": "१० पैकी",
+    "noImpact": "काहीच परिणाम नाही",
+    "empty": "सध्या काहीही तुमच्या विरोधात नाही.",
+    "note": "नियमाधारित: १० मधून वरील भारित गुण वजा करून."
+  },
+
+  "hourly": {
+    "title": "पुढील १२ तास",
+    "legendTemp": "तापमान",
+    "legendRain": "पावसाची शक्यता",
+    "now": "आत्ता",
+    "rainTitle": "पावसाची {percent}% शक्यता"
+  },
+
+  "sky": {
+    "humidity": "आर्द्रता",
+    "wind": "वारा",
+    "visibility": "दृश्यमानता",
+    "pressure": "दाब",
+    "daylight": "दिवस",
+    "night": "रात्र",
+    "feelsLike": "जाणवते {feelsLike}° · कमाल {high}° / किमान {low}°"
+  },
+
+  "weatherTab": {
+    "title": "हवामान",
+    "subtitle": "{location}, {region} चा संपूर्ण अंदाज",
+    "current": "सध्याची स्थिती",
+    "hourly": "तासवार अंदाज",
+    "trend": "७ दिवसांचा कल",
+    "forecast": "७ दिवसांचा अंदाज",
+    "peakMidday": "दुपारच्या सुमारास सर्वाधिक",
+    "currentCaption": "सध्या",
+    "wind": "वारा"
+  },
+
+  "locations": {
+    "title": "जतन केलेली ठिकाणे",
+    "subtitle": "तुमच्या दिनक्रमात महत्त्वाच्या असलेल्या ठिकाणांचे हवामान.",
+    "savedCount": "{count} जतन केलेली",
+    "add": "ठिकाण जोडा",
+    "addNew": "नवीन ठिकाण जोडा",
+    "labelPlaceholder": "लेबल (उदा. घर, ऑफिस)",
+    "cityPlaceholder": "शहर",
+    "saveLocation": "ठिकाण जतन करा",
+    "primary": "मुख्य",
+    "setPrimary": "मुख्य करा",
+    "remove": "{city} काढा",
+    "defaultCategory": "जतन केलेले"
+  },
+
+  "locationCategory": {
+    "home": "घर",
+    "college": "कॉलेज",
+    "office": "ऑफिस",
+    "travel": "प्रवास",
+    "saved": "जतन केलेले"
+  },
+
+  "alertsTab": {
+    "title": "सूचना",
+    "subtitle": "तुमच्या दिवसावर परिणाम करू शकणारे सर्व काही, एकाच ठिकाणी.",
+    "empty": "या प्रकारात सध्या कोणतीही सूचना नाही.",
+    "viewAll": "सर्व सूचना पहा"
+  },
+
+  "alertCategory": {
+    "all": "सर्व",
+    "weather": "हवामान",
+    "health": "आरोग्य",
+    "travel": "प्रवास",
+    "commute": "ये-जा",
+    "agriculture": "शेती",
+    "marine": "सागरी"
+  },
+
+  "alertData": {
+    "rainWhat": "जोरदार पावसाची शक्यता",
+    "rainWhen": "आज संध्याकाळी ५:०० – ७:००",
+    "rainWhy": "तुमच्या नेहमीच्या ये-जाची वेळ याच काळात येते.",
+    "rainAction": "२० मिनिटे आधी निघा, किंवा संध्याकाळी ७:३० नंतर.",
+    "aqiWhat": "हवेची गुणवत्ता वाईट आहे (AQI 142)",
+    "aqiWhen": "दुपारभर",
+    "aqiWhy": "बराच वेळ बाहेर राहिल्यास घसा आणि डोळ्यांची जळजळ होऊ शकते.",
+    "aqiAction": "दुपारी १२ ते ४ दरम्यान कठीण बाहेरील हालचाल कमी करा.",
+    "stormWhat": "मुंबईसाठी वादळाचा इशारा",
+    "stormWhen": "आज दुपारी २:०० पासून",
+    "stormWhy": "तुमच्या जतन केलेल्या ठिकाणी गंभीर हवामानाचा इशारा लागू आहे.",
+    "stormAction": "विमानतळावर जाण्यापूर्वी उड्डाणाची स्थिती तपासा.",
+    "sowingWhat": "या आठवड्यात पेरणीसाठी चांगली परिस्थिती",
+    "sowingWhen": "बुध – शुक्र",
+    "sowingWhy": "मातीतील ओलावा आणि पर्जन्याचा कल, दोन्ही लवकर पेरणीच्या बाजूने आहेत.",
+    "sowingAction": "काही करण्याची गरज नाही — फक्त माहितीसाठी.",
+    "fogWhat": "नदीकाठच्या मार्गावर दृश्यमानता कमी होण्याची शक्यता",
+    "fogWhen": "पहाटे, सकाळी ८:०० पूर्वी",
+    "fogWhy": "तुमच्या मार्गावरील सखल भागांत धुके तयार होत आहे.",
+    "fogAction": "१०–१५ मिनिटे जास्त ठेवा आणि गाडी चालवताना फॉग लॅम्प वापरा.",
+    "seaWhat": "किनाऱ्यालगत समुद्र खवळलेला",
+    "seaWhen": "दिवसभर",
+    "seaWhy": "२ मीटरहून उंच लाटांची शक्यता — पोहणे असुरक्षित.",
+    "seaAction": "परिस्थिती सुधारेपर्यंत पाण्यातील हालचाली टाळा."
+  },
+
+  "time": {
+    "justNow": "आत्ताच",
+    "hoursAgo": "{count} तासांपूर्वी",
+    "daysAgo": "{count} दिवसांपूर्वी"
+  },
+
+  "personalize": {
+    "title": "MAUSAM पर्सनलाइझ करा",
+    "subtitle": "काय महत्त्वाचे आहे ते सांगा, आणि तुमचा डॅशबोर्ड त्यानुसार मांडला जाईल.",
+    "whatMatters": "तुमच्यासाठी काय महत्त्वाचे आहे?",
+    "notifyMe": "मला याबद्दल कळवा",
+    "quietHours": "शांत तास",
+    "pauseNonCritical": "बिगर-महत्त्वाच्या सूचना थांबवा",
+    "quietWindow": "रात्री १०:०० – सकाळी ७:००"
+  },
+
+  "settings": {
+    "title": "सेटिंग्ज",
+    "subtitle": "तुमची प्रोफाइल, एकके आणि कनेक्टिव्हिटी प्राधान्ये.",
+    "defaultName": "MAUSAM वापरकर्ता",
+    "units": "एकके",
+    "temperature": "तापमान",
+    "windSpeed": "वाऱ्याचा वेग",
+    "briefTitle": "आजचा हवामान सारांश",
+    "briefSummary": "३० सेकंदांचा ऑडिओ सारांश",
+    "briefPlaying": "सुरू आहे… (आवाज लवकरच येत आहे)",
+    "briefIdle": "बोललेला सारांश ऐकण्यासाठी प्ले दाबा",
+    "briefPlay": "सारांश चालवा",
+    "briefPause": "सारांश थांबवा",
+    "connectivity": "कनेक्टिव्हिटी",
+    "dataSaver": "डेटा सेव्हर मोड",
+    "dataSaverDesc": "फक्त तापमान, सूचना आणि पावसाला प्राधान्य द्या",
+    "dataSaverToggle": "डेटा सेव्हर मोड बदला",
+    "dataSaverActive": "डेटा सेव्हर सुरू",
+    "offlinePreview": "ऑफलाइन स्थिती पहा",
+    "offlineDesc": "कनेक्शनशिवाय MAUSAM कसे दिसते ते पहा",
+    "offlineToggle": "ऑफलाइन पूर्वावलोकन बदला",
+    "offlineBanner": "तुम्ही ऑफलाइन आहात — १२ मिनिटांपूर्वीचा हवामान डेटा दाखवत आहे.",
+    "language": "प्रदर्शन भाषा",
+    "languageDesc": "संपूर्ण अ‍ॅपमध्ये लागू होते, तुम्ही साइन इन करता त्या प्रत्येक उपकरणावर."
+  },
+
+  "customize": {
+    "start": "डॅशबोर्ड सानुकूल करा",
+    "done": "सानुकूलन पूर्ण",
+    "reset": "मांडणी रीसेट करा",
+    "hidden": "लपवलेले:",
+    "show": "{label} दाखवा"
+  },
+
+  "weatherError": {
+    "default": "हवामान डेटा उपलब्ध नाही",
+    "network": "कनेक्शन तुटले — साठवलेला डेटा दाखवत आहे",
+    "timeout": "हवामान सेवा संथ आहे",
+    "parse": "डेटा स्वरूपात अडचण",
+    "retryTitle": "हवामान पुन्हा लोड करा"
+  },
+
+  "theme": {
+    "toLight": "फिकट थीमवर जा",
+    "toDark": "गडद थीमवर जा",
+    "light": "फिकट थीम",
+    "dark": "गडद थीम"
+  },
+
+  "condition": {
+    "clear": "स्वच्छ",
+    "sunny": "ऊन",
+    "partlyCloudy": "अंशतः ढगाळ",
+    "cloudy": "ढगाळ",
+    "hazy": "धूसर",
+    "hazySun": "धूसर ऊन",
+    "lightRain": "हलका पाऊस",
+    "rain": "पाऊस",
+    "heavyRain": "जोरदार पाऊस",
+    "thunderstorm": "वादळ",
+    "thunderstorms": "वादळे"
+  },
+
+  "aqiCategory": {
+    "good": "चांगली",
+    "moderate": "मध्यम",
+    "poor": "वाईट",
+    "unhealthy": "अनारोग्यकारक"
+  },
+
+  "wind": {
+    "n": "उत्तर",
+    "ne": "ईशान्य",
+    "e": "पूर्व",
+    "se": "आग्नेय",
+    "s": "दक्षिण",
+    "sw": "नैऋत्य",
+    "w": "पश्चिम",
+    "nw": "वायव्य"
+  },
+
+  "day": {
+    "today": "आज",
+    "mon": "सोम",
+    "tue": "मंगळ",
+    "wed": "बुध",
+    "thu": "गुरु",
+    "fri": "शुक्र",
+    "sat": "शनि",
+    "sun": "रवि"
+  },
+
+  "city": {
+    "Lucknow": "लखनौ",
+    "Mumbai": "मुंबई",
+    "Delhi": "दिल्ली",
+    "Jhansi": "झाशी",
+    "Noida": "नोएडा",
+    "London": "लंडन"
+  },
+
+  "region": {
+    "Uttar Pradesh": "उत्तर प्रदेश",
+    "Maharashtra": "महाराष्ट्र",
+    "NCT": "राष्ट्रीय राजधानी क्षेत्र",
+    "United Kingdom": "युनायटेड किंग्डम"
+  },
+
+  "tip": {
+    "rainJacket": "वॉटरप्रूफ जॅकेट सोबत ठेवा — दिवसभर हलका पाऊस राहील.",
+    "maskSensitive": "मास्क सोबत ठेवा — संवेदनशील लोकांसाठी हवा अनारोग्यकारक आहे.",
+    "mask": "मास्क सोबत ठेवा — आज हवा अनारोग्यकारक आहे.",
+    "thunderstorm": "हलका रेनकोट न्या — तुमच्या ठिकाणी वादळाची शक्यता आहे.",
+    "hydrate": "पाणी पीत राहा — दुपारभर कोरडी उष्णता आणि कडक ऊन.",
+    "monsoon": "सर्व काही वॉटरप्रूफ ठेवा — हा मान्सूनचा सर्वात जोरदार काळ आहे."
+  },
+
+  "tide": {
+    "high": "भरती",
+    "low": "ओहोटी"
+  },
+
+  "intro": {
+    "tagline": "तुम्हाला समजून घेणारे हवामान",
+    "statusSky": "आकाश वाचले जात आहे",
+    "statusPersonas": "आठ पर्सोना जोडले जात आहेत",
+    "statusPrioritise": "तुमचा दिवस क्रमाने लावला जात आहे",
+    "skip": "वगळण्यासाठी कुठेही टॅप करा"
+  }
+}

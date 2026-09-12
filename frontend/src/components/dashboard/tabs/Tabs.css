@@ -1006,3 +1006,63 @@
     flex-shrink: 0;
   }
 }
+
+/* ==================================================================
+   Touch sizing
+   ==================================================================
+   Scoped to coarse pointers, so the desktop layout keeps its density.
+   A 29px control is comfortable with a mouse and a miss with a thumb;
+   these bring the small repeated controls up to a reliable target
+   without changing how anything looks on a laptop.
+*/
+@media (hover: none) and (pointer: coarse) {
+  .filter-chip,
+  .interest-chip {
+    min-height: 40px;
+    padding-inline: 18px;
+  }
+
+  .segmented button {
+    min-height: 38px;
+    padding-inline: 18px;
+  }
+
+  .ov-persona-pill {
+    min-height: 38px;
+    padding-inline: 14px;
+  }
+
+  .btn-ghost-sm,
+  .btn-primary-sm {
+    min-height: 38px;
+  }
+}
+
+/*
+  The persona switcher is eight pills wide. Wrapping them stacks three rows
+  above the fold on a phone and pushes the forecast off screen, so on narrow
+  screens the row becomes a scroller instead — with the last pill deliberately
+  cut by the edge, which is what tells you there is more to the right.
+*/
+@media (max-width: 720px) {
+  .ov-persona-switch {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .ov-persona-pills {
+    flex-wrap: nowrap;
+    max-width: none;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .ov-persona-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ov-persona-pill {
+    flex: 0 0 auto;
+  }
+}

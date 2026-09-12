@@ -1,5 +1,6 @@
 import { AlertTriangle, Info, ShieldAlert, CheckCircle2 } from 'lucide-react'
 import { ALERTS } from '../../data/alertData'
+import { useTranslation } from '../../i18n/useTranslation'
 import './AlertsMarquee.css'
 
 const SEVERITY_ICON = {
@@ -11,6 +12,7 @@ const SEVERITY_ICON = {
 }
 
 function AlertChip({ alert }) {
+  const { t } = useTranslation()
   const Icon = SEVERITY_ICON[alert.severity] || Info
   return (
     <article className={`amq-card status-${alert.severity}`}>
@@ -18,12 +20,12 @@ function AlertChip({ alert }) {
         <span className="amq-card-icon">
           <Icon size={14} strokeWidth={2.2} />
         </span>
-        <span className="amq-card-cat">{alert.category}</span>
-        <span className="amq-card-sev">{alert.severity}</span>
+        <span className="amq-card-cat">{t(`alertCategory.${alert.category}`)}</span>
+        <span className="amq-card-sev">{t(`severity.${alert.severity}`)}</span>
       </header>
-      <h4>{alert.what}</h4>
-      <p className="amq-card-when">{alert.when}</p>
-      <p className="amq-card-action">{alert.action}</p>
+      <h4>{t(alert.whatKey)}</h4>
+      <p className="amq-card-when">{t(alert.whenKey)}</p>
+      <p className="amq-card-action">{t(alert.actionKey)}</p>
     </article>
   )
 }

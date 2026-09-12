@@ -32,6 +32,7 @@ export const WEATHER_BY_LOCATION = {
     workoutWindow: { start: '06:00', end: '08:00', quality: 'Great' },
     destination: { city: 'Mumbai', condition: 'Thunderstorms', severeAlert: true },
     packingTip: 'Pack a light rain jacket — thunderstorms are expected at your destination.',
+    packingTipKey: 'tip.thunderstorm',
     schoolCommuteWindow: '07:30 – 08:15',
     rainDuringSchool: false,
     hourlyForecast: [
@@ -78,6 +79,7 @@ export const WEATHER_BY_LOCATION = {
     workoutWindow: { start: '17:30', end: '18:30', quality: 'Fair' },
     destination: { city: 'Delhi', condition: 'Hazy Sun', severeAlert: false },
     packingTip: 'Waterproof everything — this is peak monsoon activity.',
+    packingTipKey: 'tip.monsoon',
     schoolCommuteWindow: '07:15 – 08:00',
     rainDuringSchool: true,
     hourlyForecast: [
@@ -124,6 +126,7 @@ export const WEATHER_BY_LOCATION = {
     workoutWindow: { start: '05:45', end: '07:00', quality: 'Fair' },
     destination: { city: 'Lucknow', condition: 'Partly Cloudy', severeAlert: false },
     packingTip: 'Carry a mask — air quality is unhealthy for sensitive groups.',
+    packingTipKey: 'tip.maskSensitive',
     schoolCommuteWindow: '07:00 – 07:45',
     rainDuringSchool: false,
     hourlyForecast: [
@@ -170,6 +173,7 @@ export const WEATHER_BY_LOCATION = {
     workoutWindow: { start: '05:30', end: '07:00', quality: 'Good' },
     destination: { city: 'Lucknow', condition: 'Partly Cloudy', severeAlert: false },
     packingTip: 'Stay hydrated — dry heat and strong sun through the afternoon.',
+    packingTipKey: 'tip.hydrate',
     schoolCommuteWindow: '07:15 – 08:00',
     rainDuringSchool: false,
     hourlyForecast: [
@@ -216,6 +220,7 @@ export const WEATHER_BY_LOCATION = {
     workoutWindow: { start: '06:00', end: '07:15', quality: 'Fair' },
     destination: { city: 'Delhi', condition: 'Hazy Sun', severeAlert: false },
     packingTip: 'Carry a mask — air quality is unhealthy today.',
+    packingTipKey: 'tip.mask',
     schoolCommuteWindow: '07:00 – 07:45',
     rainDuringSchool: false,
     hourlyForecast: [
@@ -262,6 +267,7 @@ export const WEATHER_BY_LOCATION = {
     workoutWindow: { start: '16:00', end: '17:00', quality: 'Fair' },
     destination: { city: 'Lucknow', condition: 'Partly Cloudy', severeAlert: false },
     packingTip: 'Bring a waterproof jacket — steady light rain most of the day.',
+    packingTipKey: 'tip.rainJacket',
     schoolCommuteWindow: '08:00 – 08:45',
     rainDuringSchool: true,
     hourlyForecast: [

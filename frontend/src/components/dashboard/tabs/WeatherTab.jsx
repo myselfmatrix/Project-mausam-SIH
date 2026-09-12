@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { CloudRain, Droplets, Wind, Eye, Gauge, Sun } from 'lucide-react'
 import MetricCard from '../MetricCard'
 import { HOURLY_FORECAST, DAILY_FORECAST } from '../../../data/weatherData'
+import { useTranslation } from '../../../i18n/useTranslation'
+import { tAqiCategory, tCity, tCondition, tDay, tRegion, tWindDirection } from '../../../i18n/vocab'
 
 // DAILY_FORECAST has no per-location variant yet (7-day data isn't modeled
 // per city), so the trend/forecast sections stay global while current
@@ -15,6 +17,7 @@ const fadeUp = {
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.05 } } }
 
 export default function WeatherTab({ weather }) {
+  const { t, n } = useTranslation()
   const maxHigh = Math.max(...DAILY_FORECAST.map((d) => d.high))
   const minLow = Math.min(...DAILY_FORECAST.map((d) => d.low))
   const range = Math.max(maxHigh - minLow, 1)
@@ -22,23 +25,26 @@ export default function WeatherTab({ weather }) {
   return (
     <motion.div className="tab-panel" initial="hidden" animate="show" variants={stagger}>
       <motion.div className="tab-header" variants={fadeUp}>
-        <h1>Weather</h1>
+        <h1>{t('weatherTab.title')}</h1>
         <p>
-          Full forecast for {weather.location}, {weather.region}
+          {t('weatherTab.subtitle', {
+            location: tCity(t, weather.location),
+            region: tRegion(t, weather.region),
+          })}
         </p>
       </motion.div>
 
       <motion.p className="section-label" variants={fadeUp}>
-        Current conditions
+        {t('weatherTab.current')}
       </motion.p>
       <motion.div className="metric-grid" variants={stagger}>
         {[
-          { icon: Gauge, label: 'Air Quality', value: `${weather.aqi} AQI`, caption: weather.aqiCategory },
-          { icon: Sun, label: 'UV Index', value: weather.uvIndex, caption: 'Peak around midday' },
-          { icon: Droplets, label: 'Humidity', value: `${weather.humidity}%`, caption: 'Relative humidity' },
-          { icon: Wind, label: 'Wind', value: `${weather.windSpeed} km/h`, caption: `From the ${weather.windDirection}` },
-          { icon: Eye, label: 'Visibility', value: `${weather.visibility} km`, caption: 'Current' },
-          { icon: CloudRain, label: 'Rain Chance', value: `${weather.rainProbability}%`, caption: 'Next 12 hours' },
+          { icon: Gauge, label: t('metric.aqi'), value: `${n(weather.aqi)} AQI`, caption: tAqiCategory(t, weather.aqiCategory) },
+          { icon: Sun, label: t('metric.uvIndex'), value: n(weather.uvIndex), caption: t('weatherTab.peakMidday') },
+          { icon: Droplets, label: t('metric.humidity'), value: `${n(weather.humidity)}%`, caption: t('metric.humidityCaption') },
+          { icon: Wind, label: t('weatherTab.wind'), value: `${n(weather.windSpeed)} km/h`, caption: t('metric.windSpeedCaption', { direction: tWindDirection(t, weather.windDirection) }) },
+          { icon: Eye, label: t('metric.visibility'), value: `${n(weather.visibility)} km`, caption: t('weatherTab.currentCaption') },
+          { icon: CloudRain, label: t('metric.rainProbability'), value: `${n(weather.rainProbability)}%`, caption: t('metric.rainProbabilityCaption') },
         ].map((m) => (
           <motion.div key={m.label} variants={fadeUp}>
             <MetricCard {...m} />
@@ -47,22 +53,22 @@ export default function WeatherTab({ weather }) {
       </motion.div>
 
       <motion.p className="section-label" variants={fadeUp}>
-        Hourly forecast
+        {t('weatherTab.hourly')}
       </motion.p>
       <motion.div className="hourly-strip" variants={fadeUp}>
         {(weather.hourlyForecast || HOURLY_FORECAST).map((h) => (
           <div className="hourly-item" key={h.time}>
-            <span className="hourly-item-time">{h.time}</span>
-            <span className="hourly-item-temp">{h.temp}°</span>
+            <span className="hourly-item-time">{n(h.time)}</span>
+            <span className="hourly-item-temp">{n(h.temp)}°</span>
             <span className="hourly-item-rain">
-              <CloudRain size={12} /> {h.rain}%
+              <CloudRain size={12} /> {n(h.rain)}%
             </span>
           </div>
         ))}
       </motion.div>
 
       <motion.p className="section-label" variants={fadeUp}>
-        7-day trend
+        {t('weatherTab.trend')}
       </motion.p>
       <motion.div className="trend-chart" variants={fadeUp}>
         {DAILY_FORECAST.map((d) => {
@@ -81,23 +87,23 @@ export default function WeatherTab({ weather }) {
                       : 'color-mix(in srgb, var(--color-accent) 42%, transparent)',
                 }}
               />
-              <span className="trend-bar-label">{d.day}</span>
+              <span className="trend-bar-label">{tDay(t, d.day)}</span>
             </div>
           )
         })}
       </motion.div>
 
       <motion.p className="section-label" variants={fadeUp}>
-        7-day forecast
+        {t('weatherTab.forecast')}
       </motion.p>
       <motion.div className="daily-list" variants={fadeUp}>
         {DAILY_FORECAST.map((d) => (
           <div className="daily-row" key={d.day}>
-            <span className="daily-row-day">{d.day}</span>
-            <span className="daily-row-condition">{d.condition}</span>
-            <span className="daily-row-rain">{d.rain}%</span>
+            <span className="daily-row-day">{tDay(t, d.day)}</span>
+            <span className="daily-row-condition">{tCondition(t, d.condition)}</span>
+            <span className="daily-row-rain">{n(d.rain)}%</span>
             <span className="daily-row-range">
-              <span className="low">{d.low}°</span> {d.high}°
+              <span className="low">{n(d.low)}°</span> {n(d.high)}°
             </span>
           </div>
         ))}

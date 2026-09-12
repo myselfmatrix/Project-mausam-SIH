@@ -52,6 +52,15 @@
   transform: translateX(-2px);
 }
 
+/* Mirrors .auth-back across the top of the shell, so the two floating
+   controls read as a pair rather than one stray button. */
+.auth-lang {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  z-index: 3;
+}
+
 .auth-grid {
   position: relative;
   z-index: 2;

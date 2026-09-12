@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { getProfile, updatePersona, getLocations, addLocation } = require('../controllers/userController');
+const {
+  getProfile, updatePersona, updateLanguage, getLocations, addLocation
+} = require('../controllers/userController');
 const { requireAuth } = require('../middleware/auth');
 
 // Everything below here is account data — all of it needs a valid session.
@@ -12,6 +14,9 @@ router.get('/profile', getProfile);
 // correct verb for a full replace and older callers may still use it.
 router.post('/persona', updatePersona);
 router.put('/persona', updatePersona);
+
+router.post('/language', updateLanguage);
+router.put('/language', updateLanguage);
 
 router.get('/locations', getLocations);
 router.post('/locations', addLocation);

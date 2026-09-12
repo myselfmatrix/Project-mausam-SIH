@@ -15,39 +15,59 @@ import AtmosphereScene from '../components/three/LazyAtmosphere'
 import Logo from '../components/brand/Logo'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import Reveal, { RevealGroup, RevealItem } from '../components/ui/Reveal'
+import LanguageSwitcher from '../components/ui/LanguageSwitcher'
 import useTilt from '../hooks/useTilt'
 import useCountUp from '../hooks/useCountUp'
+import { useTranslation } from '../i18n/useTranslation'
+import { tCity } from '../i18n/vocab'
 import './HomePage.css'
 
 const FEATURES = [
-  { icon: Target, title: 'Persona intelligence', desc: 'The same forecast, re-prioritized around what actually affects your day.', wide: true },
-  { icon: MapPin, title: 'Multi-location', desc: 'Track home, work, college or a travel destination side by side.' },
-  { icon: Bell, title: 'Alerts that explain why', desc: 'What, when, why it matters, and what to do — not just a number.' },
-  { icon: Gauge, title: 'Transparent scoring', desc: 'A rule-based comfort score you can trace back to the factors behind it.' },
-  { icon: ShieldCheck, title: 'Clear severity levels', desc: 'Consistent, colour-coded status from safe to critical across the app.' },
-  { icon: Smartphone, title: 'Built mobile-first', desc: 'Designed for the phone in your pocket, not squeezed onto one.' },
+  { icon: Target, titleKey: 'features.personaTitle', descKey: 'features.personaDesc', wide: true },
+  { icon: MapPin, titleKey: 'features.locationTitle', descKey: 'features.locationDesc' },
+  { icon: Bell, titleKey: 'features.alertsTitle', descKey: 'features.alertsDesc' },
+  { icon: Gauge, titleKey: 'features.scoringTitle', descKey: 'features.scoringDesc' },
+  { icon: ShieldCheck, titleKey: 'features.severityTitle', descKey: 'features.severityDesc' },
+  { icon: Smartphone, titleKey: 'features.mobileTitle', descKey: 'features.mobileDesc' },
 ]
 
 const STEPS = [
-  { num: '01', title: 'Tell us what matters', desc: 'Pick the persona closest to your day-to-day — health, fitness, travel, farming and more.' },
-  { num: '02', title: 'We read the sky differently', desc: 'The same weather data gets mapped to the factors your persona actually cares about.' },
-  { num: '03', title: 'Get prioritized insights', desc: 'Open your dashboard to a homepage ordered around what to do next, not raw numbers.' },
+  { num: '01', titleKey: 'steps.oneTitle', descKey: 'steps.oneDesc' },
+  { num: '02', titleKey: 'steps.twoTitle', descKey: 'steps.twoDesc' },
+  { num: '03', titleKey: 'steps.threeTitle', descKey: 'steps.threeDesc' },
 ]
 
 const SEVERITY_LEGEND = [
-  { status: 'safe', label: 'Safe', icon: CheckCircle2 },
-  { status: 'info', label: 'Information', icon: Info },
-  { status: 'caution', label: 'Caution', icon: AlertTriangle },
-  { status: 'warning', label: 'Warning', icon: AlertTriangle },
-  { status: 'critical', label: 'Critical', icon: ShieldAlert },
+  { status: 'safe', labelKey: 'severity.safe', icon: CheckCircle2 },
+  { status: 'info', labelKey: 'severity.info', icon: Info },
+  { status: 'caution', labelKey: 'severity.caution', icon: AlertTriangle },
+  { status: 'warning', labelKey: 'severity.warning', icon: AlertTriangle },
+  { status: 'critical', labelKey: 'severity.critical', icon: ShieldAlert },
 ]
 
 const STATS = [
-  { end: 8, suffix: '', label: 'Personas', note: 'One feed, eight lenses' },
-  { end: 30, suffix: '+', label: 'Weather factors', note: 'Mapped and weighted' },
-  { end: 5, suffix: '', label: 'Severity levels', note: 'Safe through critical' },
-  { end: 100, suffix: '%', label: 'Explainable', note: 'Rule-based, not a black box' },
+  { end: 8, suffix: '', labelKey: 'stats.personasLabel', noteKey: 'stats.personasNote' },
+  { end: 30, suffix: '+', labelKey: 'stats.factorsLabel', noteKey: 'stats.factorsNote' },
+  { end: 5, suffix: '', labelKey: 'stats.severityLabel', noteKey: 'stats.severityNote' },
+  { end: 100, suffix: '%', labelKey: 'stats.explainableLabel', noteKey: 'stats.explainableNote' },
 ]
+
+/*
+  Headlines that highlight one word in a serif accent are stored as a single
+  string with an {accent} placeholder, so a translator can move the emphasised
+  word to wherever the sentence actually needs it — which is rarely the same
+  position as in English.
+*/
+function AccentHeadline({ template, accent, className, as: Tag = 'h2' }) {
+  const [before = '', after = ''] = template.split('{accent}')
+  return (
+    <Tag className={className}>
+      {before}
+      <span className="serif-accent">{accent}</span>
+      {after}
+    </Tag>
+  )
+}
 
 function TiltCard({ className = '', children, max = 6 }) {
   const ref = useTilt({ max })
@@ -58,16 +78,17 @@ function TiltCard({ className = '', children, max = 6 }) {
   )
 }
 
-function Stat({ end, suffix, label, note }) {
+function Stat({ end, suffix, labelKey, noteKey }) {
+  const { t, n } = useTranslation()
   const [ref, value] = useCountUp(end)
   return (
     <div className="stat" ref={ref}>
       <span className="stat-value">
-        {value}
+        {n(value)}
         {suffix}
       </span>
-      <span className="stat-label">{label}</span>
-      <span className="stat-note">{note}</span>
+      <span className="stat-label">{t(labelKey)}</span>
+      <span className="stat-note">{t(noteKey)}</span>
     </div>
   )
 }
@@ -76,6 +97,7 @@ export default function HomePage({ onGetStarted, onSignIn }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const progressRef = useRef(null)
+  const { t, n } = useTranslation()
   const weather = getWeather()
   const sampleAlert = ALERTS[0]
 
@@ -108,9 +130,9 @@ export default function HomePage({ onGetStarted, onSignIn }) {
   }
 
   const heroChips = [
-    { icon: Wind, label: 'Air quality', value: `${weather.aqi}`, note: weather.aqiCategory, tone: 'warning', pos: 'chip-a' },
-    { icon: Sun, label: 'UV index', value: `${weather.uvIndex}`, note: 'High', tone: 'caution', pos: 'chip-b' },
-    { icon: CloudRain, label: 'Rain chance', value: `${weather.rainProbability}%`, note: 'Next 6h', tone: 'info', pos: 'chip-c' },
+    { icon: Wind, label: t('hero.chipAirQuality'), value: n(weather.aqi), note: t(`aqiCategory.${weather.aqiCategory.toLowerCase()}`, null, weather.aqiCategory), tone: 'warning', pos: 'chip-a' },
+    { icon: Sun, label: t('hero.chipUvIndex'), value: n(weather.uvIndex), note: t('hero.chipHigh'), tone: 'caution', pos: 'chip-b' },
+    { icon: CloudRain, label: t('hero.chipRainChance'), value: `${n(weather.rainProbability)}%`, note: t('hero.chipNext6h'), tone: 'info', pos: 'chip-c' },
   ]
 
   return (
@@ -126,24 +148,25 @@ export default function HomePage({ onGetStarted, onSignIn }) {
           </a>
 
           <nav className="nav-links">
-            <a href="#how" onClick={(e) => handleNavClick(e, 'how')}>How it works</a>
-            <a href="#personas" onClick={(e) => handleNavClick(e, 'personas')}>Personas</a>
-            <a href="#alerts" onClick={(e) => handleNavClick(e, 'alerts')}>Alerts</a>
-            <a href="#features" onClick={(e) => handleNavClick(e, 'features')}>Features</a>
+            <a href="#how" onClick={(e) => handleNavClick(e, 'how')}>{t('nav.howItWorks')}</a>
+            <a href="#personas" onClick={(e) => handleNavClick(e, 'personas')}>{t('nav.personas')}</a>
+            <a href="#alerts" onClick={(e) => handleNavClick(e, 'alerts')}>{t('nav.alerts')}</a>
+            <a href="#features" onClick={(e) => handleNavClick(e, 'features')}>{t('nav.features')}</a>
           </nav>
 
           <div className="nav-actions">
+            <LanguageSwitcher className="nav-lang" />
             <ThemeToggle />
             <button type="button" className="btn btn-ghost btn-sm nav-signin" onClick={onSignIn}>
-              Sign in
+              {t('common.signIn')}
             </button>
             <button type="button" className="btn btn-primary btn-sm" onClick={onGetStarted}>
-              Get started
+              {t('common.getStarted')}
             </button>
             <button
               type="button"
               className="nav-burger"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={menuOpen ? t('common.closeMenu') : t('common.openMenu')}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
             >
@@ -157,17 +180,21 @@ export default function HomePage({ onGetStarted, onSignIn }) {
       {/* Mobile drawer */}
       <div className={`nav-drawer ${menuOpen ? 'is-open' : ''}`}>
         <nav>
-          <a href="#how" onClick={(e) => handleNavClick(e, 'how')}>How it works</a>
-          <a href="#personas" onClick={(e) => handleNavClick(e, 'personas')}>Personas</a>
-          <a href="#alerts" onClick={(e) => handleNavClick(e, 'alerts')}>Alerts</a>
-          <a href="#features" onClick={(e) => handleNavClick(e, 'features')}>Features</a>
+          <a href="#how" onClick={(e) => handleNavClick(e, 'how')}>{t('nav.howItWorks')}</a>
+          <a href="#personas" onClick={(e) => handleNavClick(e, 'personas')}>{t('nav.personas')}</a>
+          <a href="#alerts" onClick={(e) => handleNavClick(e, 'alerts')}>{t('nav.alerts')}</a>
+          <a href="#features" onClick={(e) => handleNavClick(e, 'features')}>{t('nav.features')}</a>
         </nav>
         <div className="nav-drawer-theme">
-          Appearance
+          {t('language.label')}
+          <LanguageSwitcher align="right" />
+        </div>
+        <div className="nav-drawer-theme">
+          {t('common.appearance')}
           <ThemeToggle />
         </div>
-        <button type="button" className="btn btn-ghost btn-block" onClick={onSignIn}>Sign in</button>
-        <button type="button" className="btn btn-primary btn-block" onClick={onGetStarted}>Get started</button>
+        <button type="button" className="btn btn-ghost btn-block" onClick={onSignIn}>{t('common.signIn')}</button>
+        <button type="button" className="btn btn-primary btn-block" onClick={onGetStarted}>{t('common.getStarted')}</button>
       </div>
 
       {/* --------------------------------------------------------- Hero */}
@@ -187,44 +214,44 @@ export default function HomePage({ onGetStarted, onSignIn }) {
             <RevealItem>
               <span className="pill">
                 <span className="pill-dot" />
-                Smart India Hackathon 2026 · SIH26076
+                {t('hero.badge')}
               </span>
             </RevealItem>
 
             <RevealItem>
-              <h1 className="display-1 hero-title">
-                Weather that <span className="serif-accent">understands</span> the day you’re having.
-              </h1>
+              <AccentHeadline
+                as="h1"
+                className="display-1 hero-title"
+                template={t('hero.title')}
+                accent={t('hero.titleAccent')}
+              />
             </RevealItem>
 
             <RevealItem>
-              <p className="lede hero-lede">
-                MAUSAM turns one raw forecast into eight different homepages — each ordered around
-                the conditions that actually change what you do next.
-              </p>
+              <p className="lede hero-lede">{t('hero.lede')}</p>
             </RevealItem>
 
             <RevealItem className="hero-actions">
               <button type="button" className="btn btn-primary btn-lg" onClick={onGetStarted}>
-                Get started <ArrowRight size={16} />
+                {t('common.getStarted')} <ArrowRight size={16} />
               </button>
               <a href="#how" className="btn btn-glass btn-lg" onClick={(e) => handleNavClick(e, 'how')}>
-                See how it works
+                {t('hero.seeHow')}
               </a>
             </RevealItem>
 
             <RevealItem className="hero-stats">
               <div>
-                <strong>8</strong>
-                <span>personas</span>
+                <strong>{n(8)}</strong>
+                <span>{t('hero.statPersonas')}</span>
               </div>
               <div>
-                <strong>5</strong>
-                <span>severity levels</span>
+                <strong>{n(5)}</strong>
+                <span>{t('hero.statSeverity')}</span>
               </div>
               <div>
-                <strong>100%</strong>
-                <span>explainable rules</span>
+                <strong>{n(100)}%</strong>
+                <span>{t('hero.statExplainable')}</span>
               </div>
             </RevealItem>
           </motion.div>
@@ -253,7 +280,7 @@ export default function HomePage({ onGetStarted, onSignIn }) {
           <div className="hero-marquee-track">
             {[...PERSONAS, ...PERSONAS].map((p, i) => (
               <span className="hero-marquee-item" key={`${p.id}-${i}`}>
-                <p.icon size={14} strokeWidth={2} /> {p.title}
+                <p.icon size={14} strokeWidth={2} /> {t(p.titleKey)}
               </span>
             ))}
           </div>
@@ -275,7 +302,7 @@ export default function HomePage({ onGetStarted, onSignIn }) {
         <div className="section-inner">
           <div className="stats-band surface">
             {STATS.map((s) => (
-              <Stat key={s.label} {...s} />
+              <Stat key={s.labelKey} {...s} />
             ))}
           </div>
         </div>
@@ -285,8 +312,8 @@ export default function HomePage({ onGetStarted, onSignIn }) {
       <section className="section" id="how">
         <div className="section-inner">
           <Reveal className="section-head is-centered">
-            <span className="eyebrow"><Sparkles size={13} /> How it works</span>
-            <h2 className="display-2">Three steps to a homepage that fits your day</h2>
+            <span className="eyebrow"><Sparkles size={13} /> {t('steps.eyebrow')}</span>
+            <h2 className="display-2">{t('steps.title')}</h2>
           </Reveal>
 
           <RevealGroup className="steps">
@@ -294,8 +321,8 @@ export default function HomePage({ onGetStarted, onSignIn }) {
               <RevealItem key={s.num}>
                 <TiltCard className="step surface">
                   <span className="step-num">{s.num}</span>
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
+                  <h3>{t(s.titleKey)}</h3>
+                  <p>{t(s.descKey)}</p>
                 </TiltCard>
               </RevealItem>
             ))}
@@ -307,16 +334,15 @@ export default function HomePage({ onGetStarted, onSignIn }) {
       <section className="section section-tinted" id="personas">
         <div className="section-inner">
           <Reveal className="section-head is-centered">
-            <span className="eyebrow">The core idea</span>
-            <h2 className="display-2">
-              One sky. <span className="serif-accent">Eight</span> different days.
-            </h2>
+            <span className="eyebrow">{t('story.eyebrow')}</span>
+            <AccentHeadline
+              className="display-2"
+              template={t('story.title')}
+              accent={t('story.titleAccent')}
+            />
             {/* Deliberately not "the panel on the left" — it sits on top once
                 the layout collapses to a single column on phones. */}
-            <p className="lede">
-              Keep scrolling — the dashboard panel re-sorts itself for every persona, from the exact
-              same {weather.location} forecast.
-            </p>
+            <p className="lede">{t('story.lede', { location: tCity(t, weather.location) })}</p>
           </Reveal>
 
           <ScrollStory />
@@ -327,8 +353,8 @@ export default function HomePage({ onGetStarted, onSignIn }) {
       <section className="section" id="alerts">
         <div className="section-inner">
           <Reveal className="section-head is-centered">
-            <span className="eyebrow">Smart alerts</span>
-            <h2 className="display-2">Alerts that tell you what, when, why — and what to do</h2>
+            <span className="eyebrow">{t('alertsSection.eyebrow')}</span>
+            <h2 className="display-2">{t('alertsSection.title')}</h2>
           </Reveal>
         </div>
 
@@ -342,7 +368,7 @@ export default function HomePage({ onGetStarted, onSignIn }) {
             <div className="severity-legend">
               {SEVERITY_LEGEND.map((s) => (
                 <span key={s.status} className={`severity-legend-item status-${s.status}`}>
-                  <s.icon size={13} /> {s.label}
+                  <s.icon size={13} /> {t(s.labelKey)}
                 </span>
               ))}
             </div>
@@ -354,19 +380,19 @@ export default function HomePage({ onGetStarted, onSignIn }) {
       <section className="section section-tinted" id="features">
         <div className="section-inner">
           <Reveal className="section-head is-centered">
-            <span className="eyebrow">Why MAUSAM</span>
-            <h2 className="display-2">Everything a weather product needs to feel trustworthy</h2>
+            <span className="eyebrow">{t('features.eyebrow')}</span>
+            <h2 className="display-2">{t('features.title')}</h2>
           </Reveal>
 
           <RevealGroup className="feature-grid" stagger={0.06}>
             {FEATURES.map((f) => (
-              <RevealItem key={f.title} className={f.wide ? 'is-wide' : ''}>
+              <RevealItem key={f.titleKey} className={f.wide ? 'is-wide' : ''}>
                 <TiltCard className="feature-card surface">
                   <span className="feature-icon">
                     <f.icon size={19} strokeWidth={2} />
                   </span>
-                  <h3>{f.title}</h3>
-                  <p>{f.desc}</p>
+                  <h3>{t(f.titleKey)}</h3>
+                  <p>{t(f.descKey)}</p>
                 </TiltCard>
               </RevealItem>
             ))}
@@ -380,12 +406,14 @@ export default function HomePage({ onGetStarted, onSignIn }) {
           <span /><span /><span />
         </div>
         <Reveal className="cta-inner">
-          <h2 className="display-2">
-            Ready to see weather <span className="serif-accent">differently</span>?
-          </h2>
-          <p className="lede">Create an account and get a homepage that actually understands your day.</p>
+          <AccentHeadline
+            className="display-2"
+            template={t('cta.title')}
+            accent={t('cta.titleAccent')}
+          />
+          <p className="lede">{t('cta.lede')}</p>
           <button type="button" className="btn btn-primary btn-lg" onClick={onGetStarted}>
-            Get started <ArrowRight size={16} />
+            {t('common.getStarted')} <ArrowRight size={16} />
           </button>
         </Reveal>
       </section>
@@ -395,15 +423,11 @@ export default function HomePage({ onGetStarted, onSignIn }) {
         <div className="footer-inner">
           <div className="footer-brand">
             <Logo size={28} />
-            <p>Personalized weather intelligence — one forecast, eight ways of reading it.</p>
+            <p>{t('footer.tagline')}</p>
           </div>
           <div className="footer-meta">
-            <p>Prototype for Smart India Hackathon 2026 · Problem Statement SIH26076</p>
-            <p className="footer-muted">
-              Conceptual student submission for the Ministry of Earth Sciences (IMD) Smart Automation
-              theme. Not an official IMD product, and weather values shown are mock data.
-              Globe and Moon imagery: NASA Visible Earth (Blue Marble / Black Marble), public domain.
-            </p>
+            <p>{t('footer.meta')}</p>
+            <p className="footer-muted">{t('footer.disclaimer')}</p>
           </div>
         </div>
       </footer>

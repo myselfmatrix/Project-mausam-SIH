@@ -5,7 +5,9 @@ import {
   Sprout, LocateFixed, Sparkles, Bell,
 } from 'lucide-react'
 import { PERSONAS, getPersona } from '../data/personaData'
+import { INTERESTS } from '../data/interestData'
 import Logo from '../components/brand/Logo'
+import { useTranslation } from '../i18n/useTranslation'
 // Reuse the persona-card / interest-chip visual language already
 // established in the dashboard's Personalize tab instead of inventing a
 // new one.
@@ -13,44 +15,38 @@ import '../components/dashboard/tabs/Tabs.css'
 import './OnboardingPage.css'
 
 const LOCATION_OPTIONS = [
-  { id: 'current', label: 'Current location', icon: LocateFixed },
-  { id: 'home', label: 'Home', icon: Home },
-  { id: 'college', label: 'College', icon: GraduationCap },
-  { id: 'office', label: 'Office', icon: Briefcase },
-  { id: 'farm', label: 'Farm', icon: Sprout },
-  { id: 'custom', label: 'Custom', icon: MapPin },
-]
-
-// Same checklist used by PersonalizeTab.jsx's "Notify me about" chips.
-const PRIORITY_OPTIONS = [
-  'Weather alerts', 'Air quality', 'UV', 'Rain', 'Travel',
-  'Outdoor activity', 'Commute', 'Agriculture', 'Marine conditions',
+  { id: 'current', labelKey: 'onboarding.optCurrent', icon: LocateFixed },
+  { id: 'home', labelKey: 'onboarding.optHome', icon: Home },
+  { id: 'college', labelKey: 'onboarding.optCollege', icon: GraduationCap },
+  { id: 'office', labelKey: 'onboarding.optOffice', icon: Briefcase },
+  { id: 'farm', labelKey: 'onboarding.optFarm', icon: Sprout },
+  { id: 'custom', labelKey: 'onboarding.optCustom', icon: MapPin },
 ]
 
 const STEP_META = [
   {
     key: 'persona',
-    label: 'Persona',
-    title: 'What matters to you?',
-    subtitle: "Pick the one that's closest to your day-to-day. You can change this anytime in Personalize.",
+    labelKey: 'onboarding.personaLabel',
+    titleKey: 'onboarding.personaTitle',
+    subtitleKey: 'onboarding.personaSubtitle',
   },
   {
     key: 'location',
-    label: 'Location',
-    title: 'Where do you spend most of your time?',
-    subtitle: 'MAUSAM will center your dashboard around this place by default.',
+    labelKey: 'onboarding.locationLabel',
+    titleKey: 'onboarding.locationTitle',
+    subtitleKey: 'onboarding.locationSubtitle',
   },
   {
     key: 'priorities',
-    label: 'Priorities',
-    title: 'What would you like MAUSAM to prioritize?',
-    subtitle: 'Pick as many as you like — you can refine this later in Personalize.',
+    labelKey: 'onboarding.prioritiesLabel',
+    titleKey: 'onboarding.prioritiesTitle',
+    subtitleKey: 'onboarding.prioritiesSubtitle',
   },
   {
     key: 'finish',
-    label: 'Done',
-    title: 'Your MAUSAM experience is ready.',
-    subtitle: "Here's what we'll use to personalize your dashboard.",
+    labelKey: 'onboarding.finishLabel',
+    titleKey: 'onboarding.finishTitle',
+    subtitleKey: 'onboarding.finishSubtitle',
   },
 ]
 
@@ -67,6 +63,7 @@ const stepVariants = {
 }
 
 export default function OnboardingPage({ onComplete }) {
+  const { t, n } = useTranslation()
   const [step, setStep] = useState(0)
   const [persona, setPersona] = useState(null)
   const [locationContext, setLocationContext] = useState(null)
@@ -78,9 +75,11 @@ export default function OnboardingPage({ onComplete }) {
   }
 
   const selectedLocationOption = LOCATION_OPTIONS.find((o) => o.id === locationContext)
+  // A typed-in place is stored verbatim; a picked one is stored as its id and
+  // translated on the way out, so the summary follows the chosen language.
   const resolvedLocationLabel = locationContext === 'custom'
-    ? (customLocation.trim() || 'Custom location')
-    : (selectedLocationOption?.label ?? 'Not set')
+    ? (customLocation.trim() || t('onboarding.customLocation'))
+    : (selectedLocationOption ? t(selectedLocationOption.labelKey) : t('common.notSet'))
 
   const canContinue =
     step === 0 ? Boolean(persona) :
@@ -120,13 +119,17 @@ export default function OnboardingPage({ onComplete }) {
 
           <div>
             <p className="ob-progress-text">
-              Step {step + 1} of {STEP_META.length} · {STEP_META[step].label}
+              {t('onboarding.progress', {
+                current: step + 1,
+                total: STEP_META.length,
+                label: t(STEP_META[step].labelKey),
+              })}
             </p>
             <div className="ob-progress">
               {STEP_META.map((s, i) => (
                 <div className="ob-progress-item" key={s.key}>
                   <span className={`ob-progress-dot ${i < step ? 'is-done' : ''} ${i === step ? 'is-active' : ''}`}>
-                    {i < step ? <Check size={13} strokeWidth={2.5} /> : i + 1}
+                    {i < step ? <Check size={13} strokeWidth={2.5} /> : n(i + 1)}
                   </span>
                   {i < STEP_META.length - 1 && (
                     <span className={`ob-progress-line ${i < step ? 'is-done' : ''}`} />
@@ -154,8 +157,8 @@ export default function OnboardingPage({ onComplete }) {
                   <Sparkles size={24} strokeWidth={2} />
                 </span>
               )}
-              <h1 className="ob-step-title">{STEP_META[step].title}</h1>
-              <p className="ob-step-sub">{STEP_META[step].subtitle}</p>
+              <h1 className="ob-step-title">{t(STEP_META[step].titleKey)}</h1>
+              <p className="ob-step-sub">{t(STEP_META[step].subtitleKey)}</p>
 
               {step === 0 && (
                 <motion.div className="persona-select-grid" initial="hidden" animate="show" variants={stagger}>
@@ -171,8 +174,8 @@ export default function OnboardingPage({ onComplete }) {
                         <p.icon size={19} strokeWidth={2} />
                       </span>
                       <span>
-                        <p className="persona-select-title">{p.title}</p>
-                        <p className="persona-select-desc">{p.description}</p>
+                        <p className="persona-select-title">{t(p.titleKey)}</p>
+                        <p className="persona-select-desc">{t(p.descKey)}</p>
                       </span>
                       {persona === p.id && (
                         <Check size={18} color="var(--color-brand-600)" style={{ marginLeft: 'auto', flexShrink: 0 }} />
@@ -196,7 +199,7 @@ export default function OnboardingPage({ onComplete }) {
                         <span className="ob-location-icon">
                           <opt.icon size={18} strokeWidth={2} />
                         </span>
-                        <span className="ob-location-label">{opt.label}</span>
+                        <span className="ob-location-label">{t(opt.labelKey)}</span>
                         {locationContext === opt.id && (
                           <Check size={16} color="var(--color-brand-600)" className="ob-location-check" />
                         )}
@@ -215,7 +218,7 @@ export default function OnboardingPage({ onComplete }) {
                         <input
                           className="form-input ob-custom-input"
                           type="text"
-                          placeholder="e.g. Sector 62, Noida"
+                          placeholder={t('onboarding.customPlaceholder')}
                           value={customLocation}
                           onChange={(e) => setCustomLocation(e.target.value)}
                           autoFocus
@@ -228,14 +231,14 @@ export default function OnboardingPage({ onComplete }) {
 
               {step === 2 && (
                 <motion.div className="interest-chip-grid" initial="hidden" animate="show" variants={fadeUp}>
-                  {PRIORITY_OPTIONS.map((opt) => (
+                  {INTERESTS.map((opt) => (
                     <button
-                      key={opt}
+                      key={opt.id}
                       type="button"
-                      className={`interest-chip ${priorities.includes(opt) ? 'is-selected' : ''}`}
-                      onClick={() => togglePriority(opt)}
+                      className={`interest-chip ${priorities.includes(opt.id) ? 'is-selected' : ''}`}
+                      onClick={() => togglePriority(opt.id)}
                     >
-                      {opt}
+                      {t(opt.labelKey)}
                     </button>
                   ))}
                 </motion.div>
@@ -248,8 +251,8 @@ export default function OnboardingPage({ onComplete }) {
                       <personaObj.icon size={17} strokeWidth={2} />
                     </span>
                     <div>
-                      <p className="ob-summary-label">Persona</p>
-                      <p className="ob-summary-value">{personaObj.title}</p>
+                      <p className="ob-summary-label">{t('onboarding.summaryPersona')}</p>
+                      <p className="ob-summary-value">{t(personaObj.titleKey)}</p>
                     </div>
                   </div>
                   <div className="ob-summary-row">
@@ -257,7 +260,7 @@ export default function OnboardingPage({ onComplete }) {
                       <MapPin size={17} strokeWidth={2} />
                     </span>
                     <div>
-                      <p className="ob-summary-label">Location</p>
+                      <p className="ob-summary-label">{t('onboarding.summaryLocation')}</p>
                       <p className="ob-summary-value">{resolvedLocationLabel}</p>
                     </div>
                   </div>
@@ -266,9 +269,13 @@ export default function OnboardingPage({ onComplete }) {
                       <Bell size={17} strokeWidth={2} />
                     </span>
                     <div>
-                      <p className="ob-summary-label">Priorities</p>
+                      <p className="ob-summary-label">{t('onboarding.summaryPriorities')}</p>
                       <p className="ob-summary-value">
-                        {priorities.length ? priorities.join(', ') : 'None selected — add these anytime in Personalize'}
+                        {priorities.length
+                          ? priorities
+                              .map((id) => t(INTERESTS.find((i) => i.id === id)?.labelKey || '', null, id))
+                              .join(', ')
+                          : t('onboarding.noPriorities')}
                       </p>
                     </div>
                   </div>
@@ -283,17 +290,17 @@ export default function OnboardingPage({ onComplete }) {
         <div className="ob-footer-inner">
           {step > 0 ? (
             <button type="button" className="ob-btn-outline" onClick={handleBack}>
-              <ArrowLeft size={16} /> Back
+              <ArrowLeft size={16} /> {t('common.back')}
             </button>
           ) : <span />}
 
           {step < STEP_META.length - 1 ? (
             <button type="button" className="ob-btn-solid" disabled={!canContinue} onClick={handleNext}>
-              Continue <ArrowRight size={16} />
+              {t('common.continue')} <ArrowRight size={16} />
             </button>
           ) : (
             <button type="button" className="ob-btn-solid" onClick={handleFinish}>
-              Go to dashboard <ArrowRight size={16} />
+              {t('onboarding.goToDashboard')} <ArrowRight size={16} />
             </button>
           )}
         </div>

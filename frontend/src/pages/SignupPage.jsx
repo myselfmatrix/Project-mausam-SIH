@@ -4,6 +4,7 @@ import { User, Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import AuthLayout from '../components/AuthLayout'
 import FloatingLabelInput from '../components/FloatingLabelInput'
+import { useTranslation } from '../i18n/useTranslation'
 import './AuthPage.css'
 
 export default function SignupPage({ onSignupSuccess, onSwitchToLogin, onBackHome }) {
@@ -11,6 +12,7 @@ export default function SignupPage({ onSignupSuccess, onSwitchToLogin, onBackHom
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { signup, loading, error } = useAuth()
+  const { t } = useTranslation()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -24,16 +26,16 @@ export default function SignupPage({ onSignupSuccess, onSwitchToLogin, onBackHom
 
   return (
     <AuthLayout onBackHome={onBackHome}>
-      <span className="auth-eyebrow">Get started free</span>
-      <h1 className="auth-title">Create your account</h1>
-      <p className="auth-subtitle">One minute of setup, a lifetime of weather that fits you.</p>
+      <span className="auth-eyebrow">{t('auth.signupEyebrow')}</span>
+      <h1 className="auth-title">{t('auth.signupTitle')}</h1>
+      <p className="auth-subtitle">{t('auth.signupSubtitle')}</p>
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <FloatingLabelInput
           id="signup-name"
           type="text"
           name="name"
-          label="Full name"
+          label={t('auth.fieldName')}
           icon={User}
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -43,7 +45,7 @@ export default function SignupPage({ onSignupSuccess, onSwitchToLogin, onBackHom
           id="signup-email"
           type="email"
           name="email"
-          label="Email address"
+          label={t('auth.fieldEmail')}
           icon={Mail}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -54,14 +56,14 @@ export default function SignupPage({ onSignupSuccess, onSwitchToLogin, onBackHom
             id="signup-password"
             type="password"
             name="password"
-            label="Password"
+            label={t('auth.fieldPassword')}
             icon={Lock}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="new-password"
             minLength={6}
           />
-          <p className="auth-hint">At least 6 characters</p>
+          <p className="auth-hint">{t('auth.signupHint')}</p>
         </div>
 
         <AnimatePresence mode="wait">
@@ -80,14 +82,14 @@ export default function SignupPage({ onSignupSuccess, onSwitchToLogin, onBackHom
         </AnimatePresence>
 
         <button type="submit" className="btn btn-primary btn-lg btn-block auth-submit" disabled={loading}>
-          {loading ? <span className="auth-spinner" /> : <>Create account <ArrowRight size={16} /></>}
+          {loading ? <span className="auth-spinner" /> : <>{t('auth.signupSubmit')} <ArrowRight size={16} /></>}
         </button>
       </form>
 
       <p className="auth-switch">
-        Already have an account?{' '}
+        {t('auth.signupSwitchPrompt')}{' '}
         <button type="button" className="auth-switch-link" onClick={onSwitchToLogin}>
-          Log in
+          {t('auth.signupSwitchAction')}
         </button>
       </p>
     </AuthLayout>

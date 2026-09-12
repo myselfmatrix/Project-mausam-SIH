@@ -12,12 +12,14 @@ export function getPriorityMetrics(personaId) {
     .filter((m) => m.getValue)
 }
 
+// Labels are catalog keys: the band a score falls into is maths, but the word
+// for it is copy, and the caller translates it.
 const SCORE_STATUS = [
-  { min: 8, label: 'Excellent', status: 'safe' },
-  { min: 6.5, label: 'Good', status: 'safe' },
-  { min: 5, label: 'Fair', status: 'caution' },
-  { min: 3, label: 'Poor', status: 'warning' },
-  { min: 0, label: 'Avoid', status: 'critical' },
+  { min: 8, labelKey: 'score.excellent', status: 'safe' },
+  { min: 6.5, labelKey: 'score.good', status: 'safe' },
+  { min: 5, labelKey: 'score.fair', status: 'caution' },
+  { min: 3, labelKey: 'score.poor', status: 'warning' },
+  { min: 0, labelKey: 'score.avoid', status: 'critical' },
 ]
 
 // Rule-based (not AI) comfort score: start at 10, subtract this persona's
@@ -28,15 +30,15 @@ export function getComfortScore(personaId, weather) {
   const factors = persona.priority
     .map((key) => ({ key, ...getMetric(key) }))
     .filter((m) => typeof m.getPenalty === 'function')
-    .map((m) => ({ label: m.label, penalty: m.getPenalty(weather) }))
+    .map((m) => ({ labelKey: m.labelKey, penalty: m.getPenalty(weather) }))
 
   const totalPenalty = factors.reduce((sum, f) => sum + f.penalty, 0)
   const score = Math.max(0, Math.min(10, 10 - totalPenalty))
-  const { label, status } = SCORE_STATUS.find((s) => score >= s.min)
+  const { labelKey, status } = SCORE_STATUS.find((s) => score >= s.min)
 
   return {
     score: Math.round(score * 10) / 10,
-    label,
+    labelKey,
     status,
     factors: factors.sort((a, b) => b.penalty - a.penalty).slice(0, 3),
   }

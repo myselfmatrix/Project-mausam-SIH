@@ -4,6 +4,8 @@ import { PERSONAS } from '../../data/personaData'
 import { getWeather } from '../../data/weatherData'
 import { getPriorityMetrics, getComfortScore } from '../../utils/personalization'
 import MetricCard from '../dashboard/MetricCard'
+import { useTranslation } from '../../i18n/useTranslation'
+import { tCity, tCondition } from '../../i18n/vocab'
 import './ScrollStory.css'
 
 /**
@@ -16,6 +18,7 @@ import './ScrollStory.css'
 export default function ScrollStory() {
   const [activeIndex, setActiveIndex] = useState(0)
   const blockRefs = useRef([])
+  const { t, n } = useTranslation()
   const weather = getWeather()
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export default function ScrollStory() {
       <div className="story-sticky">
         <div className="story-panel surface">
           <div className="story-panel-head">
-            <span className="story-panel-eyebrow">Your homepage</span>
+            <span className="story-panel-eyebrow">{t('story.yourHomepage')}</span>
             <AnimatePresence mode="wait">
               <motion.div
                 key={persona.id}
@@ -61,16 +64,16 @@ export default function ScrollStory() {
                 <span className="story-panel-icon">
                   <persona.icon size={17} strokeWidth={2} />
                 </span>
-                {persona.title}
+                {t(persona.titleKey)}
               </motion.div>
             </AnimatePresence>
           </div>
 
           <div className={`story-score status-${comfort.status}`}>
-            <span className="story-score-value">{comfort.score}</span>
+            <span className="story-score-value">{n(comfort.score)}</span>
             <span className="story-score-meta">
-              <strong>{comfort.label}</strong>
-              <span>Comfort score for {weather.location}</span>
+              <strong>{t(comfort.labelKey)}</strong>
+              <span>{t('story.comfortFor', { location: tCity(t, weather.location) })}</span>
             </span>
           </div>
 
@@ -87,9 +90,9 @@ export default function ScrollStory() {
                 <MetricCard
                   key={m.key}
                   icon={m.icon}
-                  label={m.label}
-                  value={m.getValue(weather)}
-                  caption={m.getCaption ? m.getCaption(weather) : null}
+                  label={t(m.labelKey)}
+                  value={m.getValue(weather, t, n)}
+                  caption={m.getCaption ? m.getCaption(weather, t, n) : null}
                   status={m.getStatus ? m.getStatus(weather) : null}
                 />
               ))}
@@ -97,7 +100,10 @@ export default function ScrollStory() {
           </AnimatePresence>
 
           <p className="story-panel-foot">
-            {weather.temperature}°C · {weather.condition} · unchanged for everyone
+            {t('story.foot', {
+              temperature: n(weather.temperature),
+              condition: tCondition(t, weather.condition),
+            })}
           </p>
         </div>
       </div>
@@ -112,17 +118,17 @@ export default function ScrollStory() {
             }}
             className={`story-block ${i === activeIndex ? 'is-active' : ''}`}
           >
-            <span className="story-block-index">{String(i + 1).padStart(2, '0')}</span>
+            <span className="story-block-index">{n(String(i + 1).padStart(2, '0'))}</span>
             <span className="story-block-icon">
               <p.icon size={20} strokeWidth={2} />
             </span>
-            <h3>{p.title}</h3>
-            <p>{p.description}</p>
+            <h3>{t(p.titleKey)}</h3>
+            <p>{t(p.descKey)}</p>
             <ul className="story-block-priorities">
               {getPriorityMetrics(p.id)
                 .slice(0, 4)
                 .map((m) => (
-                  <li key={m.key}>{m.label}</li>
+                  <li key={m.key}>{t(m.labelKey)}</li>
                 ))}
             </ul>
           </div>

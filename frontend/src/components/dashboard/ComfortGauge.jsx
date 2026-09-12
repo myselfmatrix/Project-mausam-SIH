@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { motion } from 'framer-motion'
 import { Info } from 'lucide-react'
+import { useTranslation } from '../../i18n/useTranslation'
 import './ComfortGauge.css'
 
 const R = 54
@@ -15,6 +16,7 @@ const SWEEP = 0.75
  * a rule-based score you can trace, so the penalties are shown, not hidden.
  */
 export default function ComfortGauge({ title, score, label, status, factors = [] }) {
+  const { t, n } = useTranslation()
   const uid = useId().replace(/:/g, '')
   const progress = Math.max(0, Math.min(1, score / 10))
 
@@ -61,9 +63,9 @@ export default function ComfortGauge({ title, score, label, status, factors = []
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            {score}
+            {n(score)}
           </motion.strong>
-          <span>out of 10</span>
+          <span>{t('gauge.outOf')}</span>
         </div>
       </div>
 
@@ -74,11 +76,11 @@ export default function ComfortGauge({ title, score, label, status, factors = []
         {factors.length > 0 ? (
           <ul className="gauge-factors">
             {factors.map((f) => (
-              <li key={f.label}>
+              <li key={f.labelKey}>
                 <span className="gauge-factor-head">
-                  <span className="gauge-factor-name">{f.label}</span>
+                  <span className="gauge-factor-name">{t(f.labelKey)}</span>
                   <span className="gauge-factor-cost">
-                    {f.penalty > 0 ? `−${f.penalty.toFixed(1)}` : 'no impact'}
+                    {f.penalty > 0 ? `−${n(f.penalty.toFixed(1))}` : t('gauge.noImpact')}
                   </span>
                 </span>
                 <span className="gauge-factor-track">
@@ -93,12 +95,12 @@ export default function ComfortGauge({ title, score, label, status, factors = []
             ))}
           </ul>
         ) : (
-          <p className="gauge-empty">Nothing is working against you right now.</p>
+          <p className="gauge-empty">{t('gauge.empty')}</p>
         )}
 
         <p className="gauge-note">
           <Info size={12} strokeWidth={2.4} />
-          Rule-based: 10 minus the weighted penalties above.
+          {t('gauge.note')}
         </p>
       </div>
     </section>

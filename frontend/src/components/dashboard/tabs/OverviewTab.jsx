@@ -12,7 +12,9 @@ import { getComfortScore } from '../../../utils/personalization'
 import { getMetric } from '../../../data/metricDefs'
 import { PERSONAS } from '../../../data/personaData'
 import useDashboardLayout from '../../../hooks/useDashboardLayout'
-import { getGreeting } from '../../../utils/format'
+import { getGreetingKey } from '../../../utils/format'
+import { useTranslation } from '../../../i18n/useTranslation'
+import { tCity } from '../../../i18n/vocab'
 import './Tabs.css'
 
 const fadeUp = {
@@ -25,11 +27,15 @@ const stagger = {
   show: { transition: { staggerChildren: 0.06 } },
 }
 
-const TODAY = new Date().toLocaleDateString([], {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-})
+/* Formatted per language rather than once at module load, so the weekday and
+   month names follow the reader's locale like every other string does. */
+function todayIn(language) {
+  return new Date().toLocaleDateString(language, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  })
+}
 
 export default function OverviewTab({
   weather,
@@ -44,10 +50,12 @@ export default function OverviewTab({
   onRetryWeather,
 }) {
   const [customizeMode, setCustomizeMode] = useState(false)
+  const { t, n, language } = useTranslation()
   const comfort = getComfortScore(persona.id, weather)
   const layout = useDashboardLayout(persona.id)
 
   const firstName = userName ? userName.split(' ')[0] : ''
+  const personaTitle = t(persona.titleKey)
 
   return (
     <motion.div className="tab-panel" initial="hidden" animate="show" variants={stagger}>
@@ -55,25 +63,48 @@ export default function OverviewTab({
         <div className="ov-head-text">
           <p className="ov-meta">
             <span>
-              <CalendarDays size={13} strokeWidth={2.2} /> {TODAY}
+              <CalendarDays size={13} strokeWidth={2.2} /> {todayIn(language)}
             </span>
             <span>
-              <MapPin size={13} strokeWidth={2.2} /> {weather.location}
+              <MapPin size={13} strokeWidth={2.2} /> {tCity(t, weather.location)}
             </span>
             <span
               className={`ov-live ${weatherLoading ? 'is-syncing' : weatherIsLive ? 'is-live' : 'is-cached'}`}
-              title={weatherLoading ? 'Syncing latest conditions' : weatherIsLive ? 'Live data' : 'Showing cached data'}
+              title={
+                weatherLoading
+                  ? t('overview.syncingTitle')
+                  : weatherIsLive
+                    ? t('overview.liveTitle')
+                    : t('overview.cachedTitle')
+              }
             >
               <Radio size={11} strokeWidth={2.4} />
-              {weatherLoading ? 'Syncing' : weatherIsLive ? 'Live' : 'Cached'}
+              {weatherLoading
+                ? t('overview.syncing')
+                : weatherIsLive
+                  ? t('overview.live')
+                  : t('overview.cached')}
             </span>
           </p>
           <h1>
-            {getGreeting()}
+            {t(getGreetingKey())}
             {firstName ? `, ${firstName}` : ''}.
           </h1>
+          {/* The persona name is bolded inside a full sentence, so the sentence
+              is one catalog string split on its placeholder — word order
+              differs by language and hard-coding it around a <strong> would
+              force English grammar onto every translation. */}
           <p className="ov-sub">
-            Here&apos;s what matters for your <strong>{persona.title.toLowerCase()}</strong> today.
+            {(() => {
+              const [before = '', after = ''] = t('overview.subtitle').split('{persona}')
+              return (
+                <>
+                  {before}
+                  <strong>{personaTitle}</strong>
+                  {after}
+                </>
+              )
+            })()}
           </p>
         </div>
 
@@ -81,7 +112,7 @@ export default function OverviewTab({
             home screen rather than only inside Personalize. */}
         {onPersonaChange && (
           <div className="ov-persona-switch">
-            <span className="ov-persona-label">Viewing as</span>
+            <span className="ov-persona-label">{t('overview.viewingAs')}</span>
             <div className="ov-persona-pills">
               {PERSONAS.map((p) => (
                 <button
@@ -89,11 +120,11 @@ export default function OverviewTab({
                   type="button"
                   className={`ov-persona-pill ${p.id === persona.id ? 'is-active' : ''}`}
                   onClick={() => onPersonaChange(p.id)}
-                  title={p.title}
+                  title={t(p.titleKey)}
                   aria-pressed={p.id === persona.id}
                 >
                   <p.icon size={14} strokeWidth={2.2} />
-                  <span>{p.label}</span>
+                  <span>{t(p.labelKey)}</span>
                 </button>
               ))}
             </div>
@@ -126,9 +157,9 @@ export default function OverviewTab({
 
       <motion.div className="ov-split" variants={fadeUp}>
         <ComfortGauge
-          title={`${persona.label} comfort score`}
+          title={t('overview.comfortTitle', { persona: t(persona.labelKey) })}
           score={comfort.score}
-          label={comfort.label}
+          label={t(comfort.labelKey)}
           status={comfort.status}
           factors={comfort.factors}
         />
@@ -136,7 +167,7 @@ export default function OverviewTab({
       </motion.div>
 
       <motion.div className="ov-section-bar" variants={fadeUp}>
-        <p className="section-label">Prioritized for you — {persona.title}</p>
+        <p className="section-label">{t('overview.prioritized', { persona: personaTitle })}</p>
         <CustomizeDashboard
           active={customizeMode}
           onToggle={() => setCustomizeMode((v) => !v)}
@@ -157,9 +188,9 @@ export default function OverviewTab({
             <motion.div key={key} variants={fadeUp} layout>
               <MetricCard
                 icon={m.icon}
-                label={m.label}
-                value={m.getValue(weather)}
-                caption={m.getCaption ? m.getCaption(weather) : null}
+                label={t(m.labelKey)}
+                value={m.getValue(weather, t, n)}
+                caption={m.getCaption ? m.getCaption(weather, t, n) : null}
                 status={m.getStatus ? m.getStatus(weather) : null}
                 customize={
                   customizeMode

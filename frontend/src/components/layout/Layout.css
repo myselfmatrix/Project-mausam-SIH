@@ -129,11 +129,14 @@
 }
 
 /* ============ DESKTOP SIDEBAR ============ */
+/* Fluid rather than fixed: translated navigation labels run 20–40% longer
+   than the English ones, and a truncated nav item is unreadable in a script
+   the reader may only just be able to find their way around in. */
 .dsidebar {
   position: sticky;
   top: 65px;
   align-self: flex-start;
-  width: 236px;
+  width: clamp(236px, 18vw, 310px);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -164,11 +167,12 @@
   transition: background var(--transition-fast), color var(--transition-fast);
 }
 
+/* Wraps to a second line instead of ellipsizing — "Alerts" fits anywhere,
+   "எச்சரிக்கைகள்" does not, and half a word is worse than two lines. */
 .dsidebar-label {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
 }
 
 /* Active indicator on the inside edge */
@@ -283,9 +287,9 @@
 
 .dsidebar-persona span {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+  text-align: start;
 }
 
 .dsidebar-persona:hover {
@@ -333,8 +337,12 @@
     min-width: 0;
   }
 
+  /* Six tabs across a phone is tight in any language and tighter in a longer
+     script, so the label shrinks a step before it is allowed to clip. */
   .mnav-item span {
     max-width: 100%;
+    font-size: 0.625rem;
+    line-height: 1.25;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -373,5 +381,18 @@
      a duplicate affordance once the header gets this tight. */
   .dnav-search {
     display: none;
+  }
+}
+
+/* Touch sizing for the dashboard chrome — coarse pointers only, so the
+   desktop bar keeps its compact height. */
+@media (hover: none) and (pointer: coarse) {
+  .dnav-location {
+    min-height: 40px;
+  }
+
+  .dnav-icon-btn {
+    min-width: 40px;
+    min-height: 40px;
   }
 }

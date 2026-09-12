@@ -661,40 +661,57 @@
     margin-left: auto;
   }
 
-  /* The copy reads first, then the globe — matches how a phone screen
-     actually reads top-down, and gives the globe context instead of an
-     unexplained object floating above the badge. `order` is CSS-only, so
-     desktop's DOM order and absolute positioning are untouched. */
+  /*
+    On a phone the globe moves behind the copy instead of below it.
+
+    Stacking them vertically pushed the headline up and left the planet
+    stranded in its own box with nothing around it. Behind the text it does
+    the job it does on desktop — it sets the scene — without taking any of
+    the vertical space the copy needs. Dimmed enough that white display type
+    stays crisp over it, not so far that it reads as a stain.
+  */
   .hero {
     flex-direction: column;
-    justify-content: flex-start;
-    min-height: auto;
+    justify-content: center;
+    min-height: 100dvh;
     padding-bottom: var(--space-16);
   }
   .hero-inner {
-    order: 1;
+    position: relative;
+    z-index: 2;
     padding-top: var(--space-6);
   }
   .hero-scene {
-    order: 2;
-    position: relative;
-    top: auto;
+    position: absolute;
+    /* Nudged up and right: dead-centre puts the whole disc under the headline
+       and none of it stays legible. Off-centre, the lit limb surfaces in the
+       ragged-right space beside the type. */
+    top: 44%;
+    left: 58%;
     right: auto;
-    transform: none;
-    width: min(420px, 88vw);
-    max-height: 40vh;
-    margin: var(--space-2) auto var(--space-2);
-    overflow: hidden;
-    border-radius: var(--radius-xl);
+    z-index: 0;
+    width: min(780px, 142vw);
+    aspect-ratio: 1;
+    max-height: none;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    opacity: 0.62;
+    pointer-events: none;
   }
-  /* The camera frame leaves headroom for the Moon's full orbit — necessary
-     on the wide desktop box, but it reads as dead space around a
-     small-looking planet inside a narrow phone box. A modest crop tightens
-     the framing; capped well under the Moon's max orbital excursion
-     (~1.22x) so it's never clipped mid-swing. */
-  .hero-scene .atmos-scene,
-  .hero-scene .atmos-fallback {
-    transform: scale(1.16);
+  /* Knocks back the left side, where every line of copy starts, and leaves
+     the right of the disc alone. The intro's hand-off matches the scene's own
+     opacity, not this, so the two stay in step through the cross-fade. */
+  .hero-scene::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      rgba(3, 6, 20, 0.62) 0%,
+      rgba(3, 6, 20, 0.3) 38%,
+      transparent 68%
+    );
   }
   .hero-copy {
     max-width: none;
@@ -726,8 +743,11 @@
   .hero-inner {
     padding-inline: var(--space-4);
   }
+  /* Still proportional to the screen, not clamped to a box: the globe is a
+     backdrop here, and pinning it to 340px on a 390px phone shrinks it to a
+     marble floating behind the headline. */
   .hero-scene {
-    width: min(340px, 86vw);
+    width: min(700px, 158vw);
   }
   .hero-actions {
     width: 100%;

@@ -1,6 +1,7 @@
 import { useId, useMemo } from 'react'
 import { CloudRain } from 'lucide-react'
 import { HOURLY_FORECAST } from '../../data/weatherData'
+import { useTranslation } from '../../i18n/useTranslation'
 import './HourlyStrip.css'
 
 const STEP = 76 // px between hours
@@ -29,6 +30,7 @@ function smoothPath(points) {
 }
 
 export default function HourlyStrip({ hours = HOURLY_FORECAST }) {
+  const { t, n } = useTranslation()
   const uid = useId().replace(/:/g, '')
 
   const { points, linePath, areaPath, width, nowIndex } = useMemo(() => {
@@ -65,10 +67,10 @@ export default function HourlyStrip({ hours = HOURLY_FORECAST }) {
   return (
     <section className="hourly surface">
       <header className="hourly-head">
-        <h3>Next 12 hours</h3>
+        <h3>{t('hourly.title')}</h3>
         <span className="hourly-legend">
-          <span className="hourly-legend-temp" /> Temperature
-          <span className="hourly-legend-rain" /> Rain chance
+          <span className="hourly-legend-temp" /> {t('hourly.legendTemp')}
+          <span className="hourly-legend-rain" /> {t('hourly.legendRain')}
         </span>
       </header>
 
@@ -107,15 +109,15 @@ export default function HourlyStrip({ hours = HOURLY_FORECAST }) {
                 key={h.time}
                 style={{ width: STEP }}
               >
-                <span className="hourly-temp">{h.temp}°</span>
-                <span className="hourly-bar-track" title={`${h.rain}% chance of rain`}>
+                <span className="hourly-temp">{n(h.temp)}°</span>
+                <span className="hourly-bar-track" title={t('hourly.rainTitle', { percent: h.rain })}>
                   <span className="hourly-bar" style={{ height: `${Math.max(h.rain, 3)}%` }} />
                 </span>
                 <span className="hourly-rain">
                   <CloudRain size={11} strokeWidth={2.2} />
-                  {h.rain}%
+                  {n(h.rain)}%
                 </span>
-                <span className="hourly-time">{i === nowIndex ? 'Now' : h.time}</span>
+                <span className="hourly-time">{i === nowIndex ? t('hourly.now') : n(h.time)}</span>
               </div>
             ))}
           </div>

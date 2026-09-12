@@ -10,9 +10,14 @@ import './styles/ui.css'
 import './index.css'
 
 import App from './App.jsx'
+import I18nProvider from './i18n/I18nProvider'
 
+// Every screen reads its copy from here, so the provider wraps the whole app
+// rather than any single page.
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <I18nProvider>
+      <App />
+    </I18nProvider>
   </React.StrictMode>,
 )

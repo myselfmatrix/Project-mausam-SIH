@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Droplets, Wind, Eye, Gauge, Sunrise, Sunset } from 'lucide-react'
+import { useTranslation } from '../../i18n/useTranslation'
+import { tCity, tCondition, tRegion, tWindDirection } from '../../i18n/vocab'
 import './SkyPanel.css'
 
 /* Maps a condition string onto one of five sky treatments. */
@@ -40,6 +42,7 @@ function solarPosition(sunrise, sunset, now = new Date()) {
 }
 
 export default function SkyPanel({ weather }) {
+  const { t, n } = useTranslation()
   const theme = skyTheme(weather.condition)
   const [{ progress, isDay }, setSolar] = useState(() =>
     solarPosition(weather.sunrise, weather.sunset),
@@ -60,11 +63,11 @@ export default function SkyPanel({ weather }) {
   const discY = 9 + (1 - Math.sin(progress * Math.PI)) * 40
 
   const stats = [
-    { icon: Droplets, label: 'Humidity', value: `${weather.humidity}%` },
-    { icon: Wind, label: 'Wind', value: `${weather.windSpeed} km/h ${weather.windDirection}` },
-    { icon: Eye, label: 'Visibility', value: `${weather.visibility} km` },
-    { icon: Gauge, label: 'Pressure', value: `${weather.pressure} hPa` },
-  ]
+    { key: 'humidity', label: t('sky.humidity'), value: `${n(weather.humidity)}%` },
+    { key: 'wind', label: t('sky.wind'), value: `${n(weather.windSpeed)} km/h ${tWindDirection(t, weather.windDirection)}` },
+    { key: 'visibility', label: t('sky.visibility'), value: `${n(weather.visibility)} km` },
+    { key: 'pressure', label: t('sky.pressure'), value: `${n(weather.pressure)} hPa` },
+  ].map((s, i) => ({ ...s, icon: [Droplets, Wind, Eye, Gauge][i] }))
 
   return (
     <section className={`sky sky-${theme} ${isDay ? 'is-day' : 'is-night'}`}>
@@ -108,8 +111,8 @@ export default function SkyPanel({ weather }) {
       <div className="sky-body">
         <div className="sky-main">
           <p className="sky-place">
-            {weather.location}
-            <span>{weather.region}</span>
+            {tCity(t, weather.location)}
+            <span>{tRegion(t, weather.region)}</span>
           </p>
 
           <motion.div
@@ -118,13 +121,13 @@ export default function SkyPanel({ weather }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            {weather.temperature}
+            {n(weather.temperature)}
             <span className="sky-temp-unit">°C</span>
           </motion.div>
 
-          <p className="sky-condition">{weather.condition}</p>
+          <p className="sky-condition">{tCondition(t, weather.condition)}</p>
           <p className="sky-feels">
-            Feels like {weather.feelsLike}° · H {weather.high}° / L {weather.low}°
+            {t('sky.feelsLike', { feelsLike: weather.feelsLike, high: weather.high, low: weather.low })}
           </p>
         </div>
 
@@ -139,14 +142,14 @@ export default function SkyPanel({ weather }) {
                 style={{ strokeDasharray: 1, strokeDashoffset: 1 - progress }}
               />
             </svg>
-            <span className="sky-arc-label">{isDay ? 'Daylight' : 'Night'}</span>
+            <span className="sky-arc-label">{isDay ? t('sky.daylight') : t('sky.night')}</span>
           </div>
           <div className="sky-sun-times">
             <span>
-              <Sunrise size={13} strokeWidth={2.2} /> {weather.sunrise}
+              <Sunrise size={13} strokeWidth={2.2} /> {n(weather.sunrise)}
             </span>
             <span>
-              <Sunset size={13} strokeWidth={2.2} /> {weather.sunset}
+              <Sunset size={13} strokeWidth={2.2} /> {n(weather.sunset)}
             </span>
           </div>
         </div>
@@ -154,7 +157,7 @@ export default function SkyPanel({ weather }) {
 
       <div className="sky-stats">
         {stats.map((s) => (
-          <div className="sky-stat" key={s.label}>
+          <div className="sky-stat" key={s.key}>
             <s.icon size={15} strokeWidth={2} />
             <span className="sky-stat-meta">
               <span className="sky-stat-label">{s.label}</span>

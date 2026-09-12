@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const { LANGUAGE_CODES } = require('../i18n/languages');
 
 /*
   Every handler here takes the account id from the verified JWT (req.userId),
@@ -43,6 +44,39 @@ exports.updatePersona = async (req, res) => {
   } catch (error) {
     console.error('updatePersona failed:', error);
     res.status(500).json({ error: 'Could not save your persona.' });
+  }
+};
+
+/*
+  The account's display language. The client applies its own choice
+  immediately and calls this to make it follow the user to their other
+  devices, so a failure here is never allowed to block the UI — it just means
+  the preference stays local.
+*/
+exports.updateLanguage = async (req, res) => {
+  try {
+    const { language } = req.body;
+    if (!language) {
+      return res.status(400).json({ error: 'A language is required.' });
+    }
+    if (!LANGUAGE_CODES.includes(language)) {
+      return res.status(400).json({
+        error: `Unsupported language "${language}".`,
+        supported: LANGUAGE_CODES
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { language },
+      { new: true, runValidators: true }
+    );
+    if (!user) return res.status(404).json({ error: 'Account not found.' });
+
+    res.json({ message: 'Language updated', ...user.toPublicJSON() });
+  } catch (error) {
+    console.error('updateLanguage failed:', error);
+    res.status(500).json({ error: 'Could not save your language.' });
   }
 };
 

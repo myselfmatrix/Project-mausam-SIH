@@ -1,14 +1,10 @@
 import { AlertCircle, CloudOff, RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslation } from '../../i18n/useTranslation'
 import './WeatherError.css'
 
 export default function WeatherError({ error, onRetry, isRetrying = false }) {
-  const messages = {
-    default: 'Weather data unavailable',
-    network: 'Connection lost — using cached data',
-    timeout: 'Weather service is slow',
-    parse: 'Data format issue',
-  }
+  const { t } = useTranslation()
 
   const getMessage = () => {
     if (error?.includes('Network')) return 'network'
@@ -18,7 +14,7 @@ export default function WeatherError({ error, onRetry, isRetrying = false }) {
   }
 
   const msgKey = getMessage()
-  const msg = messages[msgKey]
+  const msg = t(`weatherError.${msgKey}`)
 
   return (
     <motion.div
@@ -47,7 +43,7 @@ export default function WeatherError({ error, onRetry, isRetrying = false }) {
         className="weather-error-retry"
         onClick={onRetry}
         disabled={isRetrying}
-        title="Retry loading weather"
+        title={t('weatherError.retryTitle')}
       >
         <motion.span
           animate={isRetrying ? { rotate: 360 } : { rotate: 0 }}
@@ -59,7 +55,7 @@ export default function WeatherError({ error, onRetry, isRetrying = false }) {
         >
           <RefreshCw size={16} strokeWidth={2.2} />
         </motion.span>
-        {isRetrying ? 'Retrying…' : 'Retry'}
+        {isRetrying ? t('common.retrying') : t('common.retry')}
       </button>
     </motion.div>
   )

@@ -22,6 +22,23 @@
     />
     <meta property="og:type" content="website" />
 
+    <!--
+      Globe textures, fetched in parallel with the app bundle instead of after
+      it. Without these the browser only learns the URLs once the three.js
+      chunk has downloaded and mounted the canvas, which is what made the
+      planet arrive noticeably after the wordmark. as="image" preloads sit at
+      low priority, so they fill spare bandwidth rather than starving the JS.
+
+      crossorigin is required, not decorative: three's ImageLoader requests
+      with crossOrigin="anonymous", and a preload in a different CORS mode is
+      a cache miss — every map would download a second time.
+    -->
+    <link rel="preload" as="image" crossorigin href="/textures/earth_atmos_2048.jpg" />
+    <link rel="preload" as="image" crossorigin href="/textures/earth_lights_2048.png" />
+    <link rel="preload" as="image" crossorigin href="/textures/earth_specular_2048.jpg" />
+    <link rel="preload" as="image" crossorigin href="/textures/earth_normal_2048.jpg" />
+    <link rel="preload" as="image" crossorigin href="/textures/earth_clouds_1024.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

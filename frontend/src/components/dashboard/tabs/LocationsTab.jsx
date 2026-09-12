@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, X, Star } from 'lucide-react'
 import { SAVED_LOCATIONS } from '../../../data/locationData'
+import { useTranslation } from '../../../i18n/useTranslation'
+import { tCity, tCondition, tRegion } from '../../../i18n/vocab'
 import './Tabs.css'
 
 const fadeUp = {
@@ -18,6 +20,7 @@ const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.05 } } }
 // as primary actually drives what the rest of the dashboard displays, instead
 // of just flipping a cosmetic badge that nothing else reads.
 export default function LocationsTab({ activeLocation, onSetPrimary }) {
+  const { t, n } = useTranslation()
   const [locations, setLocations] = useState(SAVED_LOCATIONS)
   const [showForm, setShowForm] = useState(false)
   const [category, setCategory] = useState('')
@@ -34,7 +37,10 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
       ...prev,
       {
         id: `loc-${Date.now()}`,
-        category: category.trim() || 'Saved',
+        // A label the user typed is theirs, in their words; only the fallback
+        // comes from the catalog.
+        category: category.trim() || undefined,
+        categoryKey: category.trim() ? undefined : 'locationCategory.saved',
         city: city.trim(),
         region: '',
         temperature: 28,
@@ -51,14 +57,14 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
   return (
     <motion.div className="tab-panel" initial="hidden" animate="show" variants={stagger}>
       <motion.div className="tab-header" variants={fadeUp}>
-        <h1>Saved Locations</h1>
-        <p>Weather for the places that matter to your routine.</p>
+        <h1>{t('locations.title')}</h1>
+        <p>{t('locations.subtitle')}</p>
       </motion.div>
 
       <motion.div className="locations-toolbar" variants={fadeUp}>
-        <span className="section-label">{locations.length} saved</span>
+        <span className="section-label">{t('locations.savedCount', { count: locations.length })}</span>
         <button type="button" className="btn-primary-sm" onClick={() => setShowForm((s) => !s)}>
-          <Plus size={15} /> Add location
+          <Plus size={15} /> {t('locations.add')}
         </button>
       </motion.div>
 
@@ -72,13 +78,13 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
           <div className="add-location-form-row">
             <input
               className="form-input"
-              placeholder="Label (e.g. Home, Office)"
+              placeholder={t('locations.labelPlaceholder')}
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
             <input
               className="form-input"
-              placeholder="City"
+              placeholder={t('locations.cityPlaceholder')}
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
@@ -86,10 +92,10 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
           </div>
           <div className="add-location-form-actions">
             <button type="button" className="btn-ghost-sm" onClick={() => setShowForm(false)}>
-              Cancel
+              {t('common.cancel')}
             </button>
             <button type="submit" className="btn-primary-sm">
-              Save location
+              {t('locations.saveLocation')}
             </button>
           </div>
         </motion.form>
@@ -101,26 +107,28 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
           return (
             <motion.div className={`location-card ${isPrimary ? 'is-primary' : ''}`} key={loc.id} variants={fadeUp}>
               <div className="location-card-top">
-                <span className="location-card-category">{loc.category}</span>
+                <span className="location-card-category">
+                  {loc.categoryKey ? t(loc.categoryKey) : loc.category}
+                </span>
                 {isPrimary ? (
-                  <span className="location-card-primary">Primary</span>
+                  <span className="location-card-primary">{t('locations.primary')}</span>
                 ) : (
                   <button
                     type="button"
                     className="location-card-remove"
                     onClick={() => handleRemove(loc.id)}
-                    aria-label={`Remove ${loc.city}`}
+                    aria-label={t('locations.remove', { city: tCity(t, loc.city) })}
                   >
                     <X size={15} />
                   </button>
                 )}
               </div>
-              <p className="location-card-city">{loc.city}</p>
-              <p className="location-card-region">{loc.region}</p>
+              <p className="location-card-city">{tCity(t, loc.city)}</p>
+              <p className="location-card-region">{tRegion(t, loc.region)}</p>
               <div className="location-card-bottom">
                 <div>
-                  <span className="location-card-temp">{loc.temperature}°</span>
-                  <p className="location-card-condition">{loc.condition}</p>
+                  <span className="location-card-temp">{n(loc.temperature)}°</span>
+                  <p className="location-card-condition">{tCondition(t, loc.condition)}</p>
                 </div>
                 <span className={`location-card-status status-${loc.alertStatus}`} title={loc.alertStatus} />
               </div>
@@ -132,7 +140,7 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
                   onClick={() => onSetPrimary?.(loc.city)}
                 >
                   <Star size={13} style={{ marginRight: 4, verticalAlign: -2 }} />
-                  Set as primary
+                  {t('locations.setPrimary')}
                 </button>
               )}
             </motion.div>
@@ -141,7 +149,7 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
 
         <motion.button type="button" className="add-location-card" onClick={() => setShowForm(true)} variants={fadeUp}>
           <Plus size={22} />
-          Add a new location
+          {t('locations.addNew')}
         </motion.button>
       </motion.div>
     </motion.div>

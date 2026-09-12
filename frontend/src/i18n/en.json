@@ -1,0 +1,602 @@
+{
+  "common": {
+    "getStarted": "Get started",
+    "signIn": "Sign in",
+    "logOut": "Log out",
+    "back": "Back",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "retrying": "Retrying…",
+    "save": "Save",
+    "appearance": "Appearance",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "notSet": "Not set",
+    "na": "N/A"
+  },
+
+  "language": {
+    "label": "Language",
+    "choose": "Choose language",
+    "current": "Language: {language}",
+    "changed": "Language changed to {language}"
+  },
+
+  "nav": {
+    "howItWorks": "How it works",
+    "personas": "Personas",
+    "alerts": "Alerts",
+    "features": "Features"
+  },
+
+  "hero": {
+    "badge": "Smart India Hackathon 2026 · SIH26076",
+    "title": "Weather that {accent} the day you're having.",
+    "titleAccent": "understands",
+    "lede": "MAUSAM turns one raw forecast into eight different homepages — each ordered around the conditions that actually change what you do next.",
+    "seeHow": "See how it works",
+    "statPersonas": "personas",
+    "statSeverity": "severity levels",
+    "statExplainable": "explainable rules",
+    "chipAirQuality": "Air quality",
+    "chipUvIndex": "UV index",
+    "chipRainChance": "Rain chance",
+    "chipHigh": "High",
+    "chipNext6h": "Next 6h"
+  },
+
+  "stats": {
+    "personasLabel": "Personas",
+    "personasNote": "One feed, eight lenses",
+    "factorsLabel": "Weather factors",
+    "factorsNote": "Mapped and weighted",
+    "severityLabel": "Severity levels",
+    "severityNote": "Safe through critical",
+    "explainableLabel": "Explainable",
+    "explainableNote": "Rule-based, not a black box"
+  },
+
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Three steps to a homepage that fits your day",
+    "oneTitle": "Tell us what matters",
+    "oneDesc": "Pick the persona closest to your day-to-day — health, fitness, travel, farming and more.",
+    "twoTitle": "We read the sky differently",
+    "twoDesc": "The same weather data gets mapped to the factors your persona actually cares about.",
+    "threeTitle": "Get prioritized insights",
+    "threeDesc": "Open your dashboard to a homepage ordered around what to do next, not raw numbers."
+  },
+
+  "story": {
+    "eyebrow": "The core idea",
+    "title": "One sky. {accent} different days.",
+    "titleAccent": "Eight",
+    "lede": "Keep scrolling — the dashboard panel re-sorts itself for every persona, from the exact same {location} forecast.",
+    "yourHomepage": "Your homepage",
+    "comfortFor": "Comfort score for {location}",
+    "foot": "{temperature}°C · {condition} · unchanged for everyone"
+  },
+
+  "alertsSection": {
+    "eyebrow": "Smart alerts",
+    "title": "Alerts that tell you what, when, why — and what to do"
+  },
+
+  "features": {
+    "eyebrow": "Why MAUSAM",
+    "title": "Everything a weather product needs to feel trustworthy",
+    "personaTitle": "Persona intelligence",
+    "personaDesc": "The same forecast, re-prioritized around what actually affects your day.",
+    "locationTitle": "Multi-location",
+    "locationDesc": "Track home, work, college or a travel destination side by side.",
+    "alertsTitle": "Alerts that explain why",
+    "alertsDesc": "What, when, why it matters, and what to do — not just a number.",
+    "scoringTitle": "Transparent scoring",
+    "scoringDesc": "A rule-based comfort score you can trace back to the factors behind it.",
+    "severityTitle": "Clear severity levels",
+    "severityDesc": "Consistent, colour-coded status from safe to critical across the app.",
+    "mobileTitle": "Built mobile-first",
+    "mobileDesc": "Designed for the phone in your pocket, not squeezed onto one."
+  },
+
+  "cta": {
+    "title": "Ready to see weather {accent}?",
+    "titleAccent": "differently",
+    "lede": "Create an account and get a homepage that actually understands your day."
+  },
+
+  "footer": {
+    "tagline": "Personalized weather intelligence — one forecast, eight ways of reading it.",
+    "meta": "Prototype for Smart India Hackathon 2026 · Problem Statement SIH26076",
+    "disclaimer": "Conceptual student submission for the Ministry of Earth Sciences (IMD) Smart Automation theme. Not an official IMD product, and weather values shown are mock data. Globe and Moon imagery: NASA Visible Earth (Blue Marble / Black Marble), public domain."
+  },
+
+  "auth": {
+    "backToHome": "Back to home",
+    "perkPersonas": "8 personas, one weather feed — tuned to how you live",
+    "perkInsights": "Prioritized insights, not just raw numbers",
+    "perkAlerts": "Clear, colour-coded alerts you can act on",
+    "storyNote": "Smart India Hackathon 2026 · Problem Statement SIH26076",
+    "fieldName": "Full name",
+    "fieldEmail": "Email address",
+    "fieldPassword": "Password",
+    "loginEyebrow": "Welcome back",
+    "loginTitle": "Sign in to MAUSAM",
+    "loginSubtitle": "Your personalized forecast is where you left it.",
+    "loginSwitchPrompt": "New to MAUSAM?",
+    "loginSwitchAction": "Create an account",
+    "signupEyebrow": "Get started free",
+    "signupTitle": "Create your account",
+    "signupSubtitle": "One minute of setup, a lifetime of weather that fits you.",
+    "signupSubmit": "Create account",
+    "signupHint": "At least 6 characters",
+    "signupSwitchPrompt": "Already have an account?",
+    "signupSwitchAction": "Log in"
+  },
+
+  "onboarding": {
+    "progress": "Step {current} of {total} · {label}",
+    "personaLabel": "Persona",
+    "personaTitle": "What matters to you?",
+    "personaSubtitle": "Pick the one that's closest to your day-to-day. You can change this anytime in Personalize.",
+    "locationLabel": "Location",
+    "locationTitle": "Where do you spend most of your time?",
+    "locationSubtitle": "MAUSAM will center your dashboard around this place by default.",
+    "prioritiesLabel": "Priorities",
+    "prioritiesTitle": "What would you like MAUSAM to prioritize?",
+    "prioritiesSubtitle": "Pick as many as you like — you can refine this later in Personalize.",
+    "finishLabel": "Done",
+    "finishTitle": "Your MAUSAM experience is ready.",
+    "finishSubtitle": "Here's what we'll use to personalize your dashboard.",
+    "optCurrent": "Current location",
+    "optHome": "Home",
+    "optCollege": "College",
+    "optOffice": "Office",
+    "optFarm": "Farm",
+    "optCustom": "Custom",
+    "customPlaceholder": "e.g. Sector 62, Noida",
+    "customLocation": "Custom location",
+    "summaryPersona": "Persona",
+    "summaryLocation": "Location",
+    "summaryPriorities": "Priorities",
+    "noPriorities": "None selected — add these anytime in Personalize",
+    "goToDashboard": "Go to dashboard"
+  },
+
+  "interest": {
+    "weatherAlerts": "Weather alerts",
+    "airQuality": "Air quality",
+    "uv": "UV",
+    "rain": "Rain",
+    "travel": "Travel",
+    "outdoorActivity": "Outdoor activity",
+    "commute": "Commute",
+    "agriculture": "Agriculture",
+    "marine": "Marine conditions"
+  },
+
+  "persona": {
+    "healthLabel": "Health",
+    "healthTitle": "Health-conscious",
+    "healthDesc": "Monitor AQI, UV, humidity and heat risk",
+    "fitnessLabel": "Fitness",
+    "fitnessTitle": "Outdoor fitness enthusiast",
+    "fitnessDesc": "Find the best time for outdoor workouts",
+    "beachLabel": "Beach",
+    "beachTitle": "Beachgoer / surfer",
+    "beachDesc": "Track tide, waves and sea conditions",
+    "travelLabel": "Travel",
+    "travelTitle": "Traveler",
+    "travelDesc": "Stay prepared for weather at your destination",
+    "parentLabel": "Family",
+    "parentTitle": "Parent / family",
+    "parentDesc": "Keep the school run safe and on time",
+    "gardenerLabel": "Agriculture",
+    "gardenerTitle": "Agriculture / gardener",
+    "gardenerDesc": "Plan irrigation, sowing and frost protection",
+    "commuterLabel": "Commute",
+    "commuterTitle": "Commuter",
+    "commuterDesc": "Know before you leave for work",
+    "eventLabel": "Events",
+    "eventTitle": "Event planner",
+    "eventDesc": "Plan outdoor events with confidence"
+  },
+
+  "metric": {
+    "temperature": "Temperature",
+    "temperatureCaption": "Feels like {feelsLike}° · H:{high}° L:{low}°",
+    "workoutWindow": "Best Workout Window",
+    "workoutWindowCaption": "{quality} conditions",
+    "uvIndex": "UV Index",
+    "heatRisk": "Heat Risk",
+    "heatRiskCaption": "Based on temperature & humidity",
+    "windSpeed": "Wind Speed",
+    "windSpeedCaption": "From the {direction}",
+    "rainProbability": "Rain Chance",
+    "rainProbabilityCaption": "Next 12 hours",
+    "sunriseSunset": "Sunrise / Sunset",
+    "sunriseSunsetCaption": "Local time",
+    "aqi": "Air Quality",
+    "humidity": "Humidity",
+    "humidityCaption": "Relative humidity",
+    "destinationWeather": "At Your Destination",
+    "packingTip": "Packing Tip",
+    "packingTipValue": "Suggestion",
+    "schoolCommute": "School Commute Window",
+    "schoolCommuteRain": "Rain likely during this window",
+    "schoolCommuteClear": "Clear during this window",
+    "rainDuringSchool": "Rain During School Hours",
+    "visibility": "Visibility",
+    "visibilityCaption": "On your usual route",
+    "fog": "Fog Risk",
+    "fogCaption": "Early morning risk",
+    "rainTiming": "Rain Expected",
+    "rainTimingCaption": "Based on hourly forecast",
+    "rainTimingAround": "Around {time}",
+    "rainTimingNone": "Not expected",
+    "storm": "Storm Risk",
+    "stormCaption": "Today",
+    "rainfallPrediction": "Rainfall Prediction",
+    "rainfallPredictionValue": "{percent}% chance",
+    "rainfallPredictionCaption": "Next 24 hours",
+    "soilMoisture": "Soil Moisture",
+    "soilIrrigate": "Irrigation recommended",
+    "soilWaterlogging": "Waterlogging risk",
+    "soilAdequate": "Adequate",
+    "frost": "Frost Risk",
+    "frostCaption": "Overnight low",
+    "frostRisk": "Risk tonight",
+    "frostNone": "No risk",
+    "temperatureTrend": "7-Day Trend",
+    "temperatureTrendCaption": "Compared to today",
+    "trendWarming": "Warming through the week",
+    "trendCooling": "Cooling through the week",
+    "trendSteady": "Fairly steady this week",
+    "irrigationGuidance": "Irrigation Guidance",
+    "irrigateToday": "Irrigate today",
+    "irrigateSkip": "Skip today",
+    "irrigationCaption": "Soil moisture at {percent}%",
+    "tide": "Next Tide",
+    "waveHeight": "Wave Height",
+    "waveHeightCaption": "Current conditions",
+    "seaConditions": "Sea Conditions",
+    "seaConditionsCaption": "Swim & surf safety",
+    "waterTemperature": "Water Temperature",
+    "waterTemperatureCaption": "Sea surface",
+    "outdoorComfort": "Outdoor Comfort",
+    "outdoorComfortCaption": "For outdoor gatherings"
+  },
+
+  "value": {
+    "likely": "Likely",
+    "unlikely": "Unlikely",
+    "active": "Active",
+    "rough": "Rough",
+    "moderate": "Moderate",
+    "calm": "Calm",
+    "great": "Great",
+    "good": "Good",
+    "fair": "Fair",
+    "low": "Low",
+    "high": "High"
+  },
+
+  "uv": {
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High",
+    "veryHigh": "Very High"
+  },
+
+  "heat": {
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High",
+    "extreme": "Extreme"
+  },
+
+  "score": {
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor",
+    "avoid": "Avoid"
+  },
+
+  "severity": {
+    "safe": "Safe",
+    "info": "Information",
+    "caution": "Caution",
+    "warning": "Warning",
+    "critical": "Critical"
+  },
+
+  "tab": {
+    "overview": "Overview",
+    "weather": "Weather",
+    "locations": "Locations",
+    "alerts": "Alerts",
+    "personalize": "Personalize",
+    "settings": "Settings",
+    "sections": "Dashboard sections"
+  },
+
+  "dnav": {
+    "searchLocations": "Search locations",
+    "notifications": "Notifications",
+    "signedIn": "Signed in",
+    "changePersona": "Change persona"
+  },
+
+  "greeting": {
+    "lateNight": "Still up?",
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "night": "Good night"
+  },
+
+  "overview": {
+    "live": "Live",
+    "cached": "Cached",
+    "syncing": "Syncing",
+    "liveTitle": "Live data",
+    "cachedTitle": "Showing cached data",
+    "syncingTitle": "Syncing latest conditions",
+    "subtitle": "Here's what matters for your {persona} today.",
+    "viewingAs": "Viewing as",
+    "comfortTitle": "{persona} comfort score",
+    "prioritized": "Prioritized for you — {persona}"
+  },
+
+  "gauge": {
+    "outOf": "out of 10",
+    "noImpact": "no impact",
+    "empty": "Nothing is working against you right now.",
+    "note": "Rule-based: 10 minus the weighted penalties above."
+  },
+
+  "hourly": {
+    "title": "Next 12 hours",
+    "legendTemp": "Temperature",
+    "legendRain": "Rain chance",
+    "now": "Now",
+    "rainTitle": "{percent}% chance of rain"
+  },
+
+  "sky": {
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "visibility": "Visibility",
+    "pressure": "Pressure",
+    "daylight": "Daylight",
+    "night": "Night",
+    "feelsLike": "Feels like {feelsLike}° · H {high}° / L {low}°"
+  },
+
+  "weatherTab": {
+    "title": "Weather",
+    "subtitle": "Full forecast for {location}, {region}",
+    "current": "Current conditions",
+    "hourly": "Hourly forecast",
+    "trend": "7-day trend",
+    "forecast": "7-day forecast",
+    "peakMidday": "Peak around midday",
+    "currentCaption": "Current",
+    "wind": "Wind"
+  },
+
+  "locations": {
+    "title": "Saved Locations",
+    "subtitle": "Weather for the places that matter to your routine.",
+    "savedCount": "{count} saved",
+    "add": "Add location",
+    "addNew": "Add a new location",
+    "labelPlaceholder": "Label (e.g. Home, Office)",
+    "cityPlaceholder": "City",
+    "saveLocation": "Save location",
+    "primary": "Primary",
+    "setPrimary": "Set as primary",
+    "remove": "Remove {city}",
+    "defaultCategory": "Saved"
+  },
+
+  "locationCategory": {
+    "home": "Home",
+    "college": "College",
+    "office": "Office",
+    "travel": "Travel",
+    "saved": "Saved"
+  },
+
+  "alertsTab": {
+    "title": "Alerts",
+    "subtitle": "Everything that could affect your day, in one place.",
+    "empty": "No alerts in this category right now.",
+    "viewAll": "View all alerts"
+  },
+
+  "alertCategory": {
+    "all": "All",
+    "weather": "Weather",
+    "health": "Health",
+    "travel": "Travel",
+    "commute": "Commute",
+    "agriculture": "Agriculture",
+    "marine": "Marine"
+  },
+
+  "alertData": {
+    "rainWhat": "Heavy rainfall expected",
+    "rainWhen": "5:00 PM – 7:00 PM today",
+    "rainWhy": "Your usual commute window overlaps with this period.",
+    "rainAction": "Consider leaving 20 minutes earlier, or after 7:30 PM.",
+    "aqiWhat": "Air quality is Poor (AQI 142)",
+    "aqiWhen": "Through the afternoon",
+    "aqiWhy": "Prolonged outdoor exposure may cause throat and eye irritation.",
+    "aqiAction": "Limit strenuous outdoor activity between 12 PM – 4 PM.",
+    "stormWhat": "Thunderstorm warning for Mumbai",
+    "stormWhen": "From 2:00 PM today",
+    "stormWhy": "Your saved destination is under an active severe weather warning.",
+    "stormAction": "Check flight status before heading to the airport.",
+    "sowingWhat": "Good sowing conditions expected this week",
+    "sowingWhen": "Wed – Fri",
+    "sowingWhy": "Soil moisture and rainfall trend both favour early sowing.",
+    "sowingAction": "No action needed — just a heads up.",
+    "fogWhat": "Reduced visibility expected near river route",
+    "fogWhen": "Early morning, before 8:00 AM",
+    "fogWhy": "Fog is forming along low-lying stretches of your commute.",
+    "fogAction": "Add 10–15 minutes and use fog lamps if driving.",
+    "seaWhat": "Rough sea conditions along the coast",
+    "seaWhen": "All day",
+    "seaWhy": "Wave heights above 2m expected — unsafe for swimming.",
+    "seaAction": "Avoid water activities until conditions ease."
+  },
+
+  "time": {
+    "justNow": "Just now",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago"
+  },
+
+  "personalize": {
+    "title": "Personalize MAUSAM",
+    "subtitle": "Tell us what matters, and your dashboard reorders itself around it.",
+    "whatMatters": "What's important to you?",
+    "notifyMe": "Notify me about",
+    "quietHours": "Quiet hours",
+    "pauseNonCritical": "Pause non-critical alerts",
+    "quietWindow": "10:00 PM – 7:00 AM"
+  },
+
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Your profile, units and connectivity preferences.",
+    "defaultName": "Mausam User",
+    "units": "Units",
+    "temperature": "Temperature",
+    "windSpeed": "Wind speed",
+    "briefTitle": "Today's Weather Brief",
+    "briefSummary": "30-second audio summary",
+    "briefPlaying": "Playing… (narration audio coming soon)",
+    "briefIdle": "Tap play for a spoken summary",
+    "briefPlay": "Play brief",
+    "briefPause": "Pause brief",
+    "connectivity": "Connectivity",
+    "dataSaver": "Data Saver Mode",
+    "dataSaverDesc": "Prioritize temperature, alerts & rain only",
+    "dataSaverToggle": "Toggle data saver mode",
+    "dataSaverActive": "Data Saver active",
+    "offlinePreview": "Preview offline state",
+    "offlineDesc": "See how MAUSAM looks with no connection",
+    "offlineToggle": "Toggle offline preview",
+    "offlineBanner": "You're offline — showing weather data from 12 minutes ago.",
+    "language": "Display language",
+    "languageDesc": "Applies across the whole app, on every device you sign in to."
+  },
+
+  "customize": {
+    "start": "Customize dashboard",
+    "done": "Done customizing",
+    "reset": "Reset layout",
+    "hidden": "Hidden:",
+    "show": "Show {label}"
+  },
+
+  "weatherError": {
+    "default": "Weather data unavailable",
+    "network": "Connection lost — using cached data",
+    "timeout": "Weather service is slow",
+    "parse": "Data format issue",
+    "retryTitle": "Retry loading weather"
+  },
+
+  "theme": {
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme",
+    "light": "Light theme",
+    "dark": "Dark theme"
+  },
+
+  "condition": {
+    "clear": "Clear",
+    "sunny": "Sunny",
+    "partlyCloudy": "Partly Cloudy",
+    "cloudy": "Cloudy",
+    "hazy": "Hazy",
+    "hazySun": "Hazy Sun",
+    "lightRain": "Light Rain",
+    "rain": "Rain",
+    "heavyRain": "Heavy Rain",
+    "thunderstorm": "Thunderstorm",
+    "thunderstorms": "Thunderstorms"
+  },
+
+  "aqiCategory": {
+    "good": "Good",
+    "moderate": "Moderate",
+    "poor": "Poor",
+    "unhealthy": "Unhealthy"
+  },
+
+  "wind": {
+    "n": "N",
+    "ne": "NE",
+    "e": "E",
+    "se": "SE",
+    "s": "S",
+    "sw": "SW",
+    "w": "W",
+    "nw": "NW"
+  },
+
+  "day": {
+    "today": "Today",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun"
+  },
+
+  "city": {
+    "Lucknow": "Lucknow",
+    "Mumbai": "Mumbai",
+    "Delhi": "Delhi",
+    "Jhansi": "Jhansi",
+    "Noida": "Noida",
+    "London": "London"
+  },
+
+  "region": {
+    "Uttar Pradesh": "Uttar Pradesh",
+    "Maharashtra": "Maharashtra",
+    "NCT": "NCT",
+    "United Kingdom": "United Kingdom"
+  },
+
+  "tip": {
+    "rainJacket": "Bring a waterproof jacket — steady light rain most of the day.",
+    "maskSensitive": "Carry a mask — air quality is unhealthy for sensitive groups.",
+    "mask": "Carry a mask — air quality is unhealthy today.",
+    "thunderstorm": "Pack a light rain jacket — thunderstorms are expected at your destination.",
+    "hydrate": "Stay hydrated — dry heat and strong sun through the afternoon.",
+    "monsoon": "Waterproof everything — this is peak monsoon activity."
+  },
+
+  "tide": {
+    "high": "High",
+    "low": "Low"
+  },
+
+  "intro": {
+    "tagline": "Weather that understands you",
+    "statusSky": "Reading the sky",
+    "statusPersonas": "Mapping eight personas",
+    "statusPrioritise": "Prioritising your day",
+    "skip": "Tap anywhere to skip"
+  }
+}

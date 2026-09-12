@@ -1,10 +1,15 @@
 // Mock saved-locations data (spec example set, kept verbatim). "Primary" is
 // derived at render time in LocationsTab by comparing `city` against the
 // dashboard's active location — not tracked here.
+//
+// `city`/`region`/`condition` stay as plain English values: they are looked up
+// in the translation catalogs at render time and fall back to what's here, so
+// a location the user adds themselves still displays correctly. `categoryKey`
+// is a catalog key because these four are fixed labels, not user input.
 export const SAVED_LOCATIONS = [
   {
     id: 'loc-home',
-    category: 'Home',
+    categoryKey: 'locationCategory.home',
     city: 'Lucknow',
     region: 'Uttar Pradesh',
     temperature: 29,
@@ -14,7 +19,7 @@ export const SAVED_LOCATIONS = [
   },
   {
     id: 'loc-college',
-    category: 'College',
+    categoryKey: 'locationCategory.college',
     city: 'Jhansi',
     region: 'Uttar Pradesh',
     temperature: 31,
@@ -24,7 +29,7 @@ export const SAVED_LOCATIONS = [
   },
   {
     id: 'loc-office',
-    category: 'Office',
+    categoryKey: 'locationCategory.office',
     city: 'Noida',
     region: 'Uttar Pradesh',
     temperature: 32,
@@ -34,7 +39,7 @@ export const SAVED_LOCATIONS = [
   },
   {
     id: 'loc-travel',
-    category: 'Travel',
+    categoryKey: 'locationCategory.travel',
     city: 'London',
     region: 'United Kingdom',
     temperature: 16,
