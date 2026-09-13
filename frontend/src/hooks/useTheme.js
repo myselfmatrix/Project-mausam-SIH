@@ -11,8 +11,22 @@ function currentTheme() {
   return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'
 }
 
+let switchTimer = null
+
 export function setTheme(next) {
-  document.documentElement.setAttribute('data-theme', next)
+  const root = document.documentElement
+
+  /*
+    Mark the switch so the colour transition in ui.css applies for its
+    duration and no longer. A transition left on permanently would smear
+    every ordinary hover and state change in the app; one that is never
+    there makes the theme swap land as a hard cut.
+  */
+  root.classList.add('theme-switching')
+  if (switchTimer) clearTimeout(switchTimer)
+  switchTimer = setTimeout(() => root.classList.remove('theme-switching'), 300)
+
+  root.setAttribute('data-theme', next)
   try {
     localStorage.setItem(STORAGE_KEY, next)
   } catch {

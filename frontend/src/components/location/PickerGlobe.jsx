@@ -39,6 +39,27 @@ const TAP_SLOP_PX = 6
 /** Latitude is clamped short of the poles: past ~85 the globe reads upside down. */
 const LAT_LIMIT = 85
 
+/*
+  Flying to a place.
+
+  A map zooms in when you choose somewhere. A globe that only rotates loses
+  that, and worse, a long rotation across the planet reads as the texture
+  sliding past rather than as travel. So the camera follows an arc: it pulls
+  back as the globe turns, then comes in close as the destination arrives -
+  the same shape as lifting off, crossing, and landing.
+
+  The lift is scaled by how far the journey actually is, so tapping a point
+  already on screen barely moves the camera while jumping from Kochi to
+  Reykjavik pulls right back. `FOCUS_Z` is where it settles afterwards, closer
+  than the resting view, which is what makes the choice feel confirmed.
+*/
+const FOCUS_Z = 4.3
+const LIFT_MAX = 1.7
+const FLIGHT_SECONDS = 1.05
+
+/** Ease in and out, so the camera neither jerks away nor slams to a halt. */
+const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+
 function GlobeScene({ selection, savedPlaces, onPick, zoomRef, dragRef }) {
   const orientRef = useRef()
   const pickRef = useRef()
@@ -54,6 +75,8 @@ function GlobeScene({ selection, savedPlaces, onPick, zoomRef, dragRef }) {
     [selection.lat, selection.lon],
   )
 
+  const flightRef = useRef({ active: false, t: 0, arc: 0, fromZ: CAMERA_Z, toZ: CAMERA_Z })
+
   // Start already pointing at the opening selection, so the picker does not
   // open mid-flight from an arbitrary angle.
   useEffect(() => {
@@ -63,6 +86,43 @@ function GlobeScene({ selection, savedPlaces, onPick, zoomRef, dragRef }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  /*
+    Begin a flight whenever the destination changes.
+
+    The distance is measured from where the globe actually is, not from the
+    previous selection - retargeting mid-flight (arrow-keying down a list of
+    results) then measures the journey that is really left to travel.
+
+    A drag is excluded: the selection updates continuously while the finger
+    moves, and starting a flight on each of those would fight the hand.
+  */
+  useEffect(() => {
+    const group = orientRef.current
+    if (!group || !group.userData.initialised || dragRef.current.active || reduced) return
+
+    const angle = group.quaternion.angleTo(target)
+    const arc = Math.min(angle / (Math.PI * 0.55), 1)
+
+    /*
+      Only a real journey is allowed to change the resting zoom. Tapping a
+      point already on screen is not a request to be moved closer, and
+      overriding the zoom someone chose by hand is the kind of help nobody
+      asks for.
+    */
+    const settle = arc > 0.12 ? Math.min(zoomRef.current, FOCUS_Z) : zoomRef.current
+    zoomRef.current = settle
+
+    dragRef.current.zoomed = false
+    flightRef.current = {
+      active: true,
+      t: 0,
+      arc,
+      fromZ: camera.position.z,
+      toZ: settle,
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target])
 
   useFrame((_, delta) => {
     const group = orientRef.current
@@ -85,9 +145,29 @@ function GlobeScene({ selection, savedPlaces, onPick, zoomRef, dragRef }) {
       group.quaternion.slerp(target, 1 - Math.pow(0.0016, delta))
     }
 
-    const z = THREE.MathUtils.clamp(zoomRef.current, ZOOM_MIN, ZOOM_MAX)
-    if (Math.abs(camera.position.z - z) > 0.0005) {
-      camera.position.z += (z - camera.position.z) * (1 - Math.pow(0.002, delta))
+    const flight = flightRef.current
+
+    /*
+      A drag or a wheel during a flight is the user taking over. Their input
+      wins immediately rather than being overwritten for the rest of the arc.
+    */
+    if (flight.active && (dragRef.current.active || dragRef.current.zoomed)) {
+      flight.active = false
+    }
+
+    if (flight.active) {
+      flight.t = Math.min(1, flight.t + delta / (FLIGHT_SECONDS * (0.55 + 0.45 * flight.arc)))
+      const eased = easeInOut(flight.t)
+      const base = flight.fromZ + (flight.toZ - flight.fromZ) * eased
+      // Zero at both ends, widest in the middle: the arc of the journey.
+      const lift = flight.arc * LIFT_MAX * Math.sin(flight.t * Math.PI)
+      camera.position.z = THREE.MathUtils.clamp(base + lift, ZOOM_MIN, ZOOM_MAX + LIFT_MAX)
+      if (flight.t >= 1) flight.active = false
+    } else {
+      const z = THREE.MathUtils.clamp(zoomRef.current, ZOOM_MIN, ZOOM_MAX)
+      if (Math.abs(camera.position.z - z) > 0.0005) {
+        camera.position.z += (z - camera.position.z) * (1 - Math.pow(0.002, delta))
+      }
     }
   })
 
@@ -251,6 +331,8 @@ export default function PickerGlobe({ selection, savedPlaces, onSelectionChange,
     event.preventDefault()
     const next = zoomRef.current + event.deltaY * 0.0016 * zoomRef.current
     zoomRef.current = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, next))
+    // Taking the wheel ends any flight in progress — see the frame loop.
+    dragRef.current.zoomed = true
   }, [])
 
   /*

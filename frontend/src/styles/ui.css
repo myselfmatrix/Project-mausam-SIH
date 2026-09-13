@@ -607,3 +607,102 @@
     animation: none;
   }
 }
+
+/* ============================================================
+   Global polish
+
+   Small things that are only noticeable when they are missing.
+   Kept here rather than per component so anything added later
+   inherits them without having to remember.
+   ============================================================ */
+
+/*
+  One reduced-motion rule for the whole app.
+
+  Individual components already switch off their own animations, but that
+  only covers the ones somebody remembered. This catches everything,
+  including anything added later, and it is the accessible default rather
+  than an afterthought: for a viewer with vestibular sensitivity, motion is
+  not decoration, it is a symptom trigger.
+
+  Animations are reduced to a single frame rather than removed outright, so
+  code waiting on `animationend` or `transitionend` still fires and nothing
+  is left half-open.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+  The grey flash on tap.
+
+  Mobile browsers paint a translucent rectangle over whatever you touch.
+  On a page of rounded cards it appears as a square behind a round shape,
+  which is the single clearest giveaway that something is a web page rather
+  than an app. Our own :active and .is-selected states already give the
+  feedback that highlight was there to provide.
+*/
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+  A visible focus ring for keyboard users, and only for them.
+
+  :focus-visible rather than :focus, so a mouse click does not leave a ring
+  behind on a button that has already done its job - which is the reason
+  focus rings get removed altogether, taking keyboard navigation with them.
+*/
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/*
+  Scroll chaining.
+
+  Reaching the end of a list inside a panel should stop there. Without this
+  the page behind keeps scrolling, so flicking through search results in the
+  location picker quietly scrolls the dashboard underneath it, and closing
+  the picker leaves the user somewhere they never chose to be.
+*/
+.lp-rows,
+.lp-lists,
+.lp-panel,
+.tab-panel .ov-persona-pills {
+  overscroll-behavior: contain;
+}
+
+/*
+  Changing theme.
+
+  Light and dark are separate token sets, so switching repaints every
+  surface at once and the swap lands as a hard cut. The transition is
+  attached only while the switch is happening - a permanent transition on
+  every element would smear ordinary state changes and cost a repaint on
+  each one - and it names only the colour properties, so nothing moves.
+*/
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease,
+    fill 220ms ease, stroke 220ms ease, box-shadow 220ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switching,
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition: none !important;
+  }
+}
