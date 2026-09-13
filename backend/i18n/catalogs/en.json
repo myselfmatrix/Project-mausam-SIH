@@ -152,7 +152,8 @@
     "summaryLocation": "Location",
     "summaryPriorities": "Priorities",
     "noPriorities": "None selected — add these anytime in Personalize",
-    "goToDashboard": "Go to dashboard"
+    "goToDashboard": "Go to dashboard",
+    "leadWith": "Your dashboard will lead with"
   },
   "interest": {
     "weatherAlerts": "Weather alerts",

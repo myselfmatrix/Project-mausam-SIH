@@ -5,6 +5,7 @@ import {
   Sprout, LocateFixed, Sparkles, Bell,
 } from 'lucide-react'
 import { PERSONAS, getPersona } from '../data/personaData'
+import { getPriorityMetrics } from '../utils/personalization'
 import { INTERESTS } from '../data/interestData'
 import { usePreferences } from '../preferences/PreferencesProvider'
 import { DEFAULT_PLACE } from '../data/locationData'
@@ -239,28 +240,69 @@ export default function OnboardingPage({ onComplete }) {
               <p className="ob-step-sub">{t(STEP_META[step].subtitleKey)}</p>
 
               {step === 0 && (
-                <motion.div className="persona-select-grid" initial="hidden" animate="show" variants={stagger}>
-                  {PERSONAS.map((p) => (
-                    <motion.button
-                      key={p.id}
-                      type="button"
-                      className={`persona-select-card ${persona === p.id ? 'is-selected' : ''}`}
-                      onClick={() => setPersona(p.id)}
-                      variants={fadeUp}
-                    >
-                      <span className="persona-select-icon">
-                        <p.icon size={19} strokeWidth={2} />
-                      </span>
-                      <span>
-                        <p className="persona-select-title">{t(p.titleKey)}</p>
-                        <p className="persona-select-desc">{t(p.descKey)}</p>
-                      </span>
-                      {persona === p.id && (
-                        <Check size={18} color="var(--color-brand-600)" style={{ marginLeft: 'auto', flexShrink: 0 }} />
+                <>
+                  <motion.div className="ob-persona-grid" initial="hidden" animate="show" variants={stagger}>
+                    {PERSONAS.map((p) => (
+                      <motion.button
+                        key={p.id}
+                        type="button"
+                        data-persona={p.id}
+                        className={`ob-persona ${persona === p.id ? 'is-selected' : ''}`}
+                        onClick={() => setPersona(p.id)}
+                        variants={fadeUp}
+                        aria-pressed={persona === p.id}
+                      >
+                        <span className="ob-persona-wash" aria-hidden="true" />
+                        <span className="ob-persona-icon">
+                          <p.icon size={20} strokeWidth={2} />
+                        </span>
+                        <span className="ob-persona-text">
+                          <span className="ob-persona-title">{t(p.titleKey)}</span>
+                          <span className="ob-persona-desc">{t(p.descKey)}</span>
+                        </span>
+                        <span className="ob-persona-check" aria-hidden="true">
+                          <Check size={12} strokeWidth={3.5} />
+                        </span>
+                      </motion.button>
+                    ))}
+                  </motion.div>
+
+                  {/*
+                    What the choice actually does.
+
+                    Eight labels with a tick beside one of them asks the user to
+                    guess what they are picking. These are the real metric names
+                    that persona's dashboard will lead with, read from the same
+                    priority list the dashboard itself uses - so the promise made
+                    here is the one that gets kept.
+                  */}
+                  <div className="ob-persona-preview-slot">
+                    <AnimatePresence mode="wait">
+                      {persona && (
+                        <motion.div
+                          key={persona}
+                          data-persona={persona}
+                          className="ob-persona-preview"
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          <span className="ob-persona-preview-label">{t('onboarding.leadWith')}</span>
+                          <span className="ob-persona-preview-chips">
+                            {getPriorityMetrics(persona)
+                              .slice(0, 4)
+                              .map((m) => (
+                                <span key={m.key} className="ob-persona-chip">
+                                  {t(m.labelKey)}
+                                </span>
+                              ))}
+                          </span>
+                        </motion.div>
                       )}
-                    </motion.button>
-                  ))}
-                </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </>
               )}
 
               {step === 1 && (

@@ -152,7 +152,8 @@
     "summaryLocation": "ಸ್ಥಳ",
     "summaryPriorities": "ಆದ್ಯತೆಗಳು",
     "noPriorities": "ಏನನ್ನೂ ಆರಿಸಿಲ್ಲ — ಪರ್ಸನಲೈಸ್‌ನಲ್ಲಿ ಯಾವಾಗ ಬೇಕಾದರೂ ಸೇರಿಸಿ",
-    "goToDashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹೋಗಿ"
+    "goToDashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹೋಗಿ",
+    "leadWith": "ನಿಮ್ಮ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಮೊದಲು ಇವನ್ನು ತೋರಿಸುತ್ತದೆ"
   },
   "interest": {
     "weatherAlerts": "ಹವಾಮಾನ ಎಚ್ಚರಿಕೆಗಳು",

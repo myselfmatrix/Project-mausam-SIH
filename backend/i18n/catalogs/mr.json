@@ -152,7 +152,8 @@
     "summaryLocation": "ठिकाण",
     "summaryPriorities": "प्राधान्ये",
     "noPriorities": "काहीही निवडलेले नाही — पर्सनलाइझमध्ये कधीही जोडा",
-    "goToDashboard": "डॅशबोर्डवर जा"
+    "goToDashboard": "डॅशबोर्डवर जा",
+    "leadWith": "तुमचा डॅशबोर्ड सर्वात आधी हे दाखवेल"
   },
   "interest": {
     "weatherAlerts": "हवामान सूचना",

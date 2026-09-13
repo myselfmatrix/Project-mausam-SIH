@@ -152,7 +152,8 @@
     "summaryLocation": "অবস্থান",
     "summaryPriorities": "অগ্রাধিকার",
     "noPriorities": "কিছু বাছা হয়নি — পার্সোনালাইজ থেকে যেকোনো সময় যোগ করুন",
-    "goToDashboard": "ড্যাশবোর্ডে যান"
+    "goToDashboard": "ড্যাশবোর্ডে যান",
+    "leadWith": "আপনার ড্যাশবোর্ড সবার আগে দেখাবে"
   },
   "interest": {
     "weatherAlerts": "আবহাওয়া সতর্কতা",

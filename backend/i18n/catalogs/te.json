@@ -152,7 +152,8 @@
     "summaryLocation": "ప్రదేశం",
     "summaryPriorities": "ప్రాధాన్యతలు",
     "noPriorities": "ఏదీ ఎంచుకోలేదు — పర్సనలైజ్‌లో ఎప్పుడైనా జోడించండి",
-    "goToDashboard": "డాష్‌బోర్డ్‌కు వెళ్లండి"
+    "goToDashboard": "డాష్‌బోర్డ్‌కు వెళ్లండి",
+    "leadWith": "మీ డాష్‌బోర్డ్ ముందుగా వీటిని చూపుతుంది"
   },
   "interest": {
     "weatherAlerts": "వాతావరణ హెచ్చరికలు",

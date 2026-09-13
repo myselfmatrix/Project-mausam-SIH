@@ -152,7 +152,8 @@
     "summaryLocation": "સ્થળ",
     "summaryPriorities": "પ્રાથમિકતાઓ",
     "noPriorities": "કંઈ પસંદ કર્યું નથી — પર્સનલાઇઝમાં ગમે ત્યારે ઉમેરો",
-    "goToDashboard": "ડેશબોર્ડ પર જાઓ"
+    "goToDashboard": "ડેશબોર્ડ પર જાઓ",
+    "leadWith": "તમારું ડેશબોર્ડ સૌથી પહેલાં આ બતાવશે"
   },
   "interest": {
     "weatherAlerts": "હવામાન ચેતવણીઓ",
