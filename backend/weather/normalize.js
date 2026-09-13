@@ -213,6 +213,14 @@ function airQualitySection(airQuality) {
     pm25: D.round(current.pm2_5, 1),
     pm10: D.round(current.pm10, 1),
     dust: D.round(current.dust, 1),
+    /*
+      Explicit null, not omitted, when the provider has no pollen for this
+      point. Omitting would let the previous location's reading survive the
+      merge on the client - a London grass count still on screen after moving
+      to Delhi, which is exactly the kind of plausible wrong number that is
+      hardest to notice.
+    */
+    pollen: D.dominantPollen(current) || null,
   });
 }
 
@@ -266,7 +274,7 @@ function marineSection(marine, nowIso) {
  * Kept separate from the measurements above so it is obvious which numbers are
  * observations and which are this app's interpretation of them.
  */
-function guidanceSection(forecast, nowIso, { aqi, conditionGroup, feelsLike, uvIndex, frostRisk }) {
+function guidanceSection(forecast, nowIso, { aqi, conditionGroup, feelsLike, uvIndex, frostRisk, precipitationNow, visibility, windGust }) {
   const hourly = forecast.hourly;
   const window = D.bestOutdoorWindow(hourly, nowIso, { aqi });
   const rain = D.rainOutlook(hourly, nowIso);
@@ -286,6 +294,18 @@ function guidanceSection(forecast, nowIso, { aqi, conditionGroup, feelsLike, uvI
     fogLikely: fog ? fog.likely : null,
     fogLowestVisibilityKm: fog ? fog.lowestVisibilityKm : null,
     fogSource: fog ? fog.source : null,
+    /*
+      Weather's cost to a road commute, in minutes. Uses the lowest visibility
+      expected this morning rather than the visibility right now - a commuter
+      checking at 06:00 cares about the fog at 08:00, not the clear air
+      outside the window.
+    */
+    commuteDelay: D.commuteDelay({
+      rainMmPerHour: precipitationNow,
+      visibilityKm: fog && fog.likely ? fog.lowestVisibilityKm : visibility,
+      gustKmh: windGust,
+      rainProbability: rain ? rain.next12Max : null,
+    }),
     packingTipKey: D.packingTipKey({
       group: conditionGroup,
       rainProbability: rain ? rain.next12Max : null,
@@ -330,6 +350,9 @@ function buildWeatherPayload({ place, forecast, airQuality, marine }) {
     feelsLike: heatBase,
     uvIndex: current.uvIndex,
     frostRisk: daily.fields.frostRisk,
+    precipitationNow: current.precipitationNow,
+    visibility: current.visibility,
+    windGust: current.windGust,
   });
 
   return compact({

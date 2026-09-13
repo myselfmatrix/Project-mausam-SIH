@@ -63,6 +63,21 @@ const POLLUTANT_FIELDS = [
   'ozone', 'ammonia',
 ];
 
+/*
+  Pollen, requested on the same call as the pollutants.
+
+  Open-Meteo's pollen comes from CAMS, whose pollen model covers Europe only:
+  for any Indian coordinate every one of these returns null. We ask anyway and
+  show the tile only where the data exists, which is the honest handling of a
+  parameter the brief names but no provider covers for India. The alternative
+  - inventing a number, or quietly dropping the requirement - is worse in
+  opposite directions.
+*/
+const POLLEN_FIELDS = [
+  'alder_pollen', 'birch_pollen', 'grass_pollen', 'mugwort_pollen',
+  'olive_pollen', 'ragweed_pollen',
+];
+
 /**
  * Forecast for one point: current conditions, 7 days hourly, 7 days daily.
  *
@@ -107,7 +122,7 @@ async function getAirQuality(lat, lon) {
       buildUrl(AIR_QUALITY_URL, {
         latitude,
         longitude,
-        current: [...POLLUTANT_FIELDS, 'us_aqi', 'european_aqi', 'dust', 'aerosol_optical_depth'],
+        current: [...POLLUTANT_FIELDS, ...POLLEN_FIELDS, 'us_aqi', 'european_aqi', 'dust', 'aerosol_optical_depth'],
         hourly: POLLUTANT_FIELDS,
         past_days: 2,
         forecast_days: 1,

@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const connectDB = require('./config/database');
+const requireDatabase = require('./middleware/requireDatabase');
 const authRoutes = require('./routes/auth');
 const weatherRoutes = require('./routes/weather');
 const userRoutes = require('./routes/user');
@@ -40,9 +41,9 @@ app.get('/api', (req, res) => {
 });
 
 // Mount routes
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', requireDatabase, authRoutes);
 app.use('/api/weather', weatherRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/users', requireDatabase, userRoutes);
 app.use('/api/i18n', i18nRoutes);
 app.use('/api/geo', geoRoutes);
 

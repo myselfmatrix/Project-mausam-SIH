@@ -1,9 +1,9 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { PERSONAS } from '../../../data/personaData'
 import { INTERESTS } from '../../../data/interestData'
 import { useTranslation } from '../../../i18n/useTranslation'
+import { usePreferences } from '../../../preferences/PreferencesProvider'
 import './Tabs.css'
 
 const fadeUp = {
@@ -16,10 +16,22 @@ export default function PersonalizeTab({ activePersonaId, onPersonaChange }) {
   const { t } = useTranslation()
   // Local-only for this prototype — wire to /api/users/preferences once that
   // endpoint exists; it currently only stores a single `persona` field.
-  const [interests, setInterests] = useState(['weatherAlerts', 'rain'])
+  const { interests, setPreference } = usePreferences()
 
+  /*
+    Stored, not just highlighted.
+
+    These chips used to toggle local state that nothing ever read, so the
+    selection looked saved and did nothing. They now drive which advisories
+    raise the unread badge, and survive a reload.
+  */
   const toggleInterest = (interest) => {
-    setInterests((prev) => (prev.includes(interest) ? prev.filter((i) => i !== interest) : [...prev, interest]))
+    setPreference(
+      'interests',
+      interests.includes(interest)
+        ? interests.filter((i) => i !== interest)
+        : [...interests, interest],
+    )
   }
 
   return (

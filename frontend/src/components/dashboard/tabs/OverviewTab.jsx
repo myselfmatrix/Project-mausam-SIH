@@ -44,6 +44,7 @@ export default function OverviewTab({
   topAlert,
   onViewAlerts,
   onPersonaChange,
+  dataSaver = false,
   weatherLoading = false,
   weatherError = null,
   weatherIsLive = false,
@@ -74,11 +75,23 @@ export default function OverviewTab({
   */
   const UNIVERSAL_FALLBACK = ['temperature', 'rainProbability', 'humidity', 'windSpeed', 'uvIndex', 'sunriseSunset', 'visibility', 'aqi']
 
+  /*
+    Data Saver keeps the three things nobody can plan a day without.
+
+    The setting used to be a switch that moved nothing. It now genuinely cuts
+    the grid, which is what its own description promises - "temperature,
+    alerts & rain only" - and matters on a metered connection where each tile
+    is more layout and more to render.
+  */
+  const DATA_SAVER_KEYS = ['temperature', 'rainProbability', 'aqi']
+
   const visibleKeys = useMemo(() => {
     const usable = (key) => {
       const m = getMetric(key)
       return Boolean(m) && (!m.isAvailable || m.isAvailable(weather))
     }
+
+    if (dataSaver) return DATA_SAVER_KEYS.filter(usable)
 
     const kept = layout.sortedKeys.filter(usable)
     if (kept.length >= 3) return kept
@@ -89,7 +102,7 @@ export default function OverviewTab({
     }
     return kept
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layout.sortedKeys, layout.hidden, weather])
+  }, [layout.sortedKeys, layout.hidden, weather, dataSaver])
 
   const firstName = userName ? userName.split(' ')[0] : ''
   const personaTitle = t(persona.titleKey)

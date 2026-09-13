@@ -403,7 +403,116 @@ function packingTipKey({ group, rainProbability, aqi, apparentTemp, uvIndex, fro
   return 'tip.pleasant';
 }
 
+
+/*
+  Pollen.
+
+  Thresholds are per species because the same count means different things:
+  ragweed is a potent allergen at single-digit grains/m3 while grass needs
+  tens of grains to bother most people, so one shared scale would call a
+  hazardous ragweed day "low". Values are grains per cubic metre.
+*/
+const POLLEN_BANDS = {
+  alder: [10, 50, 500],
+  birch: [10, 50, 500],
+  grass: [20, 50, 200],
+  mugwort: [5, 20, 50],
+  olive: [10, 50, 200],
+  ragweed: [5, 20, 50],
+};
+
+function pollenBand(species, value) {
+  const bands = POLLEN_BANDS[species];
+  if (!bands || !isNum(value)) return null;
+  if (value >= bands[2]) return 'veryHigh';
+  if (value >= bands[1]) return 'high';
+  if (value >= bands[0]) return 'moderate';
+  return 'low';
+}
+
+const BAND_RANK = { low: 0, moderate: 1, high: 2, veryHigh: 3 };
+
+/**
+ * The species currently worst for an allergy sufferer, by band first and
+ * count second - a "high" ragweed reading matters more than a larger "low"
+ * grass one, which a plain maximum would get backwards.
+ *
+ * Returns null where the provider has no pollen coverage at all, which is
+ * every Indian coordinate.
+ */
+function dominantPollen(current) {
+  if (!current) return null;
+  const readings = Object.keys(POLLEN_BANDS)
+    .map((species) => ({ species, value: current[`${species}_pollen`] }))
+    .filter((entry) => isNum(entry.value))
+    .map((entry) => ({ ...entry, band: pollenBand(entry.species, entry.value) }));
+
+  if (readings.length === 0) return null;
+
+  readings.sort((a, b) => BAND_RANK[b.band] - BAND_RANK[a.band] || b.value - a.value);
+  const top = readings[0];
+  return {
+    species: top.species,
+    value: Math.round(top.value * 10) / 10,
+    band: top.band,
+    // How many species are above "low" right now, which is what makes a day
+    // hard for someone reactive to more than one thing.
+    activeCount: readings.filter((r) => r.band !== 'low').length,
+  };
+}
+
+
+/*
+  How much the weather will cost a road commute, in minutes.
+
+  The brief asks commuters for "weather integrated with traffic updates". We
+  have no traffic feed - none is available free for Indian cities - so this
+  does not pretend to know how busy the road is. It models the other half:
+  what the weather alone adds to a journey, from the measured quantities that
+  actually slow traffic down.
+
+  The coefficients are a transparent model, not a fitted one, and the UI says
+  which factors produced the number so a user can disagree with it. They are
+  scaled to a roughly 45-minute urban commute:
+
+    heavy rain      standing water, stopping distance, lane discipline
+    low visibility  fog forces convoy speeds
+    strong gusts    two-wheelers slow markedly, which is most Indian traffic
+
+  Returning the reasons matters as much as the number: "20 minutes" is a
+  guess, "20 minutes, because visibility is under a kilometre" is a claim
+  someone can check against the road outside.
+*/
+function commuteDelay({ rainMmPerHour, visibilityKm, gustKmh, rainProbability }) {
+  const reasons = [];
+  let minutes = 0;
+
+  if (isNum(rainMmPerHour)) {
+    if (rainMmPerHour >= 7.5) { minutes += 18; reasons.push('heavyRain'); }
+    else if (rainMmPerHour >= 2.5) { minutes += 9; reasons.push('rain'); }
+    else if (rainMmPerHour > 0.2) { minutes += 4; reasons.push('lightRain'); }
+  } else if (isNum(rainProbability) && rainProbability >= 60) {
+    minutes += 5; reasons.push('rainLikely');
+  }
+
+  if (isNum(visibilityKm)) {
+    if (visibilityKm < 0.5) { minutes += 25; reasons.push('denseFog'); }
+    else if (visibilityKm < 1) { minutes += 15; reasons.push('fog'); }
+    else if (visibilityKm < 3) { minutes += 7; reasons.push('lowVisibility'); }
+  }
+
+  if (isNum(gustKmh)) {
+    if (gustKmh >= 62) { minutes += 10; reasons.push('strongWind'); }
+    else if (gustKmh >= 45) { minutes += 5; reasons.push('wind'); }
+  }
+
+  const level = minutes >= 25 ? 'severe' : minutes >= 12 ? 'significant' : minutes >= 5 ? 'slight' : 'clear';
+  return { minutes: Math.round(minutes), level, reasons };
+}
+
 module.exports = {
+  commuteDelay,
+  dominantPollen,
   clockOf, hoursOf, clockFromHours, isNum, round,
   compass, uvBand, heatRisk, frostRisk, visibilityKm, soilMoisturePercent, seaState,
   nextTide, futureHours, bestOutdoorWindow, rainOutlook, commuteOutlook, fogRisk,

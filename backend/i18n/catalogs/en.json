@@ -252,7 +252,9 @@
     "waterTemperatureCaption": "Sea surface",
     "outdoorComfort": "Outdoor Comfort",
     "outdoorComfortCaption": "For outdoor gatherings",
-    "aqiDominant": "{category} · {pollutant} highest"
+    "aqiDominant": "{category} · {pollutant} highest",
+    "pollen": "Pollen",
+    "commuteDelay": "Commute Impact"
   },
   "value": {
     "likely": "Likely",
@@ -467,7 +469,13 @@
     "offlineToggle": "Toggle offline preview",
     "offlineBanner": "You're offline — showing weather data from 12 minutes ago.",
     "language": "Display language",
-    "languageDesc": "Applies across the whole app, on every device you sign in to."
+    "languageDesc": "Applies across the whole app, on every device you sign in to.",
+    "follow": "Follow my location",
+    "followDesc": "Keep the dashboard on wherever this device is, updating as you travel.",
+    "followToggle": "Toggle location following",
+    "followOn": "Following this device",
+    "followDenied": "Location permission is off for this site.",
+    "followUnsupported": "This browser cannot share a location."
   },
   "customize": {
     "start": "Customize dashboard",
@@ -792,5 +800,38 @@
     "voiceFallback": "No {language} voice is installed on this device, so the brief is read in the default voice.",
     "speaking": "Speaking now — tap to stop.",
     "idle": "Tap play for a spoken summary of the live forecast."
+  },
+  "pollen": {
+    "caption": "{species} · {value} grains/m³",
+    "band": {
+      "low": "Low",
+      "moderate": "Moderate",
+      "high": "High",
+      "veryHigh": "Very high"
+    },
+    "species": {
+      "alder": "Alder",
+      "birch": "Birch",
+      "grass": "Grass",
+      "mugwort": "Mugwort",
+      "olive": "Olive",
+      "ragweed": "Ragweed"
+    }
+  },
+  "commuteDelay": {
+    "value": "+{minutes} min",
+    "clear": "No weather delay",
+    "note": "Weather only — not live traffic",
+    "reason": {
+      "heavyRain": "Heavy rain on the roads",
+      "rain": "Rain slowing traffic",
+      "lightRain": "Wet roads",
+      "rainLikely": "Rain likely at commute time",
+      "denseFog": "Dense fog",
+      "fog": "Fog on the route",
+      "lowVisibility": "Reduced visibility",
+      "strongWind": "Strong gusts",
+      "wind": "Gusty winds"
+    }
   }
 }

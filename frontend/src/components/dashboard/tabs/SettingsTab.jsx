@@ -24,10 +24,9 @@ function Toggle({ on, onClick, label }) {
 
 // Data saver and the offline banner remain local demonstrations; everything
 // else on this screen now changes what the app actually does.
-export default function SettingsTab({ userName, userEmail, onLogout, weather, alerts = [] }) {
+export default function SettingsTab({ userName, userEmail, onLogout, weather, alerts = [], followStatus = 'idle' }) {
   const { t, language, languages } = useTranslation()
-  const { tempUnit, speedUnit, setPreference } = usePreferences()
-  const [dataSaver, setDataSaver] = useState(false)
+  const { tempUnit, speedUnit, followLocation, dataSaver, setPreference } = usePreferences()
   const [offlinePreview, setOfflinePreview] = useState(false)
   // Narration language, separate from the display language but seeded from it
   // — nobody wants a spoken brief in a language they didn't choose to read.
@@ -74,6 +73,30 @@ export default function SettingsTab({ userName, userEmail, onLogout, weather, al
         <div className="settings-row">
           <span className="settings-row-desc">{t('settings.languageDesc')}</span>
           <LanguageSwitcher align="right" />
+        </div>
+      </motion.div>
+
+      <motion.div className="settings-card" variants={fadeUp}>
+        <p className="settings-card-title">{t('settings.follow')}</p>
+        <div className="settings-row">
+          <div>
+            <p className="settings-row-label">{t('settings.follow')}</p>
+            <p className="settings-row-desc">{t('settings.followDesc')}</p>
+            {followLocation && followStatus !== 'idle' && (
+              <p className="settings-row-desc">
+                {followStatus === 'denied'
+                  ? t('settings.followDenied')
+                  : followStatus === 'unsupported'
+                    ? t('settings.followUnsupported')
+                    : t('settings.followOn')}
+              </p>
+            )}
+          </div>
+          <Toggle
+            on={followLocation}
+            onClick={() => setPreference('followLocation', !followLocation)}
+            label={t('settings.followToggle')}
+          />
         </div>
       </motion.div>
 
@@ -141,7 +164,7 @@ export default function SettingsTab({ userName, userEmail, onLogout, weather, al
             <p className="settings-row-label">{t('settings.dataSaver')}</p>
             <p className="settings-row-desc">{t('settings.dataSaverDesc')}</p>
           </div>
-          <Toggle on={dataSaver} onClick={() => setDataSaver((v) => !v)} label={t('settings.dataSaverToggle')} />
+          <Toggle on={dataSaver} onClick={() => setPreference('dataSaver', !dataSaver)} label={t('settings.dataSaverToggle')} />
         </div>
         {dataSaver && <span className="data-saver-pill">{t('settings.dataSaverActive')}</span>}
 

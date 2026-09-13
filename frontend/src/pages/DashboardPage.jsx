@@ -5,6 +5,8 @@ import { getPersona } from '../data/personaData'
 import { DEFAULT_PLACE } from '../data/locationData'
 import { useWeather } from '../hooks/useWeather'
 import { useSavedLocations } from '../hooks/useSavedLocations'
+import { useFollowLocation } from '../hooks/useFollowLocation'
+import { usePreferences } from '../preferences/PreferencesProvider'
 import { useTranslation } from '../i18n/useTranslation'
 import LocationPicker from '../components/location/LocationPicker'
 import DashboardSkeleton from '../components/dashboard/DashboardSkeleton'
@@ -53,6 +55,7 @@ const readStoredPlace = () => {
 
 export default function DashboardPage({ userId, userName, userEmail, userPersona, userActiveLocation, onPersonaSelect }) {
   const { language } = useTranslation()
+  const { followLocation, interests, dataSaver } = usePreferences()
   const [activeTab, setActiveTab] = useState('overview')
   const [place, setPlace] = useState(() => readStoredPlace() || userActiveLocation || DEFAULT_PLACE)
   const [pickerOpen, setPickerOpen] = useState(false)
@@ -84,7 +87,31 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
     () => liveAlerts.map((a) => ({ ...a, read: readIds.has(a.id) })),
     [liveAlerts, readIds],
   )
-  const unreadAlerts = alerts.filter((a) => !a.read)
+  /*
+    What raises the badge.
+
+    An interest list narrows attention, it does not waive danger: anything at
+    warning or critical severity notifies whether or not its category was
+    selected. Everything remains visible in the alert centre either way - this
+    only decides what interrupts.
+  */
+  const INTEREST_CATEGORY = {
+    weatherAlerts: 'weather',
+    airQuality: 'health',
+    uv: 'health',
+    rain: 'weather',
+    travel: 'travel',
+    outdoorActivity: 'weather',
+    commute: 'commute',
+    agriculture: 'agriculture',
+    marine: 'marine',
+  }
+  const watchedCategories = new Set(interests.map((i) => INTEREST_CATEGORY[i]).filter(Boolean))
+  const unreadAlerts = alerts.filter(
+    (a) =>
+      !a.read &&
+      (a.severity === 'critical' || a.severity === 'warning' || watchedCategories.has(a.category)),
+  )
   // The banner carries the worst thing happening, not the newest. The API
   // already sorts by severity, so the first entry is the one to pin.
   const topAlert = alerts.find((a) => a.severity === 'critical' || a.severity === 'warning') || alerts[0]
@@ -114,6 +141,16 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
     },
     [],
   )
+
+  /*
+    When following is on, the device's position drives the place.
+
+    It goes through the same handler as picking a city, so the choice is
+    stored and synced exactly as a manual one is - which also means switching
+    following off leaves the dashboard on the last place it followed to,
+    rather than snapping back to somewhere the user has since left.
+  */
+  const { status: followStatus } = useFollowLocation(followLocation, handlePlaceChange)
 
   const handleMarkAlertRead = (id) => {
     setReadIds((prev) => new Set(prev).add(id))
@@ -145,6 +182,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
         topAlert={topAlert}
         onViewAlerts={() => setActiveTab('alerts')}
         onPersonaChange={handlePersonaChange}
+        dataSaver={dataSaver}
         weatherLoading={isLoading}
         weatherError={error}
         weatherIsLive={isLive}
@@ -171,6 +209,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
         onLogout={handleLogout}
         weather={weather}
         alerts={alerts}
+        followStatus={followStatus}
       />
     ),
   }

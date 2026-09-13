@@ -24,7 +24,7 @@ export const PERSONAS = [
     titleKey: 'persona.healthTitle',
     descKey: 'persona.healthDesc',
     icon: HeartPulse,
-    priority: ['aqi', 'uvIndex', 'humidity', 'heatRisk'],
+    priority: ['aqi', 'pollen', 'uvIndex', 'humidity', 'heatRisk'],
   },
   {
     id: 'fitness',
@@ -72,7 +72,7 @@ export const PERSONAS = [
     titleKey: 'persona.commuterTitle',
     descKey: 'persona.commuterDesc',
     icon: Car,
-    priority: ['visibility', 'fog', 'rainTiming', 'storm', 'windSpeed'],
+    priority: ['commuteDelay', 'visibility', 'fog', 'rainTiming', 'storm', 'windSpeed'],
   },
   {
     id: 'event',

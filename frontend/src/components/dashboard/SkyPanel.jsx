@@ -7,11 +7,36 @@ import { speedUnitKey } from '../../utils/units'
 import { tCity, tCondition, tRegion, tWindDirection } from '../../i18n/vocab'
 import './SkyPanel.css'
 
-/* Maps a condition string onto one of five sky treatments. */
-function skyTheme(condition = '') {
-  const c = condition.toLowerCase()
+/*
+  Maps the condition onto one of five sky treatments.
+
+  Keyed on `conditionGroup`, which the API derives from the WMO code, rather
+  than on the condition text. Matching substrings of the text missed whole
+  categories - "Light Showers" contains neither "rain" nor "drizzle", so a
+  monsoon afternoon in Mumbai rendered as a clear blue sky - and it would have
+  failed for every language the moment the text was translated.
+*/
+const SKY_BY_GROUP = {
+  thunder: 'storm',
+  rain: 'rain',
+  drizzle: 'rain',
+  showers: 'rain',
+  // No snow treatment exists; overcast is the honest neighbour, and falling
+  // rain over a snowy forecast would be worse than no precipitation at all.
+  snow: 'cloudy',
+  fog: 'cloudy',
+  haze: 'cloudy',
+  cloudy: 'cloudy',
+  partly: 'partly',
+  clear: 'clear',
+}
+
+function skyTheme(group, condition = '') {
+  if (group && SKY_BY_GROUP[group]) return SKY_BY_GROUP[group]
+  // `unknown`, or an older payload without a group at all.
+  const c = String(condition).toLowerCase()
   if (c.includes('thunder')) return 'storm'
-  if (c.includes('rain') || c.includes('drizzle')) return 'rain'
+  if (c.includes('rain') || c.includes('drizzle') || c.includes('shower')) return 'rain'
   if (c.includes('partly')) return 'partly'
   if (c.includes('cloud') || c.includes('haz') || c.includes('fog') || c.includes('mist')) return 'cloudy'
   return 'clear'
@@ -46,7 +71,7 @@ function solarPosition(sunrise, sunset, now = new Date()) {
 export default function SkyPanel({ weather }) {
   const { t, n } = useTranslation()
   const { tempUnit, speedUnit } = usePreferences()
-  const theme = skyTheme(weather.condition)
+  const theme = skyTheme(weather.conditionGroup, weather.condition)
   const [{ progress, isDay }, setSolar] = useState(() =>
     solarPosition(weather.sunrise, weather.sunset),
   )

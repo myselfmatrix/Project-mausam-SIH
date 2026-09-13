@@ -22,6 +22,8 @@ import {
   Waves,
   LifeBuoy,
   Smile,
+  Flower2,
+  TrafficCone,
 } from 'lucide-react'
 import {
   tAqiCategory,
@@ -158,6 +160,64 @@ export const METRIC_DEFS = {
     labelKey: 'metric.sunriseSunset',
     getValue: (w, t, n) => `${n(w.sunrise)} / ${n(w.sunset)}`,
     getCaption: (w, t) => t('metric.sunriseSunsetCaption'),
+  },
+  /*
+    Commute impact.
+
+    The brief asks commuters for weather "integrated with traffic updates".
+    We have no traffic feed, so this deliberately does not claim to know the
+    road is busy - it reports what the weather alone adds to a journey, and
+    the caption names the factor responsible so the estimate can be argued
+    with rather than taken on faith.
+  */
+  commuteDelay: {
+    icon: TrafficCone,
+    labelKey: 'metric.commuteDelay',
+    isAvailable: (w) => Boolean(w?.commuteDelay),
+    getValue: (w, t, n) =>
+      w.commuteDelay.minutes > 0
+        ? t('commuteDelay.value', { minutes: n(w.commuteDelay.minutes) })
+        : t('commuteDelay.clear'),
+    getCaption: (w, t) =>
+      w.commuteDelay.reasons?.length
+        ? t(`commuteDelay.reason.${w.commuteDelay.reasons[0]}`)
+        : t('commuteDelay.note'),
+    getStatus: (w) =>
+      ({ clear: 'safe', slight: 'info', significant: 'caution', severe: 'warning' })[
+        w?.commuteDelay?.level
+      ] || null,
+    getPenalty: (w) => {
+      const m = w?.commuteDelay?.minutes
+      if (typeof m !== 'number') return null
+      return Math.min(2, m / 15)
+    },
+  },
+
+  /*
+    Pollen.
+
+    Named directly in the problem statement, and the only metric here whose
+    data does not exist for India: Open-Meteo's pollen model is CAMS Europe,
+    which returns null for every Indian coordinate. `isAvailable` is what
+    makes that honest - the tile appears wherever the provider actually has a
+    reading and stays away where it does not, instead of showing a zero that
+    would read as "no pollen today".
+  */
+  pollen: {
+    icon: Flower2,
+    labelKey: 'metric.pollen',
+    isAvailable: (w) => Boolean(w?.pollen?.band),
+    getValue: (w, t) => t(`pollen.band.${w.pollen.band}`),
+    getCaption: (w, t, n) =>
+      t('pollen.caption', {
+        species: t(`pollen.species.${w.pollen.species}`),
+        value: n(w.pollen.value),
+      }),
+    getStatus: (w) =>
+      ({ low: 'safe', moderate: 'info', high: 'caution', veryHigh: 'warning' })[w?.pollen?.band] ||
+      null,
+    getPenalty: (w) =>
+      ({ low: 0, moderate: 0.4, high: 1.1, veryHigh: 2 })[w?.pollen?.band] ?? null,
   },
   aqi: {
     icon: Gauge,

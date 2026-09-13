@@ -252,7 +252,9 @@
     "waterTemperatureCaption": "દરિયાની સપાટી",
     "outdoorComfort": "બહારનો આરામ",
     "outdoorComfortCaption": "બહારના મેળાવડા માટે",
-    "aqiDominant": "{category} · {pollutant} સૌથી વધુ"
+    "aqiDominant": "{category} · {pollutant} સૌથી વધુ",
+    "pollen": "પરાગ",
+    "commuteDelay": "મુસાફરી પર અસર"
   },
   "value": {
     "likely": "શક્ય",
@@ -467,7 +469,13 @@
     "offlineToggle": "ઓફલાઇન પૂર્વાવલોકન બદલો",
     "offlineBanner": "તમે ઓફલાઇન છો — 12 મિનિટ પહેલાંનો હવામાન ડેટા દર્શાવાઈ રહ્યો છે.",
     "language": "પ્રદર્શન ભાષા",
-    "languageDesc": "આખી એપમાં લાગુ પડે છે, તમે સાઇન ઇન કરો તે દરેક ઉપકરણ પર."
+    "languageDesc": "આખી એપમાં લાગુ પડે છે, તમે સાઇન ઇન કરો તે દરેક ઉપકરણ પર.",
+    "follow": "મારું સ્થાન અનુસરો",
+    "followDesc": "ડેશબોર્ડ આ ડિવાઇસ જ્યાં હોય ત્યાં રાખો, મુસાફરી સાથે બદલાતું રહે.",
+    "followToggle": "સ્થાન અનુસરણ ચાલુ/બંધ",
+    "followOn": "આ ડિવાઇસને અનુસરી રહ્યું છે",
+    "followDenied": "આ સાઇટ માટે સ્થાનની પરવાનગી બંધ છે.",
+    "followUnsupported": "આ બ્રાઉઝર સ્થાન વહેંચી શકતું નથી."
   },
   "customize": {
     "start": "ડેશબોર્ડ કસ્ટમાઇઝ કરો",
@@ -792,5 +800,38 @@
     "voiceFallback": "આ ડિવાઇસ પર {language} અવાજ નથી, તેથી ડિફોલ્ટ અવાજમાં વંચાય છે.",
     "speaking": "બોલી રહ્યું છે — રોકવા ટૅપ કરો.",
     "idle": "લાઇવ આગાહી સાંભળવા પ્લે દબાવો."
+  },
+  "pollen": {
+    "caption": "{species} · {value} કણ/ઘન મી",
+    "band": {
+      "low": "ઓછું",
+      "moderate": "મધ્યમ",
+      "high": "વધુ",
+      "veryHigh": "ખૂબ વધુ"
+    },
+    "species": {
+      "alder": "એલ્ડર",
+      "birch": "બિર્ચ",
+      "grass": "ઘાસ",
+      "mugwort": "મગવર્ટ",
+      "olive": "ઓલિવ",
+      "ragweed": "રેગવીડ"
+    }
+  },
+  "commuteDelay": {
+    "value": "+{minutes} મિનિટ",
+    "clear": "હવામાનથી કોઈ વિલંબ નથી",
+    "note": "માત્ર હવામાન — લાઇવ ટ્રાફિક નહીં",
+    "reason": {
+      "heavyRain": "રસ્તા પર ભારે વરસાદ",
+      "rain": "વરસાદથી ટ્રાફિક ધીમો",
+      "lightRain": "ભીના રસ્તા",
+      "rainLikely": "મુસાફરી સમયે વરસાદ સંભવ",
+      "denseFog": "ગાઢ ધુમ્મસ",
+      "fog": "રસ્તામાં ધુમ્મસ",
+      "lowVisibility": "દૃશ્યતા ઓછી",
+      "strongWind": "તીવ્ર ઝાપટા",
+      "wind": "સપાટાબંધ પવન"
+    }
   }
 }

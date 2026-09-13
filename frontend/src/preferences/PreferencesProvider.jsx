@@ -21,6 +21,18 @@ const DEFAULTS = {
   // Whether the dashboard should keep following the device's position as it
   // moves, rather than staying on the place that was picked once.
   followLocation: false,
+  /*
+    What the user wants to be notified about.
+
+    These decide which advisories count toward the unread badge - never which
+    ones are shown. A hazard stays visible in the alert centre whatever is
+    selected here, and anything at warning or critical severity notifies
+    regardless, because an interest list is a statement about attention, not
+    a waiver of danger.
+  */
+  interests: ['weatherAlerts', 'rain'],
+  // Cuts the dashboard to essentials on a slow or metered connection.
+  dataSaver: false,
 }
 
 const read = () => {
@@ -32,6 +44,8 @@ const read = () => {
       tempUnit: TEMP_UNITS.includes(parsed?.tempUnit) ? parsed.tempUnit : DEFAULTS.tempUnit,
       speedUnit: SPEED_UNITS.includes(parsed?.speedUnit) ? parsed.speedUnit : DEFAULTS.speedUnit,
       followLocation: Boolean(parsed?.followLocation),
+      interests: Array.isArray(parsed?.interests) ? parsed.interests : DEFAULTS.interests,
+      dataSaver: Boolean(parsed?.dataSaver),
     }
   } catch {
     return DEFAULTS
