@@ -257,3 +257,65 @@ exports.setActiveLocation = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+/*
+  PUT /api/users/preferences
+
+  Units, interests and the two connectivity switches. Validated field by field
+  and merged rather than replaced, so a client that knows about fewer settings
+  than the server cannot wipe the ones it has never heard of.
+*/
+const TEMP_UNITS = ['C', 'F'];
+const SPEED_UNITS = ['km/h', 'mph'];
+const KNOWN_INTERESTS = [
+  'weatherAlerts', 'airQuality', 'uv', 'rain', 'travel',
+  'outdoorActivity', 'commute', 'agriculture', 'marine',
+];
+
+exports.updatePreferences = async (req, res) => {
+  try {
+    const body = req.body || {};
+    const update = {};
+
+    if (body.tempUnit !== undefined) {
+      if (!TEMP_UNITS.includes(body.tempUnit)) {
+        return res.status(400).json({ error: `Unknown temperature unit "${body.tempUnit}".` });
+      }
+      update['preferences.tempUnit'] = body.tempUnit;
+    }
+    if (body.speedUnit !== undefined) {
+      if (!SPEED_UNITS.includes(body.speedUnit)) {
+        return res.status(400).json({ error: `Unknown speed unit "${body.speedUnit}".` });
+      }
+      update['preferences.speedUnit'] = body.speedUnit;
+    }
+    if (body.dataSaver !== undefined) update['preferences.dataSaver'] = Boolean(body.dataSaver);
+    if (body.followLocation !== undefined) {
+      update['preferences.followLocation'] = Boolean(body.followLocation);
+    }
+    if (body.interests !== undefined) {
+      if (!Array.isArray(body.interests)) {
+        return res.status(400).json({ error: 'Interests must be a list.' });
+      }
+      // Unknown ids are dropped rather than rejected: a newer client sending
+      // an interest this server does not know about should still be able to
+      // save the rest of its settings.
+      update['preferences.interests'] = body.interests.filter((i) => KNOWN_INTERESTS.includes(i));
+    }
+
+    if (Object.keys(update).length === 0) {
+      return res.status(400).json({ error: 'No preferences to update.' });
+    }
+
+    const user = await User.findByIdAndUpdate(req.userId, update, {
+      new: true,
+      runValidators: true,
+    });
+    if (!user) return res.status(404).json({ error: 'Account not found.' });
+
+    res.json({ preferences: user.toPublicJSON().preferences });
+  } catch (error) {
+    console.error('updatePreferences failed:', error);
+    res.status(500).json({ error: 'Could not save your preferences.' });
+  }
+};

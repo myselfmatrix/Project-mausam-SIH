@@ -9,6 +9,7 @@ const {
   replaceLocations,
   removeLocation,
   setActiveLocation,
+  updatePreferences,
 } = require('../controllers/userController');
 const { requireAuth } = require('../middleware/auth');
 
@@ -20,6 +21,7 @@ router.get('/profile', getProfile);
 // The client saves the persona with POST; PUT is kept because it is the more
 // correct verb for a full replace and older callers may still use it.
 router.post('/persona', updatePersona);
+router.put('/preferences', updatePreferences);
 router.put('/persona', updatePersona);
 
 router.post('/language', updateLanguage);

@@ -455,8 +455,6 @@
     "windSpeed": "Wind speed",
     "briefTitle": "Today's Weather Brief",
     "briefSummary": "30-second audio summary",
-    "briefPlaying": "Playing… (narration audio coming soon)",
-    "briefIdle": "Tap play for a spoken summary",
     "briefPlay": "Play brief",
     "briefPause": "Pause brief",
     "connectivity": "Connectivity",

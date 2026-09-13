@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
@@ -7,6 +7,7 @@ import OnboardingPage from './pages/OnboardingPage'
 import DashboardPage from './pages/DashboardPage'
 import IntroSequence from './components/intro/IntroSequence'
 import { post, get, getToken } from './services/api'
+import { usePreferences } from './preferences/PreferencesProvider'
 
 // Cross-page transition. Kept short and subtle — this fires on every route
 // change, so anything longer starts feeling like latency.
@@ -17,10 +18,30 @@ const pageTransition = {
   transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
 }
 
+/*
+  The chosen persona, remembered on this device.
+
+  It used to live only in component state seeded with 'health', and the
+  profile fetch never read it back, so every reload silently returned the user
+  to the health dashboard no matter what they had picked - and with the
+  database unreachable there was nothing to restore it from at all. Reading it
+  synchronously here also removes the flash of the wrong dashboard while the
+  profile request is in flight.
+*/
+const PERSONA_STORAGE_KEY = 'mausam_persona'
+
+const readStoredPersona = () => {
+  try {
+    return localStorage.getItem(PERSONA_STORAGE_KEY) || null
+  } catch {
+    return null
+  }
+}
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [userId, setUserId] = useState(null)
-  const [userPersona, setUserPersona] = useState('health')
+  const [userPersona, setUserPersona] = useState(() => readStoredPersona() || 'health')
   /*
     The account's own last-used location, so signing in on a new device lands
     on the city the user actually cares about rather than the project default.
@@ -29,6 +50,7 @@ function App() {
   */
   const [userActiveLocation, setUserActiveLocation] = useState(null)
   const [showIntro, setShowIntro] = useState(true)
+  const { adoptFromAccount } = usePreferences()
 
   useEffect(() => {
     const savedUserId = localStorage.getItem('userId')
@@ -38,6 +60,17 @@ function App() {
       setUserId(savedUserId)
       const onboarded = localStorage.getItem('mausam_onboarded')
       setCurrentPage(onboarded ? 'dashboard' : 'onboarding')
+    }
+  }, [])
+
+  // Declared before the profile effect that calls it: as a const it would
+  // otherwise be read from its own temporal dead zone on the line above.
+  const handlePersonaSelect = useCallback((persona) => {
+    setUserPersona(persona)
+    try {
+      localStorage.setItem(PERSONA_STORAGE_KEY, persona)
+    } catch {
+      // Storage blocked — the choice just will not survive a reload.
     }
   }, [])
 
@@ -55,9 +88,17 @@ function App() {
         if (active && Number.isFinite(active.lat) && Number.isFinite(active.lon)) {
           setUserActiveLocation(active)
         }
+        /*
+          The account's persona wins only on a device that has none of its
+          own - the same rule as the active location. Otherwise signing in
+          would yank someone out of the dashboard they were just using.
+        */
+        if (data?.persona && !readStoredPersona()) handlePersonaSelect(data.persona)
+        // Units and interests, for a device that has not set its own.
+        adoptFromAccount(data?.preferences)
       })
       .catch(() => {})
-  }, [userId])
+  }, [userId, adoptFromAccount, handlePersonaSelect])
 
   const handleHomeGetStarted = () => setCurrentPage('signup')
   const handleHomeSignIn = () => setCurrentPage('login')
@@ -75,8 +116,6 @@ function App() {
     setUserId(localStorage.getItem('userId'))
     setCurrentPage('onboarding')
   }
-
-  const handlePersonaSelect = (persona) => setUserPersona(persona)
 
   const handleOnboardingComplete = async (personaId) => {
     handlePersonaSelect(personaId)

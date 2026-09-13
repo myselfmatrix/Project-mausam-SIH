@@ -14,8 +14,8 @@ const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.04 } } }
 
 export default function PersonalizeTab({ activePersonaId, onPersonaChange }) {
   const { t } = useTranslation()
-  // Local-only for this prototype — wire to /api/users/preferences once that
-  // endpoint exists; it currently only stores a single `persona` field.
+  // Saved through the preference store, which persists on this device and
+  // syncs to /api/users/preferences when there is a session.
   const { interests, setPreference } = usePreferences()
 
   /*

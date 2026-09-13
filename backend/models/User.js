@@ -51,6 +51,30 @@ const userSchema = new mongoose.Schema({
     // explicitly with .select('+password').
     select: false
   },
+  /*
+    Display preferences, so a second device starts where the first left off.
+
+    Deliberately a small, closed set rather than a free-form object: this is
+    written from the browser, and an open bag would let a client store
+    arbitrary data on the account. Everything here is also kept in
+    localStorage, which stays the authority while a device is in use - the
+    account copy is the backup a fresh sign-in restores from.
+  */
+  preferences: {
+    tempUnit: { type: String, enum: ['C', 'F'], default: 'C' },
+    speedUnit: { type: String, enum: ['km/h', 'mph'], default: 'km/h' },
+    dataSaver: { type: Boolean, default: false },
+    followLocation: { type: Boolean, default: false },
+    interests: {
+      type: [String],
+      default: ['weatherAlerts', 'rain'],
+      validate: {
+        validator: (list) => Array.isArray(list) && list.length <= 20,
+        message: 'Too many interests.'
+      }
+    }
+  },
+
   selectedPersona: {
     type: String,
     enum: ['health', 'fitness', 'beach', 'travel', 'parent', 'gardener', 'commuter', 'event'],
@@ -176,6 +200,13 @@ userSchema.methods.toPublicJSON = function toPublicJSON() {
       }
       : null,
     savedLocations: this.publicLocations(),
+    preferences: {
+      tempUnit: this.preferences?.tempUnit || 'C',
+      speedUnit: this.preferences?.speedUnit || 'km/h',
+      dataSaver: Boolean(this.preferences?.dataSaver),
+      followLocation: Boolean(this.preferences?.followLocation),
+      interests: this.preferences?.interests || ['weatherAlerts', 'rain']
+    },
     language: this.language || DEFAULT_LANGUAGE
   };
 };

@@ -1,5 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { TEMP_UNITS, SPEED_UNITS } from '../utils/units'
+import { put, getToken } from '../services/api'
 
 /*
   Display preferences that belong to the device, not the account.
@@ -35,6 +36,15 @@ const DEFAULTS = {
   dataSaver: false,
 }
 
+/** Whether this device has ever stored a choice of its own. */
+const hasLocalChoice = () => {
+  try {
+    return localStorage.getItem(STORAGE_KEY) !== null
+  } catch {
+    return false
+  }
+}
+
 const read = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -56,6 +66,9 @@ const PreferencesContext = createContext(null)
 
 export default function PreferencesProvider({ children }) {
   const [prefs, setPrefs] = useState(read)
+  // Whether this device had its own stored choice when the app started, which
+  // decides whether the account's copy is allowed to overwrite it below.
+  const deviceHadChoice = useRef(hasLocalChoice())
 
   useEffect(() => {
     try {
@@ -65,11 +78,47 @@ export default function PreferencesProvider({ children }) {
     }
   }, [prefs])
 
-  const setPreference = useCallback((key, value) => {
-    setPrefs((prev) => (prev[key] === value ? prev : { ...prev, [key]: value }))
+  /*
+    Adopt the account's settings only on a device that has none of its own.
+
+    A fresh sign-in should arrive already in °F if that is how this person
+    reads weather. But a device that has been used has the more recent
+    intention, and pulling the account copy over it would undo a change the
+    user made moments ago on this very screen.
+  */
+  const adoptFromAccount = useCallback((remote) => {
+    if (!remote || deviceHadChoice.current) return
+    deviceHadChoice.current = true
+    setPrefs((prev) => ({
+      ...prev,
+      tempUnit: TEMP_UNITS.includes(remote.tempUnit) ? remote.tempUnit : prev.tempUnit,
+      speedUnit: SPEED_UNITS.includes(remote.speedUnit) ? remote.speedUnit : prev.speedUnit,
+      dataSaver: Boolean(remote.dataSaver),
+      followLocation: Boolean(remote.followLocation),
+      interests: Array.isArray(remote.interests) ? remote.interests : prev.interests,
+    }))
   }, [])
 
-  const value = useMemo(() => ({ ...prefs, setPreference }), [prefs, setPreference])
+  const setPreference = useCallback((key, value) => {
+    setPrefs((prev) => {
+      if (prev[key] === value) return prev
+      const next = { ...prev, [key]: value }
+      /*
+        Push to the account in the background.
+
+        Never awaited and never surfaced: the setting is already applied
+        locally and stored, so a failed sync costs only its presence on the
+        next device - not the change the user just made.
+      */
+      if (getToken()) put('/users/preferences', { [key]: value }).catch(() => {})
+      return next
+    })
+  }, [])
+
+  const value = useMemo(
+    () => ({ ...prefs, setPreference, adoptFromAccount }),
+    [prefs, setPreference, adoptFromAccount],
+  )
 
   return <PreferencesContext.Provider value={value}>{children}</PreferencesContext.Provider>
 }

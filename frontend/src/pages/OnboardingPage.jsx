@@ -6,10 +6,11 @@ import {
 } from 'lucide-react'
 import { PERSONAS, getPersona } from '../data/personaData'
 import { INTERESTS } from '../data/interestData'
+import { usePreferences } from '../preferences/PreferencesProvider'
 import { DEFAULT_PLACE } from '../data/locationData'
 import Logo from '../components/brand/Logo'
 import LocationPicker from '../components/location/LocationPicker'
-import { put, getToken } from '../services/api'
+import { put, getToken, post} from '../services/api'
 import { useTranslation } from '../i18n/useTranslation'
 import { tCity, tRegion } from '../i18n/vocab'
 // Reuse the persona-card / interest-chip visual language already
@@ -67,6 +68,7 @@ const stepVariants = {
 }
 
 export default function OnboardingPage({ onComplete }) {
+  const { setPreference } = usePreferences()
   const { t, n } = useTranslation()
   const [step, setStep] = useState(0)
   const [persona, setPersona] = useState(null)
@@ -121,12 +123,15 @@ export default function OnboardingPage({ onComplete }) {
   }
 
   const handleFinish = () => {
-    // Local-only for this prototype — no backend endpoint exists yet for
-    // location context / priorities. Swap these for a real API call (e.g.
-    // POST /api/users/preferences) once the backend supports it; the
-    // persona itself is already synced via App.jsx's onComplete handler.
-    localStorage.setItem('mausam_location_context', resolvedLocationLabel)
-    localStorage.setItem('mausam_priorities', JSON.stringify(priorities))
+    /*
+      What was chosen on the priorities step becomes the account's interests.
+
+      These used to be written to a `mausam_priorities` key that nothing ever
+      read, so the step asked the user a question and then discarded the
+      answer. They now go through the same preference store the Personalize
+      tab edits and the alert badge reads, and sync to the account from there.
+    */
+    setPreference('interests', priorities)
 
     /*
       Hand the chosen place to the dashboard.
@@ -137,12 +142,30 @@ export default function OnboardingPage({ onComplete }) {
       device. Both are skipped when nothing was chosen.
     */
     if (place) {
+      /*
+        Carry the context answer onto the place itself.
+
+        The step asks whether this is home, college, office or the farm, and
+        that answer used to be written to a key nothing read. It is a label
+        for the place, and the saved-location list already knows how to
+        render one - as a catalog key rather than text, so it stays in the
+        reader's language if they switch.
+      */
+      const contextual =
+        selectedLocationOption && !['current', 'custom'].includes(selectedLocationOption.id)
+          ? { ...place, labelKey: selectedLocationOption.labelKey }
+          : place
+
       try {
-        localStorage.setItem('mausam_place_v2', JSON.stringify(place))
+        localStorage.setItem('mausam_place_v2', JSON.stringify(contextual))
       } catch {
         // storage blocked - the dashboard falls back to the default place
       }
-      if (getToken()) put('/users/locations/active', place).catch(() => {})
+      if (getToken()) {
+        put('/users/locations/active', contextual).catch(() => {})
+        // Also keep it in the list, so the label is visible somewhere.
+        post('/users/locations', contextual).catch(() => {})
+      }
     }
 
     onComplete(persona)
