@@ -14,7 +14,9 @@
     "closeMenu": "Close menu",
     "notSet": "Not set",
     "na": "N/A",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "showText": "Show text",
+    "hide": "Hide text"
   },
   "language": {
     "label": "Language",
@@ -782,6 +784,21 @@
       "what": "Good sowing conditions",
       "why": "Soil moisture is {moisture}% with only a {rain}% chance of rain — the ground is workable.",
       "action": "A good window for sowing or transplanting. Nothing else needed."
+    },
+    "outdoorWindow": {
+      "what": "Best window to be outside — {start} to {end}",
+      "why": "Heat, UV, rain and air quality all line up more kindly in this stretch than the rest of the day.",
+      "action": "Put the run, the walk or the outdoor work in this window if you can."
+    },
+    "tideInfo": {
+      "what": "{next} tide at {time}",
+      "why": "Height {height} m. The beach is widest around low water and the water is calmest either side of the turn.",
+      "action": "Plan a walk around low water and swimming for the calmer hour on either side."
+    },
+    "airGood": {
+      "what": "Air quality is clean today — AQI {aqi}",
+      "why": "CPCB {category}. No restriction needed for outdoor activity at this level.",
+      "action": "A good day to run, cycle or open the windows."
     }
   },
   "units": {

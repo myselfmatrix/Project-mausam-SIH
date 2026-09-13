@@ -284,6 +284,56 @@ function sowingAlert(weather, out) {
   }));
 }
 
+
+/*
+  Advisories that are not warnings.
+
+  Without these the banner is silent for any persona that happens to have no
+  hazard today, and since the banner picks the worst thing on the board, a
+  beachgoer would be shown a commuter's fog. These fire from the same live
+  data and carry the one thing that persona actually plans around, so on a
+  calm day the dashboard still tells each user something they can act on
+  rather than something meant for someone else.
+
+  All are `info`, the lowest severity, so they can never displace a real
+  hazard - severity is sorted before persona relevance.
+*/
+
+function outdoorWindowAlert(weather, out) {
+  const w = weather.workoutWindow;
+  if (!w || !w.start || !w.end) return;
+  // A window we would not recommend is not worth announcing as one.
+  if (w.quality === 'Poor') return;
+  out.push(alert('outdoor-window', 'info', 'weather', ['fitness', 'event'], {
+    key: 'outdoorWindow',
+    params: { start: w.start, end: w.end, quality: w.quality || '' },
+    whenKey: 'alert.when.range',
+    whenParams: { range: `${w.start} - ${w.end}` },
+  }));
+}
+
+function tideInfoAlert(weather, out) {
+  const tide = weather.tide;
+  if (!weather.isCoastal || !tide || !tide.next || !tide.time) return;
+  out.push(alert('tide-info', 'info', 'marine', ['beach', 'travel'], {
+    key: 'tideInfo',
+    params: { next: tide.next, time: tide.time, height: tide.heightM },
+    whenKey: 'alert.when.fromTime',
+    whenParams: { from: tide.time },
+  }));
+}
+
+function cleanAirAlert(weather, out) {
+  // Only worth saying where bad air is the norm and today is not: below the
+  // CPCB "Moderate" floor, with a real reading behind it.
+  if (!isNum(weather.aqi) || weather.aqi > AQI.moderate) return;
+  out.push(alert('air-good', 'info', 'health', ['health', 'fitness', 'parent'], {
+    key: 'airGood',
+    params: { aqi: weather.aqi, category: weather.aqiCategory || '' },
+  }));
+}
+
+
 /**
  * Everything the current conditions warrant, worst first.
  *
@@ -306,6 +356,11 @@ function buildAlerts(weather) {
   marineAlerts(weather, out);
   schoolAlert(weather, out);
   sowingAlert(weather, out);
+
+  // Lowest severity, added last: they fill a quiet board, never crowd a busy one.
+  outdoorWindowAlert(weather, out);
+  tideInfoAlert(weather, out);
+  cleanAirAlert(weather, out);
 
   return out.sort((a, b) => SEVERITY_RANK[b.severity] - SEVERITY_RANK[a.severity]);
 }

@@ -112,9 +112,35 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
       !a.read &&
       (a.severity === 'critical' || a.severity === 'warning' || watchedCategories.has(a.category)),
   )
-  // The banner carries the worst thing happening, not the newest. The API
-  // already sorts by severity, so the first entry is the one to pin.
-  const topAlert = alerts.find((a) => a.severity === 'critical' || a.severity === 'warning') || alerts[0]
+
+  /*
+    The banner: danger first, then whoever it is for.
+
+    "Severe weather overrides personalization" is about severe weather, and
+    only `warning` and `critical` qualify - a gale or a heat wave belongs on
+    every persona's screen whether or not it is their subject. Below that
+    line the override does not apply, and treating it as though it did was
+    the bug: every ordinary day is made of `caution` and `info` advisories,
+    so sorting purely by severity pinned the same "moderate rain" banner to
+    all eight personas and a beachgoer never saw their own tide.
+
+    So: dangers outrank everything, and among the rest the persona decides.
+  */
+  const SEVERITY_RANK = { critical: 4, warning: 3, caution: 2, info: 1 }
+  const DANGER_RANK = { critical: 2, warning: 1 }
+
+  const topAlert = useMemo(() => {
+    if (!alerts.length) return null
+    const danger = (a) => DANGER_RANK[a.severity] || 0
+    const relevance = (a) => (a.personas?.includes(userPersona) ? 1 : 0)
+    return [...alerts].sort(
+      (a, b) =>
+        danger(b) - danger(a) ||
+        relevance(b) - relevance(a) ||
+        (SEVERITY_RANK[b.severity] || 0) - (SEVERITY_RANK[a.severity] || 0),
+    )[0]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [alerts, userPersona])
 
   /*
     The account's choice wins on a fresh device.
@@ -180,6 +206,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
         persona={persona}
         userName={userName}
         topAlert={topAlert}
+        alerts={alerts}
         onViewAlerts={() => setActiveTab('alerts')}
         onPersonaChange={handlePersonaChange}
         dataSaver={dataSaver}
@@ -207,8 +234,6 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
         userName={userName}
         userEmail={userEmail}
         onLogout={handleLogout}
-        weather={weather}
-        alerts={alerts}
         followStatus={followStatus}
       />
     ),

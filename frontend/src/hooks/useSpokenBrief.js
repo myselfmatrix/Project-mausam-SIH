@@ -1,18 +1,35 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { tCity, tCondition, tWindDirection } from '../i18n/vocab'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { tAqiCategory, tCity, tCondition, tWindDirection } from '../i18n/vocab'
+import { useTranslation } from '../i18n/useTranslation'
+import { createTranslator } from '../i18n/translate'
+import { getLanguage } from '../i18n/languages'
+import EN from '../i18n/en.json'
 
 /*
-  A spoken summary of the live forecast, in the reader's language.
+  A spoken summary of the live forecast, in a language of the listener's
+  choosing.
 
-  This uses the browser's own speech synthesis rather than generated audio
-  files. Two reasons that matter here: the brief describes weather that
-  changes every ten minutes, so there is nothing to pre-record; and the app
-  speaks eight languages, which would otherwise mean eight recordings per
-  location per update.
+  Browser speech synthesis rather than generated audio: the brief describes
+  weather that changes every ten minutes, so there is nothing to pre-record,
+  and the app speaks eight languages, which would otherwise mean eight
+  recordings per location per update.
 
-  What it says is assembled from the same catalog the screen uses, so the
-  spoken and written versions cannot drift apart.
+  The narration language is deliberately separate from the interface language
+  - someone reading English may want to hand the phone to a parent who does
+  not - so the script is built against *that* language's catalog rather than
+  the one on screen. Setting only the speech voice would read English words in
+  a Tamil accent, which is not the same feature at all.
 */
+
+const flatten = (object, prefix = '') =>
+  Object.entries(object).reduce((out, [key, value]) => {
+    const name = prefix ? `${prefix}.${key}` : key
+    return value && typeof value === 'object' && !Array.isArray(value)
+      ? { ...out, ...flatten(value, name) }
+      : { ...out, [name]: value }
+  }, {})
+
+const EN_FLAT = flatten(EN)
 
 /** Voices whose language matches, best match first. */
 function pickVoice(voices, langCode) {
@@ -25,13 +42,36 @@ function pickVoice(voices, langCode) {
   return indian || exact[0] || loose[0] || null
 }
 
-export function useSpokenBrief({ weather, alerts = [], t, language, languageLabel }) {
+export function useSpokenBrief({ weather, alerts = [], language }) {
+  const { loadCatalog, languages } = useTranslation()
   const [isSpeaking, setSpeaking] = useState(false)
   const [notice, setNotice] = useState(null)
   const [voices, setVoices] = useState([])
-  const utteranceRef = useRef(null)
+  const [catalog, setCatalog] = useState(EN_FLAT)
 
   const supported = typeof window !== 'undefined' && 'speechSynthesis' in window
+  const languageLabel = (languages || []).find((l) => l.code === language)?.label || language
+
+  // The narration language's own catalog. Falls back to English rather than
+  // failing, so the brief always has words to say.
+  useEffect(() => {
+    let cancelled = false
+    loadCatalog(language)
+      .then((strings) => {
+        if (!cancelled) setCatalog(strings || EN_FLAT)
+      })
+      .catch(() => {
+        if (!cancelled) setCatalog(EN_FLAT)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [language, loadCatalog])
+
+  const speak_t = useMemo(
+    () => createTranslator(catalog, EN_FLAT, getLanguage(language).numerals),
+    [catalog, language],
+  )
 
   /*
     Chrome populates the voice list asynchronously and fires `voiceschanged`
@@ -54,8 +94,9 @@ export function useSpokenBrief({ weather, alerts = [], t, language, languageLabe
     [supported],
   )
 
-  const buildScript = useCallback(() => {
+  const script = useMemo(() => {
     if (!weather) return ''
+    const t = speak_t
     const parts = [
       t('brief.now', {
         location: tCity(t, weather.location),
@@ -69,7 +110,10 @@ export function useSpokenBrief({ weather, alerts = [], t, language, languageLabe
       parts.push(
         t('brief.air', {
           aqi: weather.aqi,
-          category: weather.aqiCategory || '',
+          // Through the vocab helper, not raw: the backend sends CPCB
+          // categories as English strings, so passing one straight in left
+          // "Satisfactory" spoken in the middle of a Tamil sentence.
+          category: tAqiCategory(t, weather.aqiCategory),
           pollutant: weather.aqiDominantLabel || '',
         }),
       )
@@ -100,7 +144,7 @@ export function useSpokenBrief({ weather, alerts = [], t, language, languageLabe
     }
 
     return parts.join(' ')
-  }, [weather, alerts, t])
+  }, [weather, alerts, speak_t])
 
   const stop = useCallback(() => {
     if (!supported) return
@@ -110,23 +154,29 @@ export function useSpokenBrief({ weather, alerts = [], t, language, languageLabe
 
   const speak = useCallback(() => {
     if (!supported) {
-      setNotice(t('brief.unsupported'))
+      setNotice(speak_t('brief.unsupported'))
       return
     }
-    if (!weather) return
+    if (!weather || !script) return
 
     window.speechSynthesis.cancel()
 
-    const utterance = new SpeechSynthesisUtterance(buildScript())
+    const utterance = new SpeechSynthesisUtterance(script)
     const voice = pickVoice(voices, language)
     if (voice) {
       utterance.voice = voice
       utterance.lang = voice.lang
       setNotice(null)
     } else {
-      // Say so rather than reading Tamil in an English voice without warning.
+      /*
+        No installed voice for this language.
+
+        The words are still correct - they come from that language's catalog -
+        so the brief is read aloud anyway, in whatever voice the device has.
+        Saying so beats either silence or pretending it sounded right.
+      */
       utterance.lang = `${language}-IN`
-      setNotice(language === 'en' ? null : t('brief.voiceFallback', { language: languageLabel }))
+      setNotice(language === 'en' ? null : speak_t('brief.voiceFallback', { language: languageLabel }))
     }
     // A shade under natural pace: weather briefs are dense with numbers.
     utterance.rate = 0.95
@@ -134,17 +184,31 @@ export function useSpokenBrief({ weather, alerts = [], t, language, languageLabe
     utterance.onend = () => setSpeaking(false)
     utterance.onerror = () => setSpeaking(false)
 
-    utteranceRef.current = utterance
     setSpeaking(true)
     window.speechSynthesis.speak(utterance)
-  }, [supported, weather, buildScript, voices, language, languageLabel, t])
+  }, [supported, weather, script, voices, language, languageLabel, speak_t])
+
+  /*
+    Changing language or place mid-sentence would leave the old brief talking
+    over the new one. Kept in a ref and assigned inside an effect, so the
+    cancel-on-change effect does not have to depend on `stop` - depending on
+    it would re-run on every render that produced a new callback and cut the
+    narration off almost immediately.
+  */
+  const stopRef = useRef(stop)
+  useEffect(() => {
+    stopRef.current = stop
+  }, [stop])
+  useEffect(() => {
+    stopRef.current?.()
+  }, [language, weather?.location])
 
   const toggle = useCallback(() => {
     if (isSpeaking) stop()
     else speak()
   }, [isSpeaking, speak, stop])
 
-  return { isSpeaking, toggle, stop, supported, notice, script: buildScript() }
+  return { isSpeaking, toggle, stop, supported, notice, script, t: speak_t }
 }
 
 export default useSpokenBrief

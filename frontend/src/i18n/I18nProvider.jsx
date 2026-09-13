@@ -9,6 +9,7 @@ import {
   normalizeLanguage,
 } from './languages'
 import { toNumerals } from './numerals'
+import { createTranslator } from './translate'
 import EN_NESTED from './en.json'
 
 /*
@@ -68,14 +69,6 @@ function writeCachedCatalog(code, strings) {
     // Quota or private mode: the catalog still works this session, it just
     // gets re-fetched next time.
   }
-}
-
-/** Fills {placeholders} from `vars`; leaves unknown ones visible on purpose. */
-function interpolate(template, vars) {
-  if (!vars) return template
-  return template.replace(/\{(\w+)\}/g, (match, name) =>
-    Object.prototype.hasOwnProperty.call(vars, name) ? String(vars[name]) : match,
-  )
 }
 
 export default function I18nProvider({ children }) {
@@ -171,16 +164,43 @@ export default function I18nProvider({ children }) {
   */
   const numerals = getLanguage(language).numerals
 
+  // Digits are converted last, after interpolation, so both the numbers baked
+  // into a translated string and the ones passed in as variables are covered
+  // without any caller having to remember to convert anything.
   const t = useCallback(
-    (key, vars, fallback) => {
-      const template = catalog[key] ?? EN[key] ?? fallback ?? key
-      // Digits last, after interpolation: this catches both the numbers baked
-      // into a translated string and the ones passed in as variables, so no
-      // caller has to remember to convert anything.
-      return toNumerals(interpolate(template, vars), numerals)
-    },
+    (key, vars, fallback) => createTranslator(catalog, EN, numerals)(key, vars, fallback),
     [catalog, numerals],
   )
+
+  /*
+    Fetch any language's catalog, not just the one on screen.
+
+    The spoken brief can be read out in a language the reader has not selected
+    for the interface, and it has to actually say the words in that language -
+    not read English text in a Tamil accent, which is what happens when only
+    the speech voice changes. Shares the same in-memory and localStorage
+    caches as the display catalog, so a language already seen costs nothing.
+  */
+  const loadCatalog = useCallback(async (code) => {
+    if (!code || code === DEFAULT_LANGUAGE) return EN
+    if (fetchedRef.current[code]) return fetchedRef.current[code]
+
+    const cached = readCachedCatalog(code)
+    if (cached) {
+      fetchedRef.current[code] = cached
+      return cached
+    }
+    try {
+      const data = await get(`/i18n/${code}`)
+      if (!data?.strings) return EN
+      const merged = { ...EN, ...data.strings }
+      fetchedRef.current[code] = merged
+      writeCachedCatalog(code, merged)
+      return merged
+    } catch {
+      return EN
+    }
+  }, [])
 
   /*
     For numbers rendered straight into JSX rather than through a catalog
@@ -199,8 +219,9 @@ export default function I18nProvider({ children }) {
       loading,
       dir: getLanguage(language).dir,
       numerals,
+      loadCatalog,
     }),
-    [t, n, language, setLanguage, languages, loading, numerals],
+    [t, n, language, setLanguage, languages, loading, numerals, loadCatalog],
   )
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>

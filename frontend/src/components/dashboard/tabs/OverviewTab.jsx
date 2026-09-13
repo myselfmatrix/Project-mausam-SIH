@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CalendarDays, MapPin, Radio } from 'lucide-react'
 import AlertBanner from '../AlertBanner'
+import VoiceBrief from '../VoiceBrief'
 import MetricCard from '../MetricCard'
 import ComfortGauge from '../ComfortGauge'
 import SkyPanel from '../SkyPanel'
@@ -42,6 +43,7 @@ export default function OverviewTab({
   persona,
   userName,
   topAlert,
+  alerts = [],
   onViewAlerts,
   onPersonaChange,
   dataSaver = false,
@@ -73,7 +75,15 @@ export default function OverviewTab({
        which is a worse fit for the persona but a far better screen than a
        single card floating in white space.
   */
-  const UNIVERSAL_FALLBACK = ['temperature', 'rainProbability', 'humidity', 'windSpeed', 'uvIndex', 'sunriseSunset', 'visibility', 'aqi']
+  /*
+    Ordered by how much the reading changes what someone does today, because
+    the top-up stops at five and everything after that is cut. Air quality was
+    last, which meant a beachgoer at Leh - where the persona's own tiles do not
+    apply - got wind, rain and humidity while an AQI of 175 never appeared at
+    all. On an Indian forecast that is the reading most likely to change a
+    plan, so it sits behind only the temperature and the rain.
+  */
+  const UNIVERSAL_FALLBACK = ['temperature', 'rainProbability', 'aqi', 'uvIndex', 'humidity', 'windSpeed', 'visibility', 'sunriseSunset']
 
   /*
     Data Saver keeps the three things nobody can plan a day without.
@@ -200,6 +210,11 @@ export default function OverviewTab({
           <AlertBanner alert={topAlert} onViewAll={onViewAlerts} />
         </motion.div>
       )}
+
+      {/* Below the warning, above the numbers: the brief narrates both. */}
+      <motion.div variants={fadeUp}>
+        <VoiceBrief weather={weather} alerts={alerts} />
+      </motion.div>
 
       <motion.div variants={fadeUp}>
         <SkyPanel weather={weather} />

@@ -1,0 +1,138 @@
+/*
+  The spoken-brief bar.
+
+  Deliberately quieter than a metric tile: it sits above the grid and must not
+  compete with the forecast it narrates. One accent element - the play button
+  - and everything else in the surface's own palette.
+*/
+
+.vbrief {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  transition: border-color var(--transition-base);
+}
+
+.vbrief.is-speaking {
+  border-color: var(--color-accent, var(--color-border));
+}
+
+.vbrief-play {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #fff;
+  background: var(--color-accent, #2f6fed);
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.vbrief-play:hover {
+  filter: brightness(1.08);
+}
+
+.vbrief-play:active {
+  transform: scale(0.94);
+}
+
+.vbrief-play:focus-visible {
+  outline: 2px solid var(--color-accent, #2f6fed);
+  outline-offset: 3px;
+}
+
+/* A ring that breathes only while it is actually speaking, so the state is
+   readable from across a room. */
+.vbrief.is-speaking .vbrief-play {
+  animation: vbrief-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes vbrief-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(47, 111, 237, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(47, 111, 237, 0);
+  }
+}
+
+.vbrief-body {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.vbrief-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  color: var(--color-text);
+}
+
+.vbrief-meta {
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.vbrief-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+
+.vbrief-lang,
+.vbrief-toggle {
+  font: inherit;
+  font-size: var(--text-xs);
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised, var(--color-surface));
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.vbrief-toggle:hover,
+.vbrief-lang:hover {
+  border-color: var(--color-text-muted);
+}
+
+.vbrief-script {
+  flex-basis: 100%;
+  margin-top: var(--space-1);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--color-border);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  max-width: 70ch;
+}
+
+@media (max-width: 560px) {
+  .vbrief {
+    gap: var(--space-3);
+  }
+  .vbrief-controls {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vbrief.is-speaking .vbrief-play {
+    animation: none;
+  }
+}

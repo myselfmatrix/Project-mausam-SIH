@@ -246,12 +246,46 @@
     z-index: 2;
   }
 
+  /*
+    Solid, not glass, once the panel is pinned over the blocks.
+
+    On two columns the panel sits beside the blocks and the frosted surface is
+    free decoration. On one column it sits ON them - they scroll underneath -
+    so a translucent background showed their text and rail straight through
+    the panel, which read as two layers of interface stacked on top of each
+    other rather than as one card.
+  */
   .story-panel {
     padding: var(--space-5);
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border-color: var(--glass-border);
+    background: var(--color-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /*
+    The rail and its travelling dot are a two-column device.
+
+    They mark progress down a column that sits next to the panel. Stacked,
+    the rail runs beneath the panel and the dot - offset -6px to straddle the
+    rail - lands in the page gutter, so both appear as stray blue marks at the
+    very edge of the screen with nothing to attach them to. A rule above each
+    block says the same thing in a form that works in one column.
+  */
+  .story-block {
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    padding-left: 0;
+  }
+
+  .story-block::before {
+    display: none;
+  }
+
+  .story-block.is-active {
+    border-left-color: transparent;
+    border-top-color: var(--color-accent);
   }
 
   .story-score {
@@ -271,7 +305,7 @@
     margin-top: var(--space-4);
   }
   .story-block {
-    padding-left: var(--space-5);
+    padding-left: 0;
   }
 }
 
