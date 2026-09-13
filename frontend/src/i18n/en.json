@@ -333,7 +333,8 @@
     "subtitle": "Here's what matters for your {persona} today.",
     "viewingAs": "Viewing as",
     "comfortTitle": "{persona} comfort score",
-    "prioritized": "Prioritized for you — {persona}"
+    "prioritized": "Prioritized for you — {persona}",
+    "personaNotHere": "{persona} needs readings {location} does not have — showing the general view."
   },
   "gauge": {
     "outOf": "out of 10",

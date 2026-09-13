@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { PERSONAS } from '../../../data/personaData'
+import { getAvailablePersonas } from '../../../utils/personalization'
 import { INTERESTS } from '../../../data/interestData'
 import { useTranslation } from '../../../i18n/useTranslation'
 import { usePreferences } from '../../../preferences/PreferencesProvider'
@@ -12,7 +13,20 @@ const fadeUp = {
 }
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.04 } } }
 
-export default function PersonalizeTab({ activePersonaId, onPersonaChange }) {
+export default function PersonalizeTab({ activePersonaId, onPersonaChange, weather }) {
+  /*
+    Same rule as the dashboard's own switcher: a persona is only offered
+    where its readings exist. The active one is kept regardless, so a
+    beachgoer currently looking at an inland city can still see, and change,
+    what they are set to.
+  */
+  const offered = (() => {
+    const available = getAvailablePersonas(weather)
+    if (available.some((p) => p.id === activePersonaId)) return available
+    const current = PERSONAS.find((p) => p.id === activePersonaId)
+    return current ? [current, ...available] : available
+  })()
+
   const { t } = useTranslation()
   // Saved through the preference store, which persists on this device and
   // syncs to /api/users/preferences when there is a session.
@@ -45,7 +59,7 @@ export default function PersonalizeTab({ activePersonaId, onPersonaChange }) {
         {t('personalize.whatMatters')}
       </motion.p>
       <motion.div className="persona-select-grid" variants={stagger}>
-        {PERSONAS.map((p) => (
+        {offered.map((p) => (
           <motion.button
             key={p.id}
             type="button"

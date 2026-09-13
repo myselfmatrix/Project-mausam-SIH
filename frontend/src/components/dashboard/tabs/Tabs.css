@@ -1187,3 +1187,12 @@
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+/* Explains a generic grid when the chosen persona has no data here. */
+.ov-persona-note {
+  margin-top: var(--space-2);
+  max-width: 46ch;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}

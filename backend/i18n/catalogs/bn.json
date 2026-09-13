@@ -333,7 +333,8 @@
     "subtitle": "আজ আপনার {persona} হিসেবে এটাই গুরুত্বপূর্ণ।",
     "viewingAs": "এই রূপে দেখছেন",
     "comfortTitle": "{persona} আরাম স্কোর",
-    "prioritized": "আপনার জন্য অগ্রাধিকার ক্রমে — {persona}"
+    "prioritized": "আপনার জন্য অগ্রাধিকার ক্রমে — {persona}",
+    "personaNotHere": "{persona}-র জন্য দরকারি পরিমাপ {location}-এ নেই — সাধারণ দৃশ্য দেখানো হচ্ছে।"
   },
   "gauge": {
     "outOf": "১০-এর মধ্যে",

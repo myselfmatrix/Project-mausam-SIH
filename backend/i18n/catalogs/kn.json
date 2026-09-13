@@ -333,7 +333,8 @@
     "subtitle": "ಇಂದು ನಿಮ್ಮ {persona} ಗೆ ಇದೇ ಮುಖ್ಯ.",
     "viewingAs": "ಈ ರೂಪದಲ್ಲಿ ನೋಡುತ್ತಿದ್ದೀರಿ",
     "comfortTitle": "{persona} ಸೌಕರ್ಯ ಅಂಕ",
-    "prioritized": "ನಿಮಗಾಗಿ ಆದ್ಯತೆ ಕ್ರಮದಲ್ಲಿ — {persona}"
+    "prioritized": "ನಿಮಗಾಗಿ ಆದ್ಯತೆ ಕ್ರಮದಲ್ಲಿ — {persona}",
+    "personaNotHere": "{persona} ಗೆ ಬೇಕಾದ ಅಳತೆಗಳು {location} ನಲ್ಲಿ ಇಲ್ಲ — ಸಾಮಾನ್ಯ ನೋಟ ತೋರಿಸಲಾಗುತ್ತಿದೆ."
   },
   "gauge": {
     "outOf": "10 ರಲ್ಲಿ",

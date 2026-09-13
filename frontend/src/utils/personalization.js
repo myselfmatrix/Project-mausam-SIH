@@ -1,4 +1,4 @@
-import { getPersona } from '../data/personaData'
+import { PERSONAS, getPersona } from '../data/personaData'
 import { getMetric } from '../data/metricDefs'
 
 // Ordered list of metric definitions (icon/label/value/status) for a
@@ -20,6 +20,43 @@ export function getPriorityMetrics(personaId, weather) {
       resolved) nothing is filtered, so the grid keeps its full shape.
     */
     .filter((m) => !weather || !m.isAvailable || m.isAvailable(weather))
+}
+
+
+/*
+  Whether a persona means anything at this location.
+
+  A beachgoer's dashboard in Lucknow is four empty tiles and a wind speed:
+  there is no sea there, so tide, wave height, sea state and water temperature
+  are not slow to load, they do not exist. Offering the persona anyway asks
+  someone to choose a lens that cannot focus on anything.
+
+  The rule is general rather than a check for "is it the beach one". A persona
+  is offered where at least half of its own priority metrics have data, which
+  lets it fall out on its own wherever the data does - the beach personas
+  inland, and anything else we add later that depends on a local measurement.
+  Above that line a persona is kept even with a gap or two: a health user in a
+  city with no pollen coverage still has AQI, UV, humidity and heat.
+*/
+export function isPersonaAvailable(personaId, weather) {
+  // Before the first response there is nothing to judge by, and hiding
+  // personas during load would make the switcher flicker.
+  if (!weather) return true
+  const persona = getPersona(personaId)
+  const keys = persona.priority || []
+  if (keys.length === 0) return true
+
+  const usable = keys.filter((key) => {
+    const metric = getMetric(key)
+    return Boolean(metric) && (!metric.isAvailable || metric.isAvailable(weather))
+  }).length
+
+  return usable >= Math.ceil(keys.length / 2)
+}
+
+/** The personas worth offering for this location, in their usual order. */
+export function getAvailablePersonas(weather) {
+  return PERSONAS.filter((p) => isPersonaAvailable(p.id, weather))
 }
 
 // Labels are catalog keys: the band a score falls into is maths, but the word

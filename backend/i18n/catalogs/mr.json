@@ -333,7 +333,8 @@
     "subtitle": "आज तुमच्या {persona} साठी हे महत्त्वाचे आहे.",
     "viewingAs": "या रूपात पाहत आहात",
     "comfortTitle": "{persona} आराम गुण",
-    "prioritized": "तुमच्यासाठी प्राधान्यक्रमाने — {persona}"
+    "prioritized": "तुमच्यासाठी प्राधान्यक्रमाने — {persona}",
+    "personaNotHere": "{persona} साठी लागणारी मापे {location} मध्ये उपलब्ध नाहीत — सर्वसाधारण दृश्य दाखवले जात आहे."
   },
   "gauge": {
     "outOf": "१० पैकी",

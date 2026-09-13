@@ -333,7 +333,8 @@
     "subtitle": "આજે તમારા {persona} માટે આ મહત્વનું છે.",
     "viewingAs": "આ રૂપે જોઈ રહ્યા છો",
     "comfortTitle": "{persona} આરામ સ્કોર",
-    "prioritized": "તમારા માટે પ્રાથમિકતા ક્રમે — {persona}"
+    "prioritized": "તમારા માટે પ્રાથમિકતા ક્રમે — {persona}",
+    "personaNotHere": "{persona} માટે જરૂરી માપ {location} માં ઉપલબ્ધ નથી — સામાન્ય દૃશ્ય બતાવાય છે."
   },
   "gauge": {
     "outOf": "10માંથી",

@@ -227,7 +227,11 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
     ),
     alerts: <AlertsTab alerts={alerts} onMarkRead={handleMarkAlertRead} />,
     personalize: (
-      <PersonalizeTab activePersonaId={userPersona} onPersonaChange={handlePersonaChange} />
+      <PersonalizeTab
+        activePersonaId={userPersona}
+        onPersonaChange={handlePersonaChange}
+        weather={weather}
+      />
     ),
     settings: (
       <SettingsTab

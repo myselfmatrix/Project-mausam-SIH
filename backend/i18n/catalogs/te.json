@@ -333,7 +333,8 @@
     "subtitle": "ఈరోజు మీ {persona} కోసం ఇదే ముఖ్యం.",
     "viewingAs": "ఈ రూపంలో చూస్తున్నారు",
     "comfortTitle": "{persona} సౌకర్య స్కోరు",
-    "prioritized": "మీ కోసం ప్రాధాన్యత క్రమంలో — {persona}"
+    "prioritized": "మీ కోసం ప్రాధాన్యత క్రమంలో — {persona}",
+    "personaNotHere": "{persona} కోసం అవసరమైన కొలతలు {location} లో లేవు — సాధారణ వీక్షణ చూపుతోంది."
   },
   "gauge": {
     "outOf": "10లో",

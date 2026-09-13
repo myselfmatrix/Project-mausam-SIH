@@ -9,7 +9,7 @@ import SkyPanel from '../SkyPanel'
 import HourlyStrip from '../HourlyStrip'
 import CustomizeDashboard from '../CustomizeDashboard'
 import WeatherError from '../WeatherError'
-import { getComfortScore } from '../../../utils/personalization'
+import { getComfortScore, getAvailablePersonas, isPersonaAvailable } from '../../../utils/personalization'
 import { getMetric } from '../../../data/metricDefs'
 import { PERSONAS } from '../../../data/personaData'
 import useDashboardLayout from '../../../hooks/useDashboardLayout'
@@ -114,6 +114,24 @@ export default function OverviewTab({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layout.sortedKeys, layout.hidden, weather, dataSaver])
 
+  /*
+    Only the personas this place can actually serve.
+
+    The chosen persona stays in the list even when it does not apply here, so
+    a beachgoer visiting Lucknow still sees which lens they are on and can
+    switch away deliberately - dropping the active pill would leave the row
+    with nothing highlighted and no way back. The note below says why the
+    dashboard looks general.
+  */
+  const offeredPersonas = useMemo(() => {
+    const available = getAvailablePersonas(weather)
+    if (available.some((p) => p.id === persona.id)) return available
+    const current = PERSONAS.find((p) => p.id === persona.id)
+    return current ? [current, ...available] : available
+  }, [weather, persona.id])
+
+  const personaApplies = isPersonaAvailable(persona.id, weather)
+
   const firstName = userName ? userName.split(' ')[0] : ''
   const personaTitle = t(persona.titleKey)
 
@@ -174,7 +192,7 @@ export default function OverviewTab({
           <div className="ov-persona-switch">
             <span className="ov-persona-label">{t('overview.viewingAs')}</span>
             <div className="ov-persona-pills">
-              {PERSONAS.map((p) => (
+              {offeredPersonas.map((p) => (
                 <button
                   key={p.id}
                   type="button"
@@ -188,6 +206,15 @@ export default function OverviewTab({
                 </button>
               ))}
             </div>
+            {/* Why the grid looks generic, said once, where the switch is. */}
+            {!personaApplies && weather && (
+              <p className="ov-persona-note">
+                {t('overview.personaNotHere', {
+                  persona: t(persona.titleKey),
+                  location: tCity(t, weather.location),
+                })}
+              </p>
+            )}
           </div>
         )}
       </motion.header>
