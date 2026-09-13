@@ -1,0 +1,665 @@
+/* ============ SHELL ============ */
+.lp {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: clamp(0px, 2vh, 28px);
+}
+
+.lp-scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: color-mix(in srgb, #03060f 72%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: default;
+}
+
+/*
+  Globe on one side, controls on the other.
+
+  The globe is given the larger share and sits first in the DOM so that on a
+  phone - where the grid collapses to rows - it lands above the panel without
+  needing an order override.
+*/
+.lp-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+  width: min(1180px, 100%);
+  height: min(760px, 100%);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg);
+  box-shadow: 0 40px 120px rgba(3, 6, 20, 0.55);
+}
+
+/* ============ GLOBE STAGE ============ */
+.lp-stage {
+  position: relative;
+  min-width: 0;
+  background:
+    radial-gradient(120% 90% at 50% 12%, rgba(78, 166, 255, 0.14), transparent 60%),
+    linear-gradient(180deg, #060b1c, #03060f);
+}
+
+.pglobe {
+  position: absolute;
+  inset: 0;
+  /* grab, because the globe can be spun - the cursor is the only affordance
+     that says so before the first drag. */
+  cursor: grab;
+  touch-action: none;
+}
+
+.pglobe:active {
+  cursor: grabbing;
+}
+
+.pglobe canvas {
+  display: block;
+}
+
+.pglobe-fallback {
+  background: radial-gradient(circle at 50% 45%, rgba(78, 166, 255, 0.18), transparent 62%);
+}
+
+/* The crosshair marks the selection and never moves; the globe moves under
+   it. Pointer-events off so it cannot swallow a tap meant for the surface. */
+.pglobe-reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  width: 74px;
+  height: 74px;
+}
+
+.pglobe-reticle-ring,
+.pglobe-reticle-dot {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.pglobe-reticle-ring {
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid rgba(125, 211, 252, 0.85);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.45), inset 0 0 18px rgba(56, 189, 248, 0.25);
+  animation: lp-pulse 2.4s ease-out infinite;
+}
+
+.pglobe-reticle-dot {
+  width: 9px;
+  height: 9px;
+  background: #e0f2fe;
+  box-shadow: 0 0 12px rgba(224, 242, 254, 0.9);
+}
+
+@keyframes lp-pulse {
+  0% { transform: scale(0.72); opacity: 0.95; }
+  70% { transform: scale(1.04); opacity: 0.25; }
+  100% { transform: scale(1.1); opacity: 0; }
+}
+
+.lp-stage-hint {
+  position: absolute;
+  top: var(--space-5);
+  left: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(148, 197, 255, 0.22);
+  background: rgba(6, 12, 28, 0.66);
+  backdrop-filter: blur(8px);
+  color: #cfe4ff;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ---- Selected-place card ---- */
+.lp-selected {
+  position: absolute;
+  bottom: var(--space-5);
+  left: var(--space-5);
+  right: var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(148, 197, 255, 0.2);
+  background: rgba(6, 12, 28, 0.74);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #eaf2ff;
+  pointer-events: none;
+}
+
+.lp-selected-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.lp-selected-name {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.lp-selected-meta,
+.lp-selected-accuracy {
+  margin: 2px 0 0;
+  font-size: var(--text-xs);
+  color: #9fbbdd;
+  overflow-wrap: anywhere;
+}
+
+.lp-selected-accuracy {
+  color: #7dd3fc;
+}
+
+.lp-selected-now {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.lp-selected-temp {
+  font-size: var(--text-3xl);
+  font-weight: 300;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-selected-cond {
+  margin-top: 3px;
+  font-size: var(--text-xs);
+  color: #9fbbdd;
+  text-align: right;
+}
+
+.lp-selected-loading {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #7dd3fc;
+}
+
+.lp-spin {
+  animation: lp-rotate 0.9s linear infinite;
+}
+
+@keyframes lp-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* ============ PANEL ============ */
+.lp-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border-left: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.lp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-3);
+}
+
+.lp-head h2 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.lp-close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.lp-close:hover {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+/* ---- Search ---- */
+.lp-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 var(--space-5);
+}
+
+.lp-search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.lp-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 40px 0 38px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-base);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.lp-search-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background: var(--color-surface);
+}
+
+.lp-search-spin,
+.lp-search-clear {
+  position: absolute;
+  right: 12px;
+}
+
+.lp-search-spin {
+  color: var(--color-accent);
+  pointer-events: none;
+}
+
+.lp-search-clear {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-surface-raised);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+/* ---- GPS ---- */
+.lp-gps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: var(--space-3) var(--space-5) 0;
+  padding: 11px;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-accent);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.lp-gps:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  background: var(--color-accent-tint);
+}
+
+.lp-gps:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+/* A refused permission is a state the user has to be able to read, not a
+   dead control - so it stays legible and explains itself. */
+.lp-gps.is-denied {
+  color: var(--color-warning);
+  border-color: color-mix(in srgb, var(--color-warning) 45%, transparent);
+}
+
+/* ---- Lists ---- */
+.lp-lists {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4) var(--space-5) var(--space-2);
+}
+
+.lp-section + .lp-section {
+  margin-top: var(--space-5);
+}
+
+.lp-section-label {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.lp-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.lp-row:hover,
+.lp-row.is-highlight {
+  background: var(--color-surface-raised);
+}
+
+.lp-row.is-active {
+  background: var(--color-accent-tint);
+  color: var(--color-accent-on-tint);
+}
+
+.lp-row-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+
+.lp-row.is-active .lp-row-icon {
+  color: var(--color-accent);
+}
+
+.lp-row-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.lp-row-name {
+  font-size: var(--text-sm);
+  font-weight: 650;
+  /* Indic scripts have tall ascenders and deep vowel marks that the app's
+     tight default line-height clips. */
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.lp-row-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.lp-row-tag {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+.lp-row-check {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.lp-empty {
+  margin: 0;
+  padding: var(--space-4) 12px;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+.lp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lp-chip {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.lp-chip:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.lp-chip.is-active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-tint);
+  color: var(--color-accent-on-tint);
+}
+
+/* ---- Footer actions ---- */
+.lp-actions {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5) max(var(--space-5), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.lp-save,
+.lp-confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.lp-save {
+  flex-shrink: 0;
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+.lp-save:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.lp-save:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* Long translated labels would otherwise push the confirm button off the row,
+   so the save label collapses to its icon when there is no space for words. */
+.lp-save span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lp-confirm {
+  flex: 1;
+  border: 0;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.lp-confirm:hover:not(:disabled) {
+  background: var(--color-accent-strong);
+}
+
+.lp-confirm:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* ============ PHONE ============ */
+/*
+  Below 900px the split becomes a stack: globe on top, controls beneath.
+
+  The globe keeps a fixed share of the height rather than shrinking to fit,
+  because it is the part of this screen that cannot be replaced by a list -
+  and 42vh is enough to read a continent at a glance while leaving room for
+  the search field and three or four results without scrolling.
+*/
+@media (max-width: 900px) {
+  .lp {
+    padding: 0;
+  }
+
+  .lp-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: 42vh minmax(0, 1fr);
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .lp-panel {
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+    /* The sheet lifts slightly over the globe, which reads as a panel resting
+       on the scene rather than a hard seam across the middle. */
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    margin-top: calc(var(--radius-xl) * -1);
+    position: relative;
+    z-index: 2;
+  }
+
+  .lp-stage-hint {
+    top: max(var(--space-3), env(safe-area-inset-top));
+    font-size: 0.6875rem;
+    padding: 6px 12px;
+  }
+
+  /* The card would sit under the lifted sheet at the bottom, so on a phone it
+     rides at the top of the stage instead. */
+  .lp-selected {
+    bottom: auto;
+    top: calc(max(var(--space-3), env(safe-area-inset-top)) + 38px);
+    left: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .lp-selected-name { font-size: var(--text-base); }
+  .lp-selected-temp { font-size: var(--text-2xl); }
+
+  .lp-head { padding: var(--space-4) var(--space-4) var(--space-2); }
+  .lp-search { margin: 0 var(--space-4); }
+  .lp-gps { margin: var(--space-3) var(--space-4) 0; }
+  .lp-lists { padding: var(--space-4) var(--space-4) var(--space-2); }
+  .lp-actions { padding: var(--space-3) var(--space-4) max(var(--space-4), env(safe-area-inset-bottom)); }
+}
+
+/* Short phones in landscape: the globe would leave no room to read anything,
+   so it yields the space. */
+@media (max-width: 900px) and (max-height: 560px) {
+  .lp-shell {
+    grid-template-rows: 30vh minmax(0, 1fr);
+  }
+
+  .lp-stage-hint {
+    display: none;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .lp-close {
+    width: 42px;
+    height: 42px;
+  }
+
+  .lp-row {
+    min-height: 52px;
+  }
+
+  .lp-chip {
+    min-height: 40px;
+  }
+
+  .lp-gps {
+    min-height: 46px;
+  }
+}
+
+/* The reticle pulse and the spinners are decorative; the layout carries the
+   same information without them. */
+@media (prefers-reduced-motion: reduce) {
+  .pglobe-reticle-ring {
+    animation: none;
+    opacity: 0.9;
+  }
+
+  .lp-spin {
+    animation-duration: 2.4s;
+  }
+}

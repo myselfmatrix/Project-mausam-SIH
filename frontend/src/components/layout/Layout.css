@@ -396,3 +396,30 @@
     min-height: 40px;
   }
 }
+
+/* The region beside the city in the location pill. Hidden on narrow screens,
+   where the header has no width to spare and the city alone is enough. */
+.dnav-location-region {
+  padding-left: 6px;
+  margin-left: -2px;
+  border-left: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+  font-weight: 550;
+  max-width: 12ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dnav-location-city {
+  max-width: 14ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .dnav-location-region {
+    display: none;
+  }
+}

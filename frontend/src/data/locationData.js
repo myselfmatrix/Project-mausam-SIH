@@ -1,50 +1,81 @@
-// Mock saved-locations data (spec example set, kept verbatim). "Primary" is
-// derived at render time in LocationsTab by comparing `city` against the
-// dashboard's active location — not tracked here.
-//
-// `city`/`region`/`condition` stay as plain English values: they are looked up
-// in the translation catalogs at render time and fall back to what's here, so
-// a location the user adds themselves still displays correctly. `categoryKey`
-// is a catalog key because these four are fixed labels, not user input.
-export const SAVED_LOCATIONS = [
+/*
+  The locations a brand-new install starts with.
+
+  Coordinates, not conditions. Everything about the weather at these places is
+  fetched live; this file only answers "where is Lucknow", because the forecast
+  API takes latitude and longitude and nothing else.
+
+  Four seeds rather than an empty list: a locations screen that opens blank
+  gives a first-time user nothing to look at and nothing to compare, and the
+  four categories below are the ones the product is built around - where you
+  live, where you study, where you work, where you are going. They are
+  replaced the moment the user saves anything of their own.
+
+  `labelKey` rather than a label: these four names are ours, not the user's,
+  so they are catalog keys and appear in the reader's own language. A label the
+  user types is stored verbatim instead.
+*/
+export const SEED_LOCATIONS = [
   {
-    id: 'loc-home',
-    categoryKey: 'locationCategory.home',
-    city: 'Lucknow',
+    id: 'seed-home',
+    labelKey: 'locationCategory.home',
+    name: 'Lucknow',
     region: 'Uttar Pradesh',
-    temperature: 29,
-    condition: 'Partly Cloudy',
-    rainProbability: 65,
-    alertStatus: 'caution',
+    country: 'India',
+    countryCode: 'IN',
+    lat: 26.8393,
+    lon: 80.9231,
+    timezone: 'Asia/Kolkata',
   },
   {
-    id: 'loc-college',
-    categoryKey: 'locationCategory.college',
-    city: 'Jhansi',
+    id: 'seed-college',
+    labelKey: 'locationCategory.college',
+    name: 'Jhansi',
     region: 'Uttar Pradesh',
-    temperature: 31,
-    condition: 'Sunny',
-    rainProbability: 10,
-    alertStatus: 'safe',
+    country: 'India',
+    countryCode: 'IN',
+    lat: 25.4484,
+    lon: 78.5685,
+    timezone: 'Asia/Kolkata',
   },
   {
-    id: 'loc-office',
-    categoryKey: 'locationCategory.office',
-    city: 'Noida',
+    id: 'seed-office',
+    labelKey: 'locationCategory.office',
+    name: 'Noida',
     region: 'Uttar Pradesh',
-    temperature: 32,
-    condition: 'Hazy Sun',
-    rainProbability: 15,
-    alertStatus: 'warning',
+    country: 'India',
+    countryCode: 'IN',
+    lat: 28.5708,
+    lon: 77.326,
+    timezone: 'Asia/Kolkata',
   },
   {
-    id: 'loc-travel',
-    categoryKey: 'locationCategory.travel',
-    city: 'London',
-    region: 'United Kingdom',
-    temperature: 16,
-    condition: 'Light Rain',
-    rainProbability: 80,
-    alertStatus: 'info',
+    id: 'seed-travel',
+    labelKey: 'locationCategory.travel',
+    name: 'Mumbai',
+    region: 'Maharashtra',
+    country: 'India',
+    countryCode: 'IN',
+    lat: 19.0728,
+    lon: 72.8826,
+    timezone: 'Asia/Kolkata',
   },
 ]
+
+/*
+  Where the app points before anyone chooses.
+
+  The dashboard cannot render without somewhere to render, and this is the
+  project's home city. It is replaced by the user's own choice - or by their
+  GPS fix - as soon as there is one, and a signed-in user's saved active
+  location takes precedence over it entirely.
+*/
+export const DEFAULT_PLACE = {
+  name: 'Lucknow',
+  region: 'Uttar Pradesh',
+  country: 'India',
+  countryCode: 'IN',
+  lat: 26.8393,
+  lon: 80.9231,
+  timezone: 'Asia/Kolkata',
+}

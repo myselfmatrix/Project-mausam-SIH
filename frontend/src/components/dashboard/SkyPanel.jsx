@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Droplets, Wind, Eye, Gauge, Sunrise, Sunset } from 'lucide-react'
 import { useTranslation } from '../../i18n/useTranslation'
+import { usePreferences } from '../../preferences/PreferencesProvider'
+import { speedUnitKey } from '../../utils/units'
 import { tCity, tCondition, tRegion, tWindDirection } from '../../i18n/vocab'
 import './SkyPanel.css'
 
@@ -43,6 +45,7 @@ function solarPosition(sunrise, sunset, now = new Date()) {
 
 export default function SkyPanel({ weather }) {
   const { t, n } = useTranslation()
+  const { tempUnit, speedUnit } = usePreferences()
   const theme = skyTheme(weather.condition)
   const [{ progress, isDay }, setSolar] = useState(() =>
     solarPosition(weather.sunrise, weather.sunset),
@@ -64,7 +67,7 @@ export default function SkyPanel({ weather }) {
 
   const stats = [
     { key: 'humidity', label: t('sky.humidity'), value: `${n(weather.humidity)}%` },
-    { key: 'wind', label: t('sky.wind'), value: `${n(weather.windSpeed)} km/h ${tWindDirection(t, weather.windDirection)}` },
+    { key: 'wind', label: t('sky.wind'), value: `${n(weather.windSpeed)} ${t(speedUnitKey(speedUnit))} ${tWindDirection(t, weather.windDirection)}` },
     { key: 'visibility', label: t('sky.visibility'), value: `${n(weather.visibility)} km` },
     { key: 'pressure', label: t('sky.pressure'), value: `${n(weather.pressure)} hPa` },
   ].map((s, i) => ({ ...s, icon: [Droplets, Wind, Eye, Gauge][i] }))
@@ -89,7 +92,7 @@ export default function SkyPanel({ weather }) {
         <span className="sky-cloud sky-cloud-3" />
 
         {(theme === 'rain' || theme === 'storm') && (
-          <span className="sky-rain">
+          <span className="sky-rain-layer">
             {Array.from({ length: 28 }).map((_, i) => (
               <i
                 key={i}
@@ -122,7 +125,7 @@ export default function SkyPanel({ weather }) {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
             {n(weather.temperature)}
-            <span className="sky-temp-unit">°C</span>
+            <span className="sky-temp-unit">°{tempUnit}</span>
           </motion.div>
 
           <p className="sky-condition">{tCondition(t, weather.condition)}</p>

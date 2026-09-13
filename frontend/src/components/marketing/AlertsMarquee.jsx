@@ -1,5 +1,5 @@
 import { AlertTriangle, Info, ShieldAlert, CheckCircle2 } from 'lucide-react'
-import { ALERTS } from '../../data/alertData'
+import { useNationalAlerts } from '../../hooks/useNationalAlerts'
 import { useTranslation } from '../../i18n/useTranslation'
 import './AlertsMarquee.css'
 
@@ -23,9 +23,12 @@ function AlertChip({ alert }) {
         <span className="amq-card-cat">{t(`alertCategory.${alert.category}`)}</span>
         <span className="amq-card-sev">{t(`severity.${alert.severity}`)}</span>
       </header>
-      <h4>{t(alert.whatKey)}</h4>
-      <p className="amq-card-when">{t(alert.whenKey)}</p>
-      <p className="amq-card-action">{t(alert.actionKey)}</p>
+      <h4>{t(alert.whatKey, alert.params)}</h4>
+      <p className="amq-card-when">
+        {alert.place ? `${alert.place} · ` : ''}
+        {t(alert.whenKey, alert.whenParams)}
+      </p>
+      <p className="amq-card-action">{t(alert.actionKey, alert.params)}</p>
     </article>
   )
 }
@@ -38,8 +41,15 @@ function AlertChip({ alert }) {
  * animation restarts.
  */
 export default function AlertsMarquee() {
-  const rowA = ALERTS
-  const rowB = [...ALERTS].reverse()
+  const alerts = useNationalAlerts()
+
+  // Nothing to drift until the fetch lands, and a genuinely calm day across
+  // every city is a real outcome too - both render as absence rather than as
+  // stand-in cards.
+  if (alerts.length === 0) return null
+
+  const rowA = alerts
+  const rowB = [...alerts].reverse()
 
   return (
     <div className="amq" aria-hidden="true">

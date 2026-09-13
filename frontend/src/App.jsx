@@ -6,7 +6,7 @@ import SignupPage from './pages/SignupPage'
 import OnboardingPage from './pages/OnboardingPage'
 import DashboardPage from './pages/DashboardPage'
 import IntroSequence from './components/intro/IntroSequence'
-import { post, getToken } from './services/api'
+import { post, get, getToken } from './services/api'
 
 // Cross-page transition. Kept short and subtle — this fires on every route
 // change, so anything longer starts feeling like latency.
@@ -21,6 +21,13 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [userId, setUserId] = useState(null)
   const [userPersona, setUserPersona] = useState('health')
+  /*
+    The account's own last-used location, so signing in on a new device lands
+    on the city the user actually cares about rather than the project default.
+    Fetched rather than stored locally, because the point of it is to work on
+    a device that has no local state.
+  */
+  const [userActiveLocation, setUserActiveLocation] = useState(null)
   const [showIntro, setShowIntro] = useState(true)
 
   useEffect(() => {
@@ -33,6 +40,24 @@ function App() {
       setCurrentPage(onboarded ? 'dashboard' : 'onboarding')
     }
   }, [])
+
+  /*
+    Pull the profile once there is a session.
+
+    Non-blocking on purpose: the dashboard has a default place and a locally
+    stored one, so a failed or slow profile fetch costs nothing visible.
+  */
+  useEffect(() => {
+    if (!userId || !getToken()) return
+    get('/users/profile')
+      .then((data) => {
+        const active = data?.activeLocation
+        if (active && Number.isFinite(active.lat) && Number.isFinite(active.lon)) {
+          setUserActiveLocation(active)
+        }
+      })
+      .catch(() => {})
+  }, [userId])
 
   const handleHomeGetStarted = () => setCurrentPage('signup')
   const handleHomeSignIn = () => setCurrentPage('login')
@@ -102,6 +127,7 @@ function App() {
               userName={localStorage.getItem('userName')}
               userEmail={localStorage.getItem('userEmail')}
               userPersona={userPersona}
+              userActiveLocation={userActiveLocation}
               onPersonaSelect={handlePersonaSelect}
             />
           )}

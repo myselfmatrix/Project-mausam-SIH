@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PERSONAS } from '../../data/personaData'
-import { getWeather } from '../../data/weatherData'
+import { DEFAULT_PLACE } from '../../data/locationData'
+import { useWeather } from '../../hooks/useWeather'
 import { getPriorityMetrics, getComfortScore } from '../../utils/personalization'
 import MetricCard from '../dashboard/MetricCard'
 import { useTranslation } from '../../i18n/useTranslation'
@@ -18,8 +19,8 @@ import './ScrollStory.css'
 export default function ScrollStory() {
   const [activeIndex, setActiveIndex] = useState(0)
   const blockRefs = useRef([])
-  const { t, n } = useTranslation()
-  const weather = getWeather()
+  const { t, n, language } = useTranslation()
+  const { weather } = useWeather(DEFAULT_PLACE, null, language)
 
   useEffect(() => {
     const nodes = blockRefs.current.filter(Boolean)
@@ -43,8 +44,17 @@ export default function ScrollStory() {
   }, [])
 
   const persona = PERSONAS[activeIndex]
-  const metrics = getPriorityMetrics(persona.id).slice(0, 4)
-  const comfort = getComfortScore(persona.id, weather)
+
+  /*
+    Nothing to narrate until the forecast lands.
+
+    This section's whole point is that the same real weather re-orders itself
+    per persona, so rendering it against no weather would be a demo of
+    nothing. The panel is withheld for the moment before data arrives rather
+    than filled with stand-in numbers.
+  */
+  const metrics = weather ? getPriorityMetrics(persona.id, weather).slice(0, 4) : []
+  const comfort = weather ? getComfortScore(persona.id, weather) : null
 
   return (
     <div className="story">
@@ -69,13 +79,17 @@ export default function ScrollStory() {
             </AnimatePresence>
           </div>
 
-          <div className={`story-score status-${comfort.status}`}>
-            <span className="story-score-value">{n(comfort.score)}</span>
-            <span className="story-score-meta">
-              <strong>{t(comfort.labelKey)}</strong>
-              <span>{t('story.comfortFor', { location: tCity(t, weather.location) })}</span>
-            </span>
-          </div>
+          {comfort && weather ? (
+            <div className={`story-score status-${comfort.status}`}>
+              <span className="story-score-value">{n(comfort.score)}</span>
+              <span className="story-score-meta">
+                <strong>{t(comfort.labelKey)}</strong>
+                <span>{t('story.comfortFor', { location: tCity(t, weather.location) })}</span>
+              </span>
+            </div>
+          ) : (
+            <div className="story-score is-pending" aria-hidden="true" />
+          )}
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -99,12 +113,14 @@ export default function ScrollStory() {
             </motion.div>
           </AnimatePresence>
 
-          <p className="story-panel-foot">
-            {t('story.foot', {
-              temperature: n(weather.temperature),
-              condition: tCondition(t, weather.condition),
-            })}
-          </p>
+          {weather ? (
+            <p className="story-panel-foot">
+              {t('story.foot', {
+                temperature: n(weather.temperature),
+                condition: tCondition(t, weather.condition),
+              })}
+            </p>
+          ) : null}
         </div>
       </div>
 

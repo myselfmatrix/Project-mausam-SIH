@@ -80,37 +80,180 @@ exports.updateLanguage = async (req, res) => {
   }
 };
 
+/* ------------------------------------------------------------------ */
+/* Saved locations                                                     */
+/* ------------------------------------------------------------------ */
+
+/*
+  Coordinates are the part that has to be right.
+
+  A saved location exists to be turned into a forecast, and the forecast API
+  takes nothing but lat/lon - so a row that arrives without a valid pair is
+  useless, and is rejected here rather than stored and discovered later as a
+  card that will not load.
+*/
+function sanitiseLocation(input) {
+  if (!input || typeof input !== 'object') return null;
+
+  const lat = Number(input.lat ?? input.latitude ?? input.coordinates?.lat);
+  const lon = Number(input.lon ?? input.longitude ?? input.coordinates?.lon);
+  if (!Number.isFinite(lat) || Math.abs(lat) > 90) return null;
+  if (!Number.isFinite(lon) || Math.abs(lon) > 180) return null;
+
+  const name = String(input.name || '').trim();
+  if (!name) return null;
+
+  const str = (value, max) => String(value || '').trim().slice(0, max);
+
+  return {
+    name: name.slice(0, 120),
+    region: str(input.region, 120),
+    country: str(input.country, 120),
+    countryCode: str(input.countryCode, 2).toUpperCase(),
+    // Only one of the two is ever meaningful; a user-typed label wins, because
+    // if they typed one they did not want the seeded category.
+    label: str(input.label, 40),
+    labelKey: input.label ? '' : str(input.labelKey, 60),
+    lat: Math.round(lat * 1e4) / 1e4,
+    lon: Math.round(lon * 1e4) / 1e4,
+    timezone: str(input.timezone, 60),
+  };
+}
+
+/* Two saves of "the same place" within ~1 km are the same place. Tapping a
+   map twice, or picking a city after a GPS fix, should not produce two cards
+   for one location. */
+const SAME_PLACE_DEGREES = 0.01;
+
+const isSamePlace = (a, b) =>
+  Math.abs(a.lat - b.lat) < SAME_PLACE_DEGREES && Math.abs(a.lon - b.lon) < SAME_PLACE_DEGREES;
+
+/** GET /api/users/locations */
 exports.getLocations = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
-    if (!user) return res.status(404).json({ error: 'Account not found.' });
-    res.json({ locations: user.savedLocations });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ locations: user.publicLocations(), activeLocation: user.toPublicJSON().activeLocation });
   } catch (error) {
-    console.error('getLocations failed:', error);
-    res.status(500).json({ error: 'Could not load your locations.' });
+    res.status(500).json({ error: error.message });
   }
 };
 
+/** POST /api/users/locations - add one, ignoring a duplicate of a saved place. */
 exports.addLocation = async (req, res) => {
   try {
-    const name = (req.body.name || '').trim();
-    const { lat, lon } = req.body;
+    const location = sanitiseLocation(req.body);
+    if (!location) {
+      return res.status(400).json({ error: 'A location needs a name and valid lat/lon' });
+    }
 
-    // Number.isFinite, not a truthiness check — lat/lon of 0 are real places.
-    if (!name || !Number.isFinite(Number(lat)) || !Number.isFinite(Number(lon))) {
-      return res.status(400).json({ error: 'A name, latitude and longitude are all required.' });
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const existing = user.savedLocations.find((l) => isSamePlace(l, location));
+    if (existing) {
+      return res.json({ message: 'Location already saved', locations: user.publicLocations() });
+    }
+
+    // A generous ceiling that still bounds the document: the bulk weather
+    // endpoint accepts 25 points, so a longer list could not be shown live.
+    if (user.savedLocations.length >= 25) {
+      return res.status(409).json({ error: 'You can save up to 25 locations' });
+    }
+
+    user.savedLocations.push(location);
+    await user.save();
+    res.status(201).json({ message: 'Location added', locations: user.publicLocations() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/**
+ * PUT /api/users/locations - replace the whole list.
+ *
+ * The client owns the ordering and the labels, so it sends the list it wants
+ * to end up with. Reconciling per-item edits against server ids would be more
+ * requests and more ways to disagree, for a list of at most 25 rows.
+ */
+exports.replaceLocations = async (req, res) => {
+  try {
+    const incoming = Array.isArray(req.body?.locations) ? req.body.locations : null;
+    if (!incoming) return res.status(400).json({ error: 'Send { locations: [...] }' });
+
+    const cleaned = [];
+    for (const raw of incoming.slice(0, 25)) {
+      const location = sanitiseLocation(raw);
+      // Skip the unusable rather than reject the batch: one malformed row
+      // should not lose the user the other twenty-four.
+      if (location && !cleaned.some((l) => isSamePlace(l, location))) cleaned.push(location);
+    }
+
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    user.savedLocations = cleaned;
+    await user.save();
+    res.json({ message: 'Locations saved', locations: user.publicLocations(), skipped: incoming.length - cleaned.length });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/** DELETE /api/users/locations/:id */
+exports.removeLocation = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const before = user.savedLocations.length;
+    user.savedLocations = user.savedLocations.filter((l) => String(l._id) !== String(req.params.id));
+    if (user.savedLocations.length === before) {
+      return res.status(404).json({ error: 'No saved location with that id' });
+    }
+
+    await user.save();
+    res.json({ message: 'Location removed', locations: user.publicLocations() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/**
+ * PUT /api/users/locations/active - set the location the dashboard shows.
+ *
+ * Does not have to be one of the saved locations: a user can look at a city
+ * without keeping it. The legacy `location` string is written in step so
+ * anything still reading that field stays correct.
+ */
+exports.setActiveLocation = async (req, res) => {
+  try {
+    const location = sanitiseLocation(req.body);
+    if (!location) {
+      return res.status(400).json({ error: 'A location needs a name and valid lat/lon' });
     }
 
     const user = await User.findByIdAndUpdate(
       req.userId,
-      { $push: { savedLocations: { name, coordinates: { lat: Number(lat), lon: Number(lon) } } } },
-      { new: true }
+      {
+        $set: {
+          activeLocation: {
+            name: location.name,
+            region: location.region,
+            country: location.country,
+            lat: location.lat,
+            lon: location.lon,
+            timezone: location.timezone,
+          },
+          location: location.name,
+        },
+      },
+      { new: true, runValidators: true },
     );
-    if (!user) return res.status(404).json({ error: 'Account not found.' });
+    if (!user) return res.status(404).json({ error: 'User not found' });
 
-    res.status(201).json({ message: 'Location added', locations: user.savedLocations });
+    res.json({ message: 'Active location updated', user: user.toPublicJSON() });
   } catch (error) {
-    console.error('addLocation failed:', error);
-    res.status(500).json({ error: 'Could not save that location.' });
+    res.status(500).json({ error: error.message });
   }
 };

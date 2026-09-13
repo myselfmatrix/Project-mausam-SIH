@@ -3,19 +3,28 @@ import Logo from '../brand/Logo'
 import ThemeToggle from '../ui/ThemeToggle'
 import LanguageSwitcher from '../ui/LanguageSwitcher'
 import { useTranslation } from '../../i18n/useTranslation'
-import { tCity } from '../../i18n/vocab'
+import { tCity, tRegion } from '../../i18n/vocab'
 import './Layout.css'
 
-export default function DashboardNavbar({ location, unreadCount, onOpenLocations, onOpenAlerts, onLogout }) {
+export default function DashboardNavbar({ location, region, unreadCount, onOpenLocations, onOpenAlerts, onLogout }) {
   const { t, n } = useTranslation()
 
   return (
     <header className="dnav">
       <Logo size={28} className="dnav-logo" />
 
-      <button type="button" className="dnav-location" onClick={onOpenLocations}>
+      {/* Opens the location picker. The region is shown beside the city
+          because several Indian cities share a name across states, and the
+          navbar is where you check you are looking at the right one. */}
+      <button
+        type="button"
+        className="dnav-location"
+        onClick={onOpenLocations}
+        aria-label={t('picker.changeLocation')}
+      >
         <MapPin size={14} />
-        {tCity(t, location)}
+        <span className="dnav-location-city">{tCity(t, location)}</span>
+        {region ? <span className="dnav-location-region">{tRegion(t, region)}</span> : null}
         <ChevronDown size={14} />
       </button>
 

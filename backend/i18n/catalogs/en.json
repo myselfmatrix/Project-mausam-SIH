@@ -13,23 +13,21 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "notSet": "Not set",
-    "na": "N/A"
+    "na": "N/A",
+    "loading": "Loading…"
   },
-
   "language": {
     "label": "Language",
     "choose": "Choose language",
     "current": "Language: {language}",
     "changed": "Language changed to {language}"
   },
-
   "nav": {
     "howItWorks": "How it works",
     "personas": "Personas",
     "alerts": "Alerts",
     "features": "Features"
   },
-
   "hero": {
     "badge": "Smart India Hackathon 2026 · SIH26076",
     "title": "Weather that {accent} the day you're having.",
@@ -45,7 +43,6 @@
     "chipHigh": "High",
     "chipNext6h": "Next 6h"
   },
-
   "stats": {
     "personasLabel": "Personas",
     "personasNote": "One feed, eight lenses",
@@ -56,7 +53,6 @@
     "explainableLabel": "Explainable",
     "explainableNote": "Rule-based, not a black box"
   },
-
   "steps": {
     "eyebrow": "How it works",
     "title": "Three steps to a homepage that fits your day",
@@ -67,7 +63,6 @@
     "threeTitle": "Get prioritized insights",
     "threeDesc": "Open your dashboard to a homepage ordered around what to do next, not raw numbers."
   },
-
   "story": {
     "eyebrow": "The core idea",
     "title": "One sky. {accent} different days.",
@@ -75,14 +70,12 @@
     "lede": "Keep scrolling — the dashboard panel re-sorts itself for every persona, from the exact same {location} forecast.",
     "yourHomepage": "Your homepage",
     "comfortFor": "Comfort score for {location}",
-    "foot": "{temperature}°C · {condition} · unchanged for everyone"
+    "foot": "{temperature}° · {condition} · unchanged for everyone"
   },
-
   "alertsSection": {
     "eyebrow": "Smart alerts",
     "title": "Alerts that tell you what, when, why — and what to do"
   },
-
   "features": {
     "eyebrow": "Why MAUSAM",
     "title": "Everything a weather product needs to feel trustworthy",
@@ -99,19 +92,16 @@
     "mobileTitle": "Built mobile-first",
     "mobileDesc": "Designed for the phone in your pocket, not squeezed onto one."
   },
-
   "cta": {
     "title": "Ready to see weather {accent}?",
     "titleAccent": "differently",
     "lede": "Create an account and get a homepage that actually understands your day."
   },
-
   "footer": {
     "tagline": "Personalized weather intelligence — one forecast, eight ways of reading it.",
     "meta": "Prototype for Smart India Hackathon 2026 · Problem Statement SIH26076",
     "disclaimer": "Conceptual student submission for the Ministry of Earth Sciences (IMD) Smart Automation theme. Not an official IMD product, and weather values shown are mock data. Globe and Moon imagery: NASA Visible Earth (Blue Marble / Black Marble), public domain."
   },
-
   "auth": {
     "backToHome": "Back to home",
     "perkPersonas": "8 personas, one weather feed — tuned to how you live",
@@ -134,7 +124,6 @@
     "signupSwitchPrompt": "Already have an account?",
     "signupSwitchAction": "Log in"
   },
-
   "onboarding": {
     "progress": "Step {current} of {total} · {label}",
     "personaLabel": "Persona",
@@ -163,7 +152,6 @@
     "noPriorities": "None selected — add these anytime in Personalize",
     "goToDashboard": "Go to dashboard"
   },
-
   "interest": {
     "weatherAlerts": "Weather alerts",
     "airQuality": "Air quality",
@@ -175,7 +163,6 @@
     "agriculture": "Agriculture",
     "marine": "Marine conditions"
   },
-
   "persona": {
     "healthLabel": "Health",
     "healthTitle": "Health-conscious",
@@ -202,7 +189,6 @@
     "eventTitle": "Event planner",
     "eventDesc": "Plan outdoor events with confidence"
   },
-
   "metric": {
     "temperature": "Temperature",
     "temperatureCaption": "Feels like {feelsLike}° · H:{high}° L:{low}°",
@@ -265,9 +251,9 @@
     "waterTemperature": "Water Temperature",
     "waterTemperatureCaption": "Sea surface",
     "outdoorComfort": "Outdoor Comfort",
-    "outdoorComfortCaption": "For outdoor gatherings"
+    "outdoorComfortCaption": "For outdoor gatherings",
+    "aqiDominant": "{category} · {pollutant} highest"
   },
-
   "value": {
     "likely": "Likely",
     "unlikely": "Unlikely",
@@ -279,23 +265,23 @@
     "good": "Good",
     "fair": "Fair",
     "low": "Low",
-    "high": "High"
+    "high": "High",
+    "excellent": "Excellent",
+    "poor": "Poor"
   },
-
   "uv": {
     "low": "Low",
     "moderate": "Moderate",
     "high": "High",
-    "veryHigh": "Very High"
+    "veryHigh": "Very High",
+    "extreme": "Extreme"
   },
-
   "heat": {
     "low": "Low",
     "moderate": "Moderate",
     "high": "High",
     "extreme": "Extreme"
   },
-
   "score": {
     "excellent": "Excellent",
     "good": "Good",
@@ -303,7 +289,6 @@
     "poor": "Poor",
     "avoid": "Avoid"
   },
-
   "severity": {
     "safe": "Safe",
     "info": "Information",
@@ -311,7 +296,6 @@
     "warning": "Warning",
     "critical": "Critical"
   },
-
   "tab": {
     "overview": "Overview",
     "weather": "Weather",
@@ -321,14 +305,12 @@
     "settings": "Settings",
     "sections": "Dashboard sections"
   },
-
   "dnav": {
     "searchLocations": "Search locations",
     "notifications": "Notifications",
     "signedIn": "Signed in",
     "changePersona": "Change persona"
   },
-
   "greeting": {
     "lateNight": "Still up?",
     "morning": "Good morning",
@@ -336,7 +318,6 @@
     "evening": "Good evening",
     "night": "Good night"
   },
-
   "overview": {
     "live": "Live",
     "cached": "Cached",
@@ -349,14 +330,12 @@
     "comfortTitle": "{persona} comfort score",
     "prioritized": "Prioritized for you — {persona}"
   },
-
   "gauge": {
     "outOf": "out of 10",
     "noImpact": "no impact",
     "empty": "Nothing is working against you right now.",
     "note": "Rule-based: 10 minus the weighted penalties above."
   },
-
   "hourly": {
     "title": "Next 12 hours",
     "legendTemp": "Temperature",
@@ -364,7 +343,6 @@
     "now": "Now",
     "rainTitle": "{percent}% chance of rain"
   },
-
   "sky": {
     "humidity": "Humidity",
     "wind": "Wind",
@@ -374,7 +352,6 @@
     "night": "Night",
     "feelsLike": "Feels like {feelsLike}° · H {high}° / L {low}°"
   },
-
   "weatherTab": {
     "title": "Weather",
     "subtitle": "Full forecast for {location}, {region}",
@@ -386,7 +363,6 @@
     "currentCaption": "Current",
     "wind": "Wind"
   },
-
   "locations": {
     "title": "Saved Locations",
     "subtitle": "Weather for the places that matter to your routine.",
@@ -399,9 +375,13 @@
     "primary": "Primary",
     "setPrimary": "Set as primary",
     "remove": "Remove {city}",
-    "defaultCategory": "Saved"
+    "defaultCategory": "Saved",
+    "refresh": "Refresh",
+    "loadingNow": "Loading…",
+    "highLow": "H {high}° / L {low}°",
+    "rainChance": "{percent}% rain",
+    "addHint": "Search, use GPS, or tap the globe"
   },
-
   "locationCategory": {
     "home": "Home",
     "college": "College",
@@ -409,14 +389,12 @@
     "travel": "Travel",
     "saved": "Saved"
   },
-
   "alertsTab": {
     "title": "Alerts",
     "subtitle": "Everything that could affect your day, in one place.",
     "empty": "No alerts in this category right now.",
     "viewAll": "View all alerts"
   },
-
   "alertCategory": {
     "all": "All",
     "weather": "Weather",
@@ -426,7 +404,6 @@
     "agriculture": "Agriculture",
     "marine": "Marine"
   },
-
   "alertData": {
     "rainWhat": "Heavy rainfall expected",
     "rainWhen": "5:00 PM – 7:00 PM today",
@@ -453,13 +430,11 @@
     "seaWhy": "Wave heights above 2m expected — unsafe for swimming.",
     "seaAction": "Avoid water activities until conditions ease."
   },
-
   "time": {
     "justNow": "Just now",
     "hoursAgo": "{count}h ago",
     "daysAgo": "{count}d ago"
   },
-
   "personalize": {
     "title": "Personalize MAUSAM",
     "subtitle": "Tell us what matters, and your dashboard reorders itself around it.",
@@ -469,7 +444,6 @@
     "pauseNonCritical": "Pause non-critical alerts",
     "quietWindow": "10:00 PM – 7:00 AM"
   },
-
   "settings": {
     "title": "Settings",
     "subtitle": "Your profile, units and connectivity preferences.",
@@ -495,7 +469,6 @@
     "language": "Display language",
     "languageDesc": "Applies across the whole app, on every device you sign in to."
   },
-
   "customize": {
     "start": "Customize dashboard",
     "done": "Done customizing",
@@ -503,22 +476,20 @@
     "hidden": "Hidden:",
     "show": "Show {label}"
   },
-
   "weatherError": {
     "default": "Weather data unavailable",
     "network": "Connection lost — using cached data",
     "timeout": "Weather service is slow",
     "parse": "Data format issue",
-    "retryTitle": "Retry loading weather"
+    "retryTitle": "Retry loading weather",
+    "title": "Could not load the forecast"
   },
-
   "theme": {
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme",
     "light": "Light theme",
     "dark": "Dark theme"
   },
-
   "condition": {
     "clear": "Clear",
     "sunny": "Sunny",
@@ -530,16 +501,39 @@
     "rain": "Rain",
     "heavyRain": "Heavy Rain",
     "thunderstorm": "Thunderstorm",
-    "thunderstorms": "Thunderstorms"
+    "thunderstorms": "Thunderstorms",
+    "mainlyClear": "Mainly Clear",
+    "overcast": "Overcast",
+    "fog": "Fog",
+    "freezingFog": "Freezing Fog",
+    "lightDrizzle": "Light Drizzle",
+    "drizzle": "Drizzle",
+    "heavyDrizzle": "Heavy Drizzle",
+    "freezingDrizzle": "Freezing Drizzle",
+    "heavyFreezingDrizzle": "Heavy Freezing Drizzle",
+    "freezingRain": "Freezing Rain",
+    "heavyFreezingRain": "Heavy Freezing Rain",
+    "lightSnow": "Light Snow",
+    "snow": "Snow",
+    "heavySnow": "Heavy Snow",
+    "snowGrains": "Snow Grains",
+    "lightShowers": "Light Showers",
+    "showers": "Showers",
+    "violentShowers": "Violent Showers",
+    "lightSnowShowers": "Light Snow Showers",
+    "snowShowers": "Snow Showers",
+    "thunderstormWithHail": "Thunderstorm with Hail",
+    "severeThunderstorm": "Severe Thunderstorm"
   },
-
   "aqiCategory": {
     "good": "Good",
     "moderate": "Moderate",
     "poor": "Poor",
-    "unhealthy": "Unhealthy"
+    "unhealthy": "Unhealthy",
+    "satisfactory": "Satisfactory",
+    "veryPoor": "Very Poor",
+    "severe": "Severe"
   },
-
   "wind": {
     "n": "N",
     "ne": "NE",
@@ -548,9 +542,16 @@
     "s": "S",
     "sw": "SW",
     "w": "W",
-    "nw": "NW"
+    "nw": "NW",
+    "nne": "NNE",
+    "ene": "ENE",
+    "ese": "ESE",
+    "sse": "SSE",
+    "ssw": "SSW",
+    "wsw": "WSW",
+    "wnw": "WNW",
+    "nnw": "NNW"
   },
-
   "day": {
     "today": "Today",
     "mon": "Mon",
@@ -561,42 +562,235 @@
     "sat": "Sat",
     "sun": "Sun"
   },
-
   "city": {
     "Lucknow": "Lucknow",
     "Mumbai": "Mumbai",
     "Delhi": "Delhi",
     "Jhansi": "Jhansi",
     "Noida": "Noida",
-    "London": "London"
+    "London": "London",
+    "Bengaluru": "Bengaluru",
+    "Kolkata": "Kolkata",
+    "Chennai": "Chennai",
+    "Hyderabad": "Hyderabad",
+    "Puri": "Puri",
+    "Jaipur": "Jaipur",
+    "Leh": "Leh"
   },
-
   "region": {
     "Uttar Pradesh": "Uttar Pradesh",
     "Maharashtra": "Maharashtra",
     "NCT": "NCT",
-    "United Kingdom": "United Kingdom"
+    "United Kingdom": "United Kingdom",
+    "Karnataka": "Karnataka",
+    "West Bengal": "West Bengal",
+    "Tamil Nadu": "Tamil Nadu",
+    "Telangana": "Telangana",
+    "Odisha": "Odisha",
+    "Ladakh": "Ladakh",
+    "Rajasthan": "Rajasthan"
   },
-
   "tip": {
     "rainJacket": "Bring a waterproof jacket — steady light rain most of the day.",
     "maskSensitive": "Carry a mask — air quality is unhealthy for sensitive groups.",
     "mask": "Carry a mask — air quality is unhealthy today.",
     "thunderstorm": "Pack a light rain jacket — thunderstorms are expected at your destination.",
     "hydrate": "Stay hydrated — dry heat and strong sun through the afternoon.",
-    "monsoon": "Waterproof everything — this is peak monsoon activity."
+    "monsoon": "Waterproof everything — this is peak monsoon activity.",
+    "frost": "Cover tender plants and pipes — frost is likely tonight.",
+    "sunscreen": "Sunscreen and a hat — UV is strong enough to burn.",
+    "lowVisibility": "Low visibility — allow extra time and use headlights.",
+    "pleasant": "Nothing to plan around — conditions are comfortable."
   },
-
   "tide": {
     "high": "High",
     "low": "Low"
   },
-
   "intro": {
     "tagline": "Weather that understands you",
     "statusSky": "Reading the sky",
     "statusPersonas": "Mapping eight personas",
     "statusPrioritise": "Prioritising your day",
     "skip": "Tap anywhere to skip"
+  },
+  "picker": {
+    "title": "Choose a location",
+    "searchPlaceholder": "Search any city or town",
+    "results": "Results",
+    "searching": "Searching…",
+    "noResults": "Nothing found for “{query}”",
+    "saved": "Saved",
+    "popular": "Popular",
+    "useMyLocation": "Use my current location",
+    "gpsLocating": "Finding you…",
+    "gpsDenied": "Location permission is blocked",
+    "gpsUnsupported": "Location needs a secure connection",
+    "gpsUnavailable": "Could not get a location fix",
+    "gpsTimeout": "Location took too long — tap to retry",
+    "gpsAccuracy": "GPS accurate to about {metres} m",
+    "awayFromYou": "{km} km from you",
+    "globeHint": "Drag the globe, or tap anywhere to pick a point",
+    "pinnedPoint": "Pinned point",
+    "naming": "Naming this place…",
+    "useThisLocation": "Use this location",
+    "saveLocation": "Save",
+    "alreadySaved": "Already saved",
+    "changeLocation": "Change location",
+    "loadingForecast": "Loading the forecast…",
+    "loadingShort": "Loading…"
+  },
+  "aqiAdvisory": {
+    "good": "Air is clean — no precautions needed.",
+    "satisfactory": "Minor discomfort possible for very sensitive people.",
+    "moderate": "People with asthma or heart conditions should limit long exposure.",
+    "poor": "Breathing discomfort likely for most people. Wear a mask outdoors.",
+    "veryPoor": "Avoid outdoor exertion. Keep windows shut.",
+    "severe": "Health emergency. Stay indoors if you can."
+  },
+  "alert": {
+    "when": {
+      "today": "Today",
+      "fromTime": "From {from} today",
+      "peakHours": "Peak hours, 12:00 – 16:00",
+      "earlyMorning": "Early morning, before 08:00",
+      "overnight": "Overnight",
+      "range": "{range}",
+      "next3Days": "Next 3 days"
+    },
+    "derivedNote": "Derived by MAUSAM from the live forecast — not an official IMD warning.",
+    "allClear": "Nothing needs your attention right now.",
+    "allClearBody": "We are watching rainfall, heat, air quality, wind, fog and sea conditions for this location. You will see an alert here the moment any of them crosses a threshold.",
+    "rainExtreme": {
+      "what": "Extremely heavy rain expected — {mm} mm",
+      "why": "Above 204 mm in a day. Flooding and waterlogging are likely and some roads may close.",
+      "action": "Do not travel unless you must. Move vehicles off low ground, and keep a charged phone and a torch within reach."
+    },
+    "rainVeryHeavy": {
+      "what": "Very heavy rain expected — {mm} mm",
+      "why": "115–204 mm in a day. Expect waterlogging on low roads and long traffic delays.",
+      "action": "Avoid underpasses and low-lying routes. Leave early, or postpone trips that can wait."
+    },
+    "rainHeavy": {
+      "what": "Heavy rain expected — {mm} mm",
+      "why": "64–115 mm in a day, heaviest around {peak}. Local waterlogging is likely.",
+      "action": "Allow 20–30 extra minutes and stay out of underpasses around {peak}."
+    },
+    "rainModerate": {
+      "what": "Moderate rain expected — {mm} mm",
+      "why": "Enough to slow traffic and soak anyone caught outside, heaviest around {peak}.",
+      "action": "Carry a raincoat and plan outdoor work around {peak}."
+    },
+    "storm": {
+      "what": "Thunderstorm expected",
+      "why": "Lightning is the hazard, not the rain. Open ground, terraces and tall trees are the dangerous places.",
+      "action": "Get indoors before it arrives. Stay off terraces and unplug sensitive electronics."
+    },
+    "heatSevere": {
+      "what": "Dangerous heat — feels like {feelsLike}°",
+      "why": "At this level heatstroke can develop within an hour of exertion outdoors.",
+      "action": "Stay indoors between 12:00 and 16:00. Drink water every 20 minutes and add ORS or salted lemon water."
+    },
+    "heatHigh": {
+      "what": "High heat — feels like {feelsLike}°",
+      "why": "Sustained outdoor effort becomes risky, especially without shade.",
+      "action": "Shift outdoor work to before 10:00 or after 17:00 and keep water within reach."
+    },
+    "heatElevated": {
+      "what": "Warm and humid — feels like {feelsLike}°",
+      "why": "Humidity is holding the apparent temperature above the actual one.",
+      "action": "Take a shaded break every 30 minutes if you are working outside."
+    },
+    "aqiSevere": {
+      "what": "Severe air quality — AQI {aqi}",
+      "why": "CPCB Severe. Healthy people feel it too, and existing heart or lung conditions worsen."
+    },
+    "aqiVeryPoor": {
+      "what": "Very poor air quality — AQI {aqi}",
+      "why": "CPCB Very Poor. Breathing discomfort is likely for most people on prolonged exposure."
+    },
+    "aqiPoor": {
+      "what": "Poor air quality — AQI {aqi}",
+      "why": "CPCB Poor. Discomfort on prolonged exposure, and sooner if you have asthma."
+    },
+    "aqiAction": {
+      "ozone": "{pollutant} is the main pollutant, so a mask will not help. Keep outdoor activity to before 10:00 or after 18:00.",
+      "particulate": "{pollutant} is the main pollutant. Wear an N95 outdoors, keep windows shut, and run a purifier if you have one.",
+      "other": "{pollutant} is the main pollutant. Cut back outdoor exertion and keep windows shut during traffic hours."
+    },
+    "windGale": {
+      "what": "Gale-force gusts — {gust} {unit}",
+      "why": "Strong enough to bring down branches, hoardings and loose sheeting.",
+      "action": "Stay clear of hoardings and trees. Two-wheelers should avoid flyovers and open stretches."
+    },
+    "windSquall": {
+      "what": "Squally winds — gusts to {gust} {unit}",
+      "why": "Gusts at this strength destabilise two-wheelers and blow over light structures.",
+      "action": "Secure loose items on balconies and terraces, and ride slowly on exposed roads."
+    },
+    "fogDense": {
+      "what": "Dense fog — visibility {visibility} km",
+      "why": "Below 1 km, stopping distance is longer than what you can see ahead.",
+      "action": "Use low beam and fog lamps, never high beam, and double your following distance."
+    },
+    "fog": {
+      "what": "Fog expected — visibility {visibility} km",
+      "why": "Visibility drops fastest in the hour before sunrise.",
+      "action": "Add 10–15 minutes to your commute and keep hazard lights ready."
+    },
+    "uvExtreme": {
+      "what": "Extreme UV — index {uv}",
+      "why": "Unprotected skin can burn in under 15 minutes.",
+      "action": "SPF 50+, reapplied every two hours. Stay in shade between 11:00 and 16:00."
+    },
+    "uvHigh": {
+      "what": "Very high UV — index {uv}",
+      "why": "Burning is likely after about an hour of unshaded exposure.",
+      "action": "SPF 30+, sunglasses and a hat, and prefer shade around midday."
+    },
+    "frost": {
+      "what": "Frost likely — low of {low}°",
+      "why": "At this temperature frost can settle on exposed soil and damage young plants.",
+      "action": "Water lightly in the evening and cover seedlings overnight — wet soil holds heat better."
+    },
+    "waveHigh": {
+      "what": "High seas — waves {wave} m",
+      "why": "{seaState} sea with strong currents. Unsafe even for experienced swimmers.",
+      "action": "Stay out of the water and off rocks and breakwaters."
+    },
+    "waveRough": {
+      "what": "Rough sea — waves {wave} m",
+      "why": "{seaState} sea, with rip currents likely.",
+      "action": "Avoid swimming and keep children well back from the waterline."
+    },
+    "waveModerate": {
+      "what": "Choppy sea — waves {wave} m",
+      "why": "{seaState} sea — fine for a walk, rough for swimming.",
+      "action": "Swim only in patrolled areas and stay within your depth."
+    },
+    "schoolRain": {
+      "what": "Rain during the school commute",
+      "why": "A {rain}% chance of rain across the {window} window.",
+      "action": "Send a raincoat rather than an umbrella, and allow extra time at pickup."
+    },
+    "sowing": {
+      "what": "Good sowing conditions",
+      "why": "Soil moisture is {moisture}% with only a {rain}% chance of rain — the ground is workable.",
+      "action": "A good window for sowing or transplanting. Nothing else needed."
+    }
+  },
+  "units": {
+    "kmh": "km/h",
+    "mph": "mph"
+  },
+  "brief": {
+    "now": "In {location} it is {temperature} degrees, {condition}, feeling like {feelsLike}.",
+    "air": "Air quality index {aqi}, {category}, with {pollutant} the main pollutant.",
+    "wind": "Wind {wind} {unit} from {direction}. Humidity {humidity} percent.",
+    "clear": "There are no advisories for this location right now.",
+    "advisoryLead": "One thing to plan around.",
+    "unsupported": "This browser cannot speak. Chrome or Edge will.",
+    "voiceFallback": "No {language} voice is installed on this device, so the brief is read in the default voice.",
+    "speaking": "Speaking now — tap to stop.",
+    "idle": "Tap play for a spoken summary of the live forecast."
   }
 }

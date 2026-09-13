@@ -362,3 +362,74 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---- Chosen place (opens the location picker) ---- */
+.ob-place {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border: 1.5px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.ob-place:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-tint);
+}
+
+/* Once a place is chosen the dashes become a solid edge: the control has gone
+   from "something to fill in" to "something that holds a value". */
+.ob-place.has-place {
+  border-style: solid;
+  border-color: var(--color-accent);
+  background: var(--color-accent-tint);
+}
+
+.ob-place-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+
+.ob-place-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.ob-place-name {
+  font-size: var(--text-base);
+  font-weight: 650;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.ob-place-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.ob-place-arrow {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .ob-place { min-height: 66px; }
+}

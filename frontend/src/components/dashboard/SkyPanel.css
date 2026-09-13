@@ -235,15 +235,22 @@
   }
 }
 
-/* Rain */
-.sky-rain-layer,
-.sky-rain {
+/*
+  Rain.
+
+  Only `.sky-rain-layer` may be laid out here. `.sky-rain` is the panel's own
+  condition modifier - the section is `sky sky-rain is-night` when it is
+  raining - so giving that class `position: absolute; inset: 0` tore the whole
+  hero out of flow and stretched it over the page, but only in rain and
+  drizzle, which is what made it look like a display bug rather than a CSS one.
+*/
+.sky-rain-layer {
   position: absolute;
   inset: 0;
   overflow: hidden;
 }
 
-.sky-rain i {
+.sky-rain-layer i {
   position: absolute;
   top: -18%;
   width: 1px;
@@ -516,7 +523,7 @@
   .sky-flash {
     animation: none;
   }
-  .sky-rain {
+  .sky-rain-layer {
     display: none;
   }
 }

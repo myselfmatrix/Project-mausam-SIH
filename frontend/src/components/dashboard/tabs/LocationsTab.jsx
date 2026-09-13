@@ -1,9 +1,8 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Plus, X, Star } from 'lucide-react'
-import { SAVED_LOCATIONS } from '../../../data/locationData'
+import { Loader2, MapPin, Plus, RefreshCw, Star, X } from 'lucide-react'
 import { useTranslation } from '../../../i18n/useTranslation'
 import { tCity, tCondition, tRegion } from '../../../i18n/vocab'
+import { isSamePlace } from '../../../services/geo'
 import './Tabs.css'
 
 const fadeUp = {
@@ -12,47 +11,33 @@ const fadeUp = {
 }
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.05 } } }
 
-// The saved-locations list itself (SAVED_LOCATIONS) is local-only mock data
-// for this prototype — wire it to /api/users/locations once that endpoint
-// returns full weather summaries per saved location, not just a name.
-// "Primary" is NOT tracked locally, though: it's derived from `activeLocation`
-// (owned by DashboardPage, persisted to localStorage) so that setting a card
-// as primary actually drives what the rest of the dashboard displays, instead
-// of just flipping a cosmetic badge that nothing else reads.
-export default function LocationsTab({ activeLocation, onSetPrimary }) {
+/*
+  The saved-locations grid.
+
+  Every card's temperature and condition is live, fetched for all of them in a
+  single request (see hooks/useSavedLocations). They used to be fixed numbers
+  in a data file, which meant London was 16 degrees and lightly raining
+  forever.
+
+  A card whose conditions have not arrived shows a spinner rather than a
+  placeholder number: the point of this screen is comparing places, and a
+  stand-in figure would make that comparison wrong in a way nothing on screen
+  would reveal.
+*/
+
+/* Rain and alert colouring follow the same thresholds the metric tiles use,
+   so a card and a tile never disagree about whether 65% is worth noticing. */
+const rainTone = (percent) => {
+  if (!Number.isFinite(percent)) return 'safe'
+  if (percent >= 70) return 'warning'
+  if (percent >= 50) return 'caution'
+  if (percent >= 20) return 'info'
+  return 'safe'
+}
+
+export default function LocationsTab({ activePlace, onSelectPlace, onAddLocation, saved }) {
   const { t, n } = useTranslation()
-  const [locations, setLocations] = useState(SAVED_LOCATIONS)
-  const [showForm, setShowForm] = useState(false)
-  const [category, setCategory] = useState('')
-  const [city, setCity] = useState('')
-
-  const handleRemove = (id) => {
-    setLocations((prev) => prev.filter((l) => l.id !== id))
-  }
-
-  const handleAdd = (e) => {
-    e.preventDefault()
-    if (!city.trim()) return
-    setLocations((prev) => [
-      ...prev,
-      {
-        id: `loc-${Date.now()}`,
-        // A label the user typed is theirs, in their words; only the fallback
-        // comes from the catalog.
-        category: category.trim() || undefined,
-        categoryKey: category.trim() ? undefined : 'locationCategory.saved',
-        city: city.trim(),
-        region: '',
-        temperature: 28,
-        condition: 'Clear',
-        rainProbability: 10,
-        alertStatus: 'safe',
-      },
-    ])
-    setCategory('')
-    setCity('')
-    setShowForm(false)
-  }
+  const { locations, removeLocation, conditionFor, isLoadingConditions, refreshConditions } = saved
 
   return (
     <motion.div className="tab-panel" initial="hidden" animate="show" variants={stagger}>
@@ -63,52 +48,37 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
 
       <motion.div className="locations-toolbar" variants={fadeUp}>
         <span className="section-label">{t('locations.savedCount', { count: locations.length })}</span>
-        <button type="button" className="btn-primary-sm" onClick={() => setShowForm((s) => !s)}>
-          <Plus size={15} /> {t('locations.add')}
-        </button>
+        <div className="locations-toolbar-actions">
+          <button
+            type="button"
+            className="btn-ghost-sm"
+            onClick={refreshConditions}
+            disabled={isLoadingConditions}
+            aria-label={t('locations.refresh')}
+          >
+            <RefreshCw size={14} className={isLoadingConditions ? 'lp-spin' : ''} />
+            {t('locations.refresh')}
+          </button>
+          <button type="button" className="btn-primary-sm" onClick={onAddLocation}>
+            <Plus size={15} /> {t('locations.add')}
+          </button>
+        </div>
       </motion.div>
-
-      {showForm && (
-        <motion.form
-          className="add-location-form"
-          onSubmit={handleAdd}
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-        >
-          <div className="add-location-form-row">
-            <input
-              className="form-input"
-              placeholder={t('locations.labelPlaceholder')}
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <input
-              className="form-input"
-              placeholder={t('locations.cityPlaceholder')}
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              required
-            />
-          </div>
-          <div className="add-location-form-actions">
-            <button type="button" className="btn-ghost-sm" onClick={() => setShowForm(false)}>
-              {t('common.cancel')}
-            </button>
-            <button type="submit" className="btn-primary-sm">
-              {t('locations.saveLocation')}
-            </button>
-          </div>
-        </motion.form>
-      )}
 
       <motion.div className="locations-grid" variants={stagger}>
         {locations.map((loc) => {
-          const isPrimary = loc.city === activeLocation
+          const isPrimary = isSamePlace(loc, activePlace)
+          const now = conditionFor(loc)
+
           return (
-            <motion.div className={`location-card ${isPrimary ? 'is-primary' : ''}`} key={loc.id} variants={fadeUp}>
+            <motion.div
+              className={`location-card ${isPrimary ? 'is-primary' : ''}`}
+              key={loc.id}
+              variants={fadeUp}
+            >
               <div className="location-card-top">
                 <span className="location-card-category">
-                  {loc.categoryKey ? t(loc.categoryKey) : loc.category}
+                  {loc.label || (loc.labelKey ? t(loc.labelKey) : t('locationCategory.saved'))}
                 </span>
                 {isPrimary ? (
                   <span className="location-card-primary">{t('locations.primary')}</span>
@@ -116,30 +86,53 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
                   <button
                     type="button"
                     className="location-card-remove"
-                    onClick={() => handleRemove(loc.id)}
-                    aria-label={t('locations.remove', { city: tCity(t, loc.city) })}
+                    onClick={() => removeLocation(loc.id)}
+                    aria-label={t('locations.remove', { city: tCity(t, loc.name) })}
                   >
                     <X size={15} />
                   </button>
                 )}
               </div>
-              <p className="location-card-city">{tCity(t, loc.city)}</p>
+
+              <p className="location-card-city">{tCity(t, loc.name)}</p>
               <p className="location-card-region">{tRegion(t, loc.region)}</p>
+
               <div className="location-card-bottom">
-                <div>
-                  <span className="location-card-temp">{n(loc.temperature)}°</span>
-                  <p className="location-card-condition">{tCondition(t, loc.condition)}</p>
-                </div>
-                <span className={`location-card-status status-${loc.alertStatus}`} title={loc.alertStatus} />
+                {now ? (
+                  <>
+                    <div>
+                      <span className="location-card-temp">{n(now.temperature)}°</span>
+                      <p className="location-card-condition">{tCondition(t, now.condition)}</p>
+                    </div>
+                    <span
+                      className={`location-card-status status-${rainTone(now.rainProbability)}`}
+                      title={t('locations.rainChance', { percent: n(now.rainProbability) })}
+                    />
+                  </>
+                ) : (
+                  <div className="location-card-pending">
+                    <Loader2 size={15} className="lp-spin" />
+                    <span>{t('locations.loadingNow')}</span>
+                  </div>
+                )}
               </div>
+
+              {now ? (
+                <p className="location-card-range">
+                  {t('locations.highLow', { high: n(now.high), low: n(now.low) })}
+                  {Number.isFinite(now.rainProbability)
+                    ? ` · ${t('locations.rainChance', { percent: n(now.rainProbability) })}`
+                    : ''}
+                </p>
+              ) : null}
+
               {!isPrimary && (
                 <button
                   type="button"
-                  className="btn-ghost-sm"
-                  style={{ marginTop: 12, width: '100%' }}
-                  onClick={() => onSetPrimary?.(loc.city)}
+                  className="btn-ghost-sm location-card-action"
+                  onClick={() => onSelectPlace?.(loc)}
                 >
-                  <Star size={13} style={{ marginRight: 4, verticalAlign: -2 }} />
+                  <Star size={13} />
                   {t('locations.setPrimary')}
                 </button>
               )}
@@ -147,9 +140,17 @@ export default function LocationsTab({ activeLocation, onSetPrimary }) {
           )
         })}
 
-        <motion.button type="button" className="add-location-card" onClick={() => setShowForm(true)} variants={fadeUp}>
-          <Plus size={22} />
+        <motion.button
+          type="button"
+          className="add-location-card"
+          onClick={onAddLocation}
+          variants={fadeUp}
+        >
+          <span className="add-location-card-icon">
+            <MapPin size={20} />
+          </span>
           {t('locations.addNew')}
+          <span className="add-location-card-hint">{t('locations.addHint')}</span>
         </motion.button>
       </motion.div>
     </motion.div>

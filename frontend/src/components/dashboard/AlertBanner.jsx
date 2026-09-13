@@ -22,11 +22,11 @@ export default function AlertBanner({ alert, onViewAll }) {
       </div>
       <div className="alert-banner-body">
         <div className="alert-banner-top">
-          <p className="alert-banner-what">{t(alert.whatKey)}</p>
-          <span className="alert-banner-when">{t(alert.whenKey)}</span>
+          <p className="alert-banner-what">{t(alert.whatKey, alert.params)}</p>
+          <span className="alert-banner-when">{t(alert.whenKey, alert.whenParams)}</span>
         </div>
-        <p className="alert-banner-why">{t(alert.whyKey)}</p>
-        <p className="alert-banner-action">{t(alert.actionKey)}</p>
+        <p className="alert-banner-why">{t(alert.whyKey, alert.params)}</p>
+        <p className="alert-banner-action">{t(alert.actionKey, alert.params)}</p>
       </div>
       {onViewAll && (
         <button type="button" className="alert-banner-link" onClick={onViewAll}>

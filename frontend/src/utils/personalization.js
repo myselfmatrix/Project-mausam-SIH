@@ -5,11 +5,21 @@ import { getMetric } from '../data/metricDefs'
 // persona — this ordering is what makes two personas looking at the exact
 // same weather see a different homepage. Swap the persona priority arrays
 // or the metric registry for a real rules/ML backend later.
-export function getPriorityMetrics(personaId) {
+export function getPriorityMetrics(personaId, weather) {
   const persona = getPersona(personaId)
   return persona.priority
     .map((key) => ({ key, ...getMetric(key) }))
     .filter((m) => m.getValue)
+    /*
+      Drop tiles whose data this location does not have. A tide tile in
+      Lucknow, or a wave height in Leh, is not a loading state that will
+      resolve - there is no sea there. Showing the tile empty implies the app
+      is broken; leaving it out lets the next real metric take its place.
+
+      Called without `weather` (during first paint, before any fetch has
+      resolved) nothing is filtered, so the grid keeps its full shape.
+    */
+    .filter((m) => !weather || !m.isAvailable || m.isAvailable(weather))
 }
 
 // Labels are catalog keys: the band a score falls into is maths, but the word
@@ -30,7 +40,15 @@ export function getComfortScore(personaId, weather) {
   const factors = persona.priority
     .map((key) => ({ key, ...getMetric(key) }))
     .filter((m) => typeof m.getPenalty === 'function')
+    .filter((m) => !m.isAvailable || m.isAvailable(weather))
     .map((m) => ({ labelKey: m.labelKey, penalty: m.getPenalty(weather) }))
+    /*
+      A penalty of null means the banding function was handed a missing
+      reading. Counting it as zero would quietly flatter the score, and
+      counting it as the worst band would invent a hazard, so the factor is
+      dropped and the score reflects only what is actually known.
+    */
+    .filter((f) => typeof f.penalty === 'number' && Number.isFinite(f.penalty))
 
   const totalPenalty = factors.reduce((sum, f) => sum + f.penalty, 0)
   const score = Math.max(0, Math.min(10, 10 - totalPenalty))

@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const weatherRoutes = require('./routes/weather');
 const userRoutes = require('./routes/user');
 const i18nRoutes = require('./routes/i18n');
+const geoRoutes = require('./routes/geo');
 
 const app = express();
 
@@ -32,7 +33,8 @@ app.get('/api', (req, res) => {
       weather: '/api/weather',
       users: '/api/users',
       preferences: '/api/preferences',
-      i18n: '/api/i18n'
+      i18n: '/api/i18n',
+      geo: '/api/geo'
     }
   });
 });
@@ -42,6 +44,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/weather', weatherRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/i18n', i18nRoutes);
+app.use('/api/geo', geoRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {

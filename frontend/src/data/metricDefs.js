@@ -23,7 +23,6 @@ import {
   LifeBuoy,
   Smile,
 } from 'lucide-react'
-import { HOURLY_FORECAST, DAILY_FORECAST } from './weatherData'
 import {
   tAqiCategory,
   tCity,
@@ -37,18 +36,38 @@ import {
 const HEAT_STATUS = { low: 'safe', moderate: 'caution', high: 'warning', extreme: 'critical' }
 const HEAT_PENALTY = { low: 0, moderate: 1, high: 2.5, extreme: 4 }
 
+/*
+  Banding, with one guard that matters more than it looks.
+
+  A missing reading is not a reading of zero, and it is not a reading of
+  "worst". Without the finite check below, an unavailable AQI would fall
+  through every band to the last one - so a city whose air-quality upstream
+  happened to be down would be presented as severely polluted, and its comfort
+  score docked accordingly. Returning null lets the caller drop the tile
+  instead of inventing a verdict.
+*/
 const tier = (value, steps) => {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return null
   for (const [limit, status] of steps) {
     if (value <= limit) return status
   }
   return steps[steps.length - 1][1]
 }
 
+/** True when every named field carries a usable value. */
+const has = (w, ...fields) =>
+  fields.every((f) => w?.[f] !== null && w?.[f] !== undefined && !Number.isNaN(w?.[f]))
+
 const uvStatus = (uv) => tier(uv, [[2, 'safe'], [5, 'caution'], [7, 'warning'], [11, 'critical']])
 const uvPenalty = (uv) => tier(uv, [[2, 0], [5, 0.5], [7, 1.5], [11, 3]])
 const UV_KEY = { safe: 'uv.low', caution: 'uv.moderate', warning: 'uv.high', critical: 'uv.veryHigh' }
-const aqiStatus = (aqi) => tier(aqi, [[50, 'safe'], [100, 'info'], [150, 'caution'], [200, 'warning'], [500, 'critical']])
-const aqiPenalty = (aqi) => tier(aqi, [[50, 0], [100, 0.5], [150, 1.5], [200, 2.5], [500, 4]])
+/* CPCB's six categories, since the AQI the backend computes is India's:
+   Good / Satisfactory / Moderate / Poor / Very Poor / Severe, with boundaries
+   at 50/100/200/300/400. The mock these replaced used the US EPA's 150 and
+   200 breaks, which would have labelled 180 - solidly "Moderate" on the
+   Indian scale - as unhealthy. */
+const aqiStatus = (aqi) => tier(aqi, [[50, 'safe'], [100, 'info'], [200, 'caution'], [300, 'warning'], [500, 'critical']])
+const aqiPenalty = (aqi) => tier(aqi, [[50, 0], [100, 0.5], [200, 1.5], [300, 2.5], [400, 3.5], [500, 4]])
 const rainStatus = (pct) => tier(pct, [[20, 'safe'], [50, 'info'], [70, 'caution'], [100, 'warning']])
 const rainPenalty = (pct) => tier(pct, [[20, 0], [50, 1], [70, 2], [100, 3.5]])
 const windStatus = (kmh) => tier(kmh, [[15, 'safe'], [30, 'info'], [45, 'caution'], [200, 'warning']])
@@ -58,13 +77,13 @@ const humidityStatus = (pct) => (pct <= 60 ? 'safe' : pct <= 80 ? 'caution' : 'w
 const humidityPenalty = (pct) => (pct <= 60 ? 0 : pct <= 80 ? 1 : 2)
 const soilStatus = (pct) => (pct < 25 ? 'warning' : pct > 75 ? 'caution' : 'safe')
 
-const firstRainyHour = () => HOURLY_FORECAST.find((h) => h.rain >= 50)
-const tempTrendKey = () => {
-  const [today, ...rest] = DAILY_FORECAST
-  const avgRest = rest.reduce((sum, d) => sum + d.high, 0) / rest.length
-  if (avgRest - today.high >= 1.5) return 'metric.trendWarming'
-  if (today.high - avgRest >= 1.5) return 'metric.trendCooling'
-  return 'metric.trendSteady'
+/* Both of these used to be derived here from a fixed sample series. They now
+   come from the live hourly and daily forecast, computed in
+   backend/weather/derive.js where the thresholds are documented. */
+const TREND_KEY = {
+  warming: 'metric.trendWarming',
+  cooling: 'metric.trendCooling',
+  steady: 'metric.trendSteady',
 }
 
 /*
@@ -93,6 +112,7 @@ export const METRIC_DEFS = {
   workoutWindow: {
     icon: Dumbbell,
     labelKey: 'metric.workoutWindow',
+    isAvailable: (w) => Boolean(w.workoutWindow?.start),
     getValue: (w, t, n) => `${n(w.workoutWindow.start)} – ${n(w.workoutWindow.end)}`,
     getCaption: (w, t) =>
       t('metric.workoutWindowCaption', { quality: tQuality(t, w.workoutWindow.quality) }),
@@ -101,6 +121,7 @@ export const METRIC_DEFS = {
   uvIndex: {
     icon: Sun,
     labelKey: 'metric.uvIndex',
+    isAvailable: (w) => has(w, 'uvIndex'),
     getValue: (w, t, n) => n(w.uvIndex),
     getCaption: (w, t) => t(UV_KEY[uvStatus(w.uvIndex)]),
     getStatus: (w) => uvStatus(w.uvIndex),
@@ -109,6 +130,7 @@ export const METRIC_DEFS = {
   heatRisk: {
     icon: Flame,
     labelKey: 'metric.heatRisk',
+    isAvailable: (w) => Boolean(w.heatRiskLevel),
     getValue: (w, t) => tHeatLevel(t, w.heatRiskLevel),
     getCaption: (w, t) => t('metric.heatRiskCaption'),
     getStatus: (w) => HEAT_STATUS[w.heatRiskLevel],
@@ -117,7 +139,7 @@ export const METRIC_DEFS = {
   windSpeed: {
     icon: Wind,
     labelKey: 'metric.windSpeed',
-    getValue: (w, t, n) => `${n(w.windSpeed)} km/h`,
+    getValue: (w, t, n) => `${n(w.windSpeed)} ${t(w.speedUnitKey || 'units.kmh')}`,
     getCaption: (w, t) =>
       t('metric.windSpeedCaption', { direction: tWindDirection(t, w.windDirection) }),
     getStatus: (w) => windStatus(w.windSpeed),
@@ -140,8 +162,19 @@ export const METRIC_DEFS = {
   aqi: {
     icon: Gauge,
     labelKey: 'metric.aqi',
+    isAvailable: (w) => has(w, 'aqi'),
     getValue: (w, t, n) => `${n(w.aqi)} AQI`,
-    getCaption: (w, t) => tAqiCategory(t, w.aqiCategory),
+    /* Naming the pollutant that produced the number is the difference between
+       "the air is bad" and something actionable: ozone means stay in at
+       midday, PM2.5 means wear a mask. The backend computes which sub-index
+       won, so it costs nothing to say. */
+    getCaption: (w, t) =>
+      w.aqiDominantLabel
+        ? t('metric.aqiDominant', {
+          category: tAqiCategory(t, w.aqiCategory),
+          pollutant: w.aqiDominantLabel,
+        })
+        : tAqiCategory(t, w.aqiCategory),
     getStatus: (w) => aqiStatus(w.aqi),
     getPenalty: (w) => aqiPenalty(w.aqi),
   },
@@ -156,6 +189,7 @@ export const METRIC_DEFS = {
   destinationWeather: {
     icon: Plane,
     labelKey: 'metric.destinationWeather',
+    isAvailable: (w) => Boolean(w.destination?.city),
     getValue: (w, t) => tCity(t, w.destination.city),
     getCaption: (w, t) => tCondition(t, w.destination.condition),
     getStatus: (w) => (w.destination.severeAlert ? 'critical' : 'info'),
@@ -163,6 +197,7 @@ export const METRIC_DEFS = {
   packingTip: {
     icon: Briefcase,
     labelKey: 'metric.packingTip',
+    isAvailable: (w) => Boolean(w.packingTipKey || w.packingTip),
     getValue: (w, t) => t('metric.packingTipValue'),
     // The seed data carries the key; the English sentence stays as the
     // fallback for any location that hasn't been keyed.
@@ -172,6 +207,7 @@ export const METRIC_DEFS = {
   schoolCommute: {
     icon: School,
     labelKey: 'metric.schoolCommute',
+    isAvailable: (w) => Boolean(w.schoolCommuteWindow),
     getValue: (w, t, n) => n(w.schoolCommuteWindow),
     getCaption: (w, t) =>
       t(w.rainDuringSchool ? 'metric.schoolCommuteRain' : 'metric.schoolCommuteClear'),
@@ -180,6 +216,7 @@ export const METRIC_DEFS = {
   rainDuringSchool: {
     icon: CloudRain,
     labelKey: 'metric.rainDuringSchool',
+    isAvailable: (w) => w.rainDuringSchool !== null && w.rainDuringSchool !== undefined,
     getValue: (w, t) => t(w.rainDuringSchool ? 'value.likely' : 'value.unlikely'),
     getCaption: (w, t, n) => n(w.schoolCommuteWindow),
     getStatus: (w) => (w.rainDuringSchool ? 'warning' : 'safe'),
@@ -187,6 +224,7 @@ export const METRIC_DEFS = {
   visibility: {
     icon: Eye,
     labelKey: 'metric.visibility',
+    isAvailable: (w) => has(w, 'visibility'),
     getValue: (w, t, n) => `${n(w.visibility)} km`,
     getCaption: (w, t) => t('metric.visibilityCaption'),
     getStatus: (w) => visibilityStatus(w.visibility),
@@ -194,6 +232,7 @@ export const METRIC_DEFS = {
   fog: {
     icon: CloudFog,
     labelKey: 'metric.fog',
+    isAvailable: (w) => has(w, 'visibility'),
     getValue: (w, t) =>
       t(w.visibility < 3 ? 'value.high' : w.visibility < 6 ? 'value.moderate' : 'value.low'),
     getCaption: (w, t) => t('metric.fogCaption'),
@@ -202,20 +241,22 @@ export const METRIC_DEFS = {
   rainTiming: {
     icon: Clock,
     labelKey: 'metric.rainTiming',
-    getValue: (w, t) => {
-      const hit = firstRainyHour()
-      return hit ? t('metric.rainTimingAround', { time: hit.time }) : t('metric.rainTimingNone')
-    },
+    getValue: (w, t, n) =>
+      w.rainStartsAt
+        ? t('metric.rainTimingAround', { time: n(w.rainStartsAt) })
+        : t('metric.rainTimingNone'),
     getCaption: (w, t) => t('metric.rainTimingCaption'),
-    getStatus: () => (firstRainyHour() ? 'caution' : 'safe'),
+    getStatus: (w) => (w.rainStartsAt ? 'caution' : 'safe'),
   },
   storm: {
     icon: CloudLightning,
     labelKey: 'metric.storm',
-    getValue: (w, t) =>
-      t(w.condition.toLowerCase().includes('thunder') ? 'value.active' : 'value.low'),
+    /* Keyed off the forecast's condition group rather than by searching the
+       condition text for "thunder": the group is a machine value that will
+       not change, whereas the text is display copy. */
+    getValue: (w, t) => t(w.conditionGroup === 'thunder' ? 'value.active' : 'value.low'),
     getCaption: (w, t) => t('metric.stormCaption'),
-    getStatus: (w) => (w.condition.toLowerCase().includes('thunder') ? 'critical' : 'safe'),
+    getStatus: (w) => (w.conditionGroup === 'thunder' ? 'critical' : 'safe'),
   },
   rainfallPrediction: {
     icon: CloudRain,
@@ -227,6 +268,7 @@ export const METRIC_DEFS = {
   soilMoisture: {
     icon: Sprout,
     labelKey: 'metric.soilMoisture',
+    isAvailable: (w) => has(w, 'soilMoisture'),
     getValue: (w, t, n) => `${n(w.soilMoisture)}%`,
     getCaption: (w, t) =>
       t(
@@ -241,6 +283,7 @@ export const METRIC_DEFS = {
   frost: {
     icon: Snowflake,
     labelKey: 'metric.frost',
+    isAvailable: (w) => w.frostRisk !== null && w.frostRisk !== undefined,
     getValue: (w, t) => t(w.frostRisk ? 'metric.frostRisk' : 'metric.frostNone'),
     getCaption: (w, t) => t('metric.frostCaption'),
     getStatus: (w) => (w.frostRisk ? 'warning' : 'safe'),
@@ -248,12 +291,14 @@ export const METRIC_DEFS = {
   temperatureTrend: {
     icon: TrendingUp,
     labelKey: 'metric.temperatureTrend',
-    getValue: (w, t) => t(tempTrendKey()),
+    isAvailable: (w) => Boolean(TREND_KEY[w.temperatureTrend]),
+    getValue: (w, t) => t(TREND_KEY[w.temperatureTrend] || 'metric.trendSteady'),
     getCaption: (w, t) => t('metric.temperatureTrendCaption'),
   },
   irrigationGuidance: {
     icon: Droplet,
     labelKey: 'metric.irrigationGuidance',
+    isAvailable: (w) => has(w, 'soilMoisture'),
     getValue: (w, t) => t(w.soilMoisture < 25 ? 'metric.irrigateToday' : 'metric.irrigateSkip'),
     getCaption: (w, t) => t('metric.irrigationCaption', { percent: w.soilMoisture }),
     getStatus: (w) => (w.soilMoisture < 25 ? 'caution' : 'safe'),
@@ -261,12 +306,14 @@ export const METRIC_DEFS = {
   tide: {
     icon: Waves,
     labelKey: 'metric.tide',
+    isAvailable: (w) => Boolean(w.tide?.next),
     getValue: (w, t, n) => `${tTide(t, w.tide.next)} · ${n(w.tide.time)}`,
     getCaption: (w, t, n) => (w.tide.heightM ? `${n(w.tide.heightM)} m` : null),
   },
   waveHeight: {
     icon: Waves,
     labelKey: 'metric.waveHeight',
+    isAvailable: (w) => has(w, 'waveHeightM'),
     getValue: (w, t, n) => `${n(w.waveHeightM)} m`,
     getCaption: (w, t) => t('metric.waveHeightCaption'),
     getStatus: (w) => (w.waveHeightM > 1.5 ? 'warning' : 'safe'),
@@ -274,6 +321,7 @@ export const METRIC_DEFS = {
   seaConditions: {
     icon: LifeBuoy,
     labelKey: 'metric.seaConditions',
+    isAvailable: (w) => has(w, 'waveHeightM'),
     getValue: (w, t) =>
       t(w.waveHeightM > 1.5 ? 'value.rough' : w.waveHeightM > 0.8 ? 'value.moderate' : 'value.calm'),
     getCaption: (w, t) => t('metric.seaConditionsCaption'),
@@ -282,6 +330,7 @@ export const METRIC_DEFS = {
   waterTemperature: {
     icon: Thermometer,
     labelKey: 'metric.waterTemperature',
+    isAvailable: (w) => has(w, 'waterTemperature'),
     getValue: (w, t, n) =>
       w.waterTemperature != null ? `${n(w.waterTemperature)}°` : t('common.na'),
     getCaption: (w, t) => t('metric.waterTemperatureCaption'),

@@ -1066,3 +1066,124 @@
     flex: 0 0 auto;
   }
 }
+
+/* ---- Saved locations: live-conditions additions ---- */
+
+.locations-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Shown while a card's conditions are still in flight. Occupies the same
+   height as the temperature it replaces, so nothing reflows when data lands. */
+.location-card-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.location-card-range {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.location-card-action {
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+.add-location-card-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
+}
+
+.add-location-card-hint {
+  max-width: 22ch;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* The refresh button's spinner reuses the picker's keyframes, declared here
+   too so this stylesheet does not depend on the picker being loaded. */
+@keyframes lp-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.lp-spin {
+  animation: lp-rotate 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-spin { animation-duration: 2.4s; }
+}
+
+/* ---- Alerts: empty state and provenance ---- */
+
+.alerts-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.alerts-empty-title {
+  font-size: var(--text-base);
+  font-weight: 650;
+  color: var(--color-text);
+}
+
+.alerts-empty-body {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  max-width: 62ch;
+}
+
+/*
+  Provenance, stated where it is read rather than in an About page. These are
+  MAUSAM's own advisories computed from the forecast, and presenting them
+  without saying so would let them be mistaken for official IMD warnings.
+*/
+.alerts-derived-note {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-faint, var(--color-text-muted));
+}
+
+/*
+  The words the brief will read.
+
+  Shown as well as spoken: it makes the feature usable with the sound off, on
+  a shared desk or in a noisy room, and it lets someone confirm what was said
+  after it has been said.
+*/
+.voice-brief-script {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 66ch;
+}
+
+.voice-brief-play:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CalendarDays, MapPin, Radio } from 'lucide-react'
 import AlertBanner from '../AlertBanner'
@@ -53,6 +53,43 @@ export default function OverviewTab({
   const { t, n, language } = useTranslation()
   const comfort = getComfortScore(persona.id, weather)
   const layout = useDashboardLayout(persona.id)
+
+  /*
+    Which tiles this location can actually fill.
+
+    The saved layout is a list of metric keys chosen per persona and knows
+    nothing about where the user is. Two separate problems follow, and this
+    handles both:
+
+    1. A tile whose data is absent must not render. A beachgoer has "Next
+       Tide" pinned; at Leh the forecast carries an explicit null for it, and
+       reading `weather.tide.next` off that took the whole dashboard down.
+
+    2. A persona whose entire set is inapplicable must not be left with an
+       almost-empty grid. That same beachgoer inland would see one lonely
+       wind tile - technically correct and visibly broken. So when fewer than
+       three survive, the grid is topped up from metrics every location has,
+       which is a worse fit for the persona but a far better screen than a
+       single card floating in white space.
+  */
+  const UNIVERSAL_FALLBACK = ['temperature', 'rainProbability', 'humidity', 'windSpeed', 'uvIndex', 'sunriseSunset', 'visibility', 'aqi']
+
+  const visibleKeys = useMemo(() => {
+    const usable = (key) => {
+      const m = getMetric(key)
+      return Boolean(m) && (!m.isAvailable || m.isAvailable(weather))
+    }
+
+    const kept = layout.sortedKeys.filter(usable)
+    if (kept.length >= 3) return kept
+
+    for (const key of UNIVERSAL_FALLBACK) {
+      if (kept.length >= 5) break
+      if (!kept.includes(key) && !layout.hidden.includes(key) && usable(key)) kept.push(key)
+    }
+    return kept
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layout.sortedKeys, layout.hidden, weather])
 
   const firstName = userName ? userName.split(' ')[0] : ''
   const personaTitle = t(persona.titleKey)
@@ -178,11 +215,11 @@ export default function OverviewTab({
       </motion.div>
 
       <motion.div className="metric-grid" variants={stagger}>
-        {layout.sortedKeys.map((key) => {
+        {visibleKeys.map((key) => {
           const m = getMetric(key)
           if (!m) return null
           const isPinned = layout.pinned.includes(key)
-          const group = layout.sortedKeys.filter((k) => layout.pinned.includes(k) === isPinned)
+          const group = visibleKeys.filter((k) => layout.pinned.includes(k) === isPinned)
           const groupIdx = group.indexOf(key)
           return (
             <motion.div key={key} variants={fadeUp} layout>

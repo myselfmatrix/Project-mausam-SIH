@@ -1,6 +1,5 @@
 import { useId, useMemo } from 'react'
 import { CloudRain } from 'lucide-react'
-import { HOURLY_FORECAST } from '../../data/weatherData'
 import { useTranslation } from '../../i18n/useTranslation'
 import './HourlyStrip.css'
 
@@ -29,18 +28,34 @@ function smoothPath(points) {
   return d
 }
 
-export default function HourlyStrip({ hours = HOURLY_FORECAST }) {
+export default function HourlyStrip({ hours }) {
   const { t, n } = useTranslation()
   const uid = useId().replace(/:/g, '')
 
-  const { points, linePath, areaPath, width, nowIndex } = useMemo(() => {
-    const temps = hours.map((h) => h.temp)
+  /*
+    No hours means the forecast has not arrived yet.
+
+    This used to default to a fixed sample series, which drew a plausible
+    curve for weather nobody had measured. Now it draws nothing, and the
+    parent shows a skeleton for the moment before data lands.
+
+    Filtering happens inside the memo rather than outside it because a new
+    array on every render would make the memo re-run every time - it would
+    look memoised and never be.
+  */
+  const { safeHours, points, linePath, areaPath, width, nowIndex } = useMemo(() => {
+    const safe = Array.isArray(hours) ? hours.filter((h) => Number.isFinite(h?.temp)) : []
+    if (safe.length < 2) {
+      return { safeHours: safe, points: [], linePath: '', areaPath: '', width: 0, nowIndex: 0 }
+    }
+
+    const temps = safe.map((h) => h.temp)
     const min = Math.min(...temps)
     const max = Math.max(...temps)
     const span = max - min || 1
-    const w = (hours.length - 1) * STEP
+    const w = (safe.length - 1) * STEP
 
-    const pts = hours.map((h, i) => ({
+    const pts = safe.map((h, i) => ({
       x: i * STEP,
       // Invert: higher temperature sits higher on the chart.
       y: PAD_Y + (1 - (h.temp - min) / span) * (CHART_H - PAD_Y * 2),
@@ -53,7 +68,7 @@ export default function HourlyStrip({ hours = HOURLY_FORECAST }) {
     const nowHour = new Date().getHours()
     let best = 0
     let bestDist = Infinity
-    hours.forEach((h, i) => {
+    safe.forEach((h, i) => {
       const dist = Math.abs(parseInt(h.time, 10) - nowHour)
       if (dist < bestDist) {
         bestDist = dist
@@ -61,8 +76,12 @@ export default function HourlyStrip({ hours = HOURLY_FORECAST }) {
       }
     })
 
-    return { points: pts, linePath: line, areaPath: area, width: w, nowIndex: best }
+    return { safeHours: safe, points: pts, linePath: line, areaPath: area, width: w, nowIndex: best }
   }, [hours])
+
+  // A one-point series has no curve and a zero-width viewBox, so there is
+  // nothing to lay out until at least two hours have arrived.
+  if (safeHours.length < 2) return null
 
   return (
     <section className="hourly surface">
@@ -103,7 +122,7 @@ export default function HourlyStrip({ hours = HOURLY_FORECAST }) {
           </svg>
 
           <div className="hourly-cols">
-            {hours.map((h, i) => (
+            {safeHours.map((h, i) => (
               <div
                 className={`hourly-col ${i === nowIndex ? 'is-now' : ''}`}
                 key={h.time}

@@ -1,7 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getProfile, updatePersona, updateLanguage, getLocations, addLocation
+  getProfile,
+  updatePersona,
+  updateLanguage,
+  getLocations,
+  addLocation,
+  replaceLocations,
+  removeLocation,
+  setActiveLocation,
 } = require('../controllers/userController');
 const { requireAuth } = require('../middleware/auth');
 
@@ -18,7 +25,15 @@ router.put('/persona', updatePersona);
 router.post('/language', updateLanguage);
 router.put('/language', updateLanguage);
 
+/*
+  `/locations/active` is declared before `/locations/:id` so the literal wins:
+  otherwise DELETE-style id matching would treat "active" as an id.
+*/
 router.get('/locations', getLocations);
 router.post('/locations', addLocation);
+router.put('/locations/active', setActiveLocation);
+router.post('/locations/active', setActiveLocation);
+router.put('/locations', replaceLocations);
+router.delete('/locations/:id', removeLocation);
 
 module.exports = router;

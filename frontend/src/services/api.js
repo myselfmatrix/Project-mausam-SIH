@@ -58,9 +58,19 @@ export const apiCall = async (endpoint, options = {}) => {
         ...options.headers,
       },
     })
-  } catch {
-    // fetch only rejects for network-level failures, so this is genuinely
-    // "the server isn't reachable" rather than an error status.
+  } catch (err) {
+    /*
+      An abort is the caller changing its mind, not a failure.
+
+      The location search fires on every keystroke and cancels the previous
+      request; if those cancellations came back as "cannot reach the server",
+      typing a city name would paint an error under the search box for every
+      letter. Rethrowing the AbortError unchanged lets callers ignore it.
+    */
+    if (err?.name === 'AbortError') throw err
+
+    // fetch only rejects for network-level failures, so anything else here is
+    // genuinely "the server isn't reachable" rather than an error status.
     throw new ApiError(
       'Cannot reach the server. Make sure the backend is running on ' + API_BASE_URL + '.',
       0,
@@ -94,8 +104,9 @@ export const apiCall = async (endpoint, options = {}) => {
   return body
 }
 
-export const get = (endpoint) => apiCall(endpoint)
+export const get = (endpoint, options) => apiCall(endpoint, options)
 export const post = (endpoint, data) =>
   apiCall(endpoint, { method: 'POST', body: JSON.stringify(data) })
 export const put = (endpoint, data) =>
   apiCall(endpoint, { method: 'PUT', body: JSON.stringify(data) })
+export const del = (endpoint) => apiCall(endpoint, { method: 'DELETE' })

@@ -280,3 +280,12 @@
     opacity: 1;
   }
 }
+
+/* Holds the score block's height while the first forecast is in flight, so
+   the panel does not jump when the real figure replaces it. */
+.story-score.is-pending {
+  min-height: 74px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+}

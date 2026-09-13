@@ -5,11 +5,12 @@ import {
   Info, AlertTriangle, ShieldAlert, CheckCircle2, Wind, Sun, CloudRain, Sparkles,
 } from 'lucide-react'
 import { PERSONAS } from '../data/personaData'
-import { getWeather } from '../data/weatherData'
-import { ALERTS } from '../data/alertData'
+import { DEFAULT_PLACE } from '../data/locationData'
+import { useWeather } from '../hooks/useWeather'
 import DashboardPreview from '../components/marketing/DashboardPreview'
 import ScrollStory from '../components/marketing/ScrollStory'
 import AlertsMarquee from '../components/marketing/AlertsMarquee'
+import { useNationalAlerts } from '../hooks/useNationalAlerts'
 import AlertBanner from '../components/dashboard/AlertBanner'
 import AtmosphereScene from '../components/three/LazyAtmosphere'
 import Logo from '../components/brand/Logo'
@@ -19,7 +20,7 @@ import LanguageSwitcher from '../components/ui/LanguageSwitcher'
 import useTilt from '../hooks/useTilt'
 import useCountUp from '../hooks/useCountUp'
 import { useTranslation } from '../i18n/useTranslation'
-import { tCity } from '../i18n/vocab'
+import { camelSlug, tAqiCategory, tCity } from '../i18n/vocab'
 import './HomePage.css'
 
 const FEATURES = [
@@ -97,9 +98,23 @@ export default function HomePage({ onGetStarted, onSignIn }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const progressRef = useRef(null)
-  const { t, n } = useTranslation()
-  const weather = getWeather()
-  const sampleAlert = ALERTS[0]
+  const { t, n, language } = useTranslation()
+  /*
+    The landing page shows live weather for the project's home city.
+
+    It used to read a fixed sample, which meant the marketing page advertised
+    an air-quality figure from whenever that file was written. Showing the
+    real thing is both more honest and a better demonstration - the numbers a
+    visitor sees here are the numbers the product would give them.
+  */
+  const { weather } = useWeather(DEFAULT_PLACE, null, language)
+  /*
+    The banner in the alerts section shows the worst advisory live across the
+    cities we watch - a real one, for a real place, right now. When every city
+    is calm there is nothing to show, and the section stands without it.
+  */
+  const nationalAlerts = useNationalAlerts()
+  const sampleAlert = nationalAlerts[0] || null
 
   // Reading-progress hairline under the navbar. Written straight to a CSS
   // custom property so scrolling never triggers a React render.
@@ -129,10 +144,44 @@ export default function HomePage({ onGetStarted, onSignIn }) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
+  /*
+    Hero chips, live.
+
+    Each is rendered only once its own reading has arrived - an em dash rather
+    than a number in the meantime. `aqiCategory` is looked up through the
+    catalog by slug, with the raw value as the fallback, so a CPCB category
+    nobody has translated still reads as words.
+  */
+  const chipValue = (value, suffix = '') =>
+    value === null || value === undefined ? '—' : `${n(value)}${suffix}`
+
   const heroChips = [
-    { icon: Wind, label: t('hero.chipAirQuality'), value: n(weather.aqi), note: t(`aqiCategory.${weather.aqiCategory.toLowerCase()}`, null, weather.aqiCategory), tone: 'warning', pos: 'chip-a' },
-    { icon: Sun, label: t('hero.chipUvIndex'), value: n(weather.uvIndex), note: t('hero.chipHigh'), tone: 'caution', pos: 'chip-b' },
-    { icon: CloudRain, label: t('hero.chipRainChance'), value: `${n(weather.rainProbability)}%`, note: t('hero.chipNext6h'), tone: 'info', pos: 'chip-c' },
+    {
+      icon: Wind,
+      label: t('hero.chipAirQuality'),
+      value: chipValue(weather?.aqi),
+      note: weather?.aqiCategory
+        ? tAqiCategory(t, weather.aqiCategory)
+        : t('picker.loadingShort'),
+      tone: 'warning',
+      pos: 'chip-a',
+    },
+    {
+      icon: Sun,
+      label: t('hero.chipUvIndex'),
+      value: chipValue(weather?.uvIndex),
+      note: weather?.uvBand ? t(`uv.${camelSlug(weather.uvBand)}`, null, weather.uvBand) : t('hero.chipHigh'),
+      tone: 'caution',
+      pos: 'chip-b',
+    },
+    {
+      icon: CloudRain,
+      label: t('hero.chipRainChance'),
+      value: chipValue(weather?.rainProbability, '%'),
+      note: t('hero.chipNext6h'),
+      tone: 'info',
+      pos: 'chip-c',
+    },
   ]
 
   return (
@@ -292,7 +341,7 @@ export default function HomePage({ onGetStarted, onSignIn }) {
         <div className="section-inner">
           <Reveal className="preview-frame">
             <div className="preview-glow" aria-hidden="true" />
-            <DashboardPreview weather={weather} />
+            {weather ? <DashboardPreview weather={weather} /> : null}
           </Reveal>
         </div>
       </section>
@@ -342,7 +391,7 @@ export default function HomePage({ onGetStarted, onSignIn }) {
             />
             {/* Deliberately not "the panel on the left" — it sits on top once
                 the layout collapses to a single column on phones. */}
-            <p className="lede">{t('story.lede', { location: tCity(t, weather.location) })}</p>
+            <p className="lede">{t('story.lede', { location: tCity(t, weather?.location || DEFAULT_PLACE.name) })}</p>
           </Reveal>
 
           <ScrollStory />

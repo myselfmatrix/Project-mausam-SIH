@@ -1,0 +1,148 @@
+.dskel {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+.dskel-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 14px max(24px, env(safe-area-inset-right)) 14px max(24px, env(safe-area-inset-left));
+  border-bottom: 1px solid var(--color-border);
+  background: var(--glass-bg);
+}
+
+.dskel-place {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.dskel-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-16);
+}
+
+.dskel-hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.dskel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--space-4);
+}
+
+.dskel-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.dskel-strip {
+  height: 148px;
+  margin-top: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+/* The shimmer is the only thing that says "loading" here, since there are
+   deliberately no numbers to look at. */
+.dskel-line,
+.dskel-strip,
+.dskel-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.dskel-line {
+  height: 14px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-raised);
+}
+
+.dskel-line-xs { width: 42%; height: 10px; }
+.dskel-line-sm { width: 30%; }
+.dskel-line-md { width: 58%; }
+.dskel-line-lg { width: 74%; height: 38px; }
+
+.dskel-line::after,
+.dskel-strip::after,
+.dskel-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-text) 7%, transparent),
+    transparent
+  );
+  animation: dskel-sweep 1.5s infinite;
+}
+
+.dskel-card::after { animation-delay: 0.15s; }
+.dskel-strip::after { animation-delay: 0.3s; }
+
+@keyframes dskel-sweep {
+  100% { transform: translateX(100%); }
+}
+
+/* A sweeping gradient is exactly the kind of motion vestibular sensitivity
+   reacts to, and it carries no information a static panel does not. */
+@media (prefers-reduced-motion: reduce) {
+  .dskel-line::after,
+  .dskel-strip::after,
+  .dskel-card::after {
+    animation: none;
+  }
+}
+
+.dskel-error {
+  max-width: 34rem;
+  margin: clamp(3rem, 12vh, 7rem) auto 0;
+  text-align: center;
+}
+
+.dskel-error h2 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-2xl);
+}
+
+.dskel-error p {
+  margin: 0 0 var(--space-6);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.dskel-error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .dskel-main { padding: var(--space-6) var(--space-4) var(--space-12); }
+  .dskel-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}

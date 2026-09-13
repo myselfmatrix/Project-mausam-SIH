@@ -6,8 +6,12 @@ import {
 } from 'lucide-react'
 import { PERSONAS, getPersona } from '../data/personaData'
 import { INTERESTS } from '../data/interestData'
+import { DEFAULT_PLACE } from '../data/locationData'
 import Logo from '../components/brand/Logo'
+import LocationPicker from '../components/location/LocationPicker'
+import { put, getToken } from '../services/api'
 import { useTranslation } from '../i18n/useTranslation'
+import { tCity, tRegion } from '../i18n/vocab'
 // Reuse the persona-card / interest-chip visual language already
 // established in the dashboard's Personalize tab instead of inventing a
 // new one.
@@ -67,7 +71,17 @@ export default function OnboardingPage({ onComplete }) {
   const [step, setStep] = useState(0)
   const [persona, setPersona] = useState(null)
   const [locationContext, setLocationContext] = useState(null)
-  const [customLocation, setCustomLocation] = useState('')
+  /*
+    The actual place, with coordinates.
+
+    The context cards say what KIND of place this is, which is what shapes the
+    persona framing. They never said WHERE it is - the custom option was a
+    free-text box whose contents went into localStorage and were never
+    resolved to anywhere. Choosing through the picker means onboarding
+    finishes with a location the forecast can actually be fetched for.
+  */
+  const [place, setPlace] = useState(null)
+  const [pickerOpen, setPickerOpen] = useState(false)
   const [priorities, setPriorities] = useState([])
 
   const togglePriority = (item) => {
@@ -75,16 +89,28 @@ export default function OnboardingPage({ onComplete }) {
   }
 
   const selectedLocationOption = LOCATION_OPTIONS.find((o) => o.id === locationContext)
-  // A typed-in place is stored verbatim; a picked one is stored as its id and
-  // translated on the way out, so the summary follows the chosen language.
-  const resolvedLocationLabel = locationContext === 'custom'
-    ? (customLocation.trim() || t('onboarding.customLocation'))
-    : (selectedLocationOption ? t(selectedLocationOption.labelKey) : t('common.notSet'))
+  // Our word for the category, so it follows the chosen language rather than
+  // being stored as whatever the user typed.
+  const resolvedLocationLabel = selectedLocationOption
+    ? t(selectedLocationOption.labelKey)
+    : t('common.notSet')
 
   const canContinue =
     step === 0 ? Boolean(persona) :
-    step === 1 ? Boolean(locationContext) && (locationContext !== 'custom' || customLocation.trim().length > 0) :
+    step === 1 ? Boolean(locationContext) :
     true
+
+  /*
+    "Current location" and "somewhere else" both open the picker.
+
+    It owns the GPS permission flow, its failure states and the reverse
+    lookup, so opening it is both less code here and the same experience as
+    changing location later from the dashboard.
+  */
+  const handleContextSelect = (id) => {
+    setLocationContext(id)
+    if (id === 'current' || id === 'custom') setPickerOpen(true)
+  }
 
   const handleNext = () => {
     if (step < STEP_META.length - 1) setStep((s) => s + 1)
@@ -101,6 +127,24 @@ export default function OnboardingPage({ onComplete }) {
     // persona itself is already synced via App.jsx's onComplete handler.
     localStorage.setItem('mausam_location_context', resolvedLocationLabel)
     localStorage.setItem('mausam_priorities', JSON.stringify(priorities))
+
+    /*
+      Hand the chosen place to the dashboard.
+
+      Written under the same key the dashboard reads on mount, so the first
+      screen after onboarding is already the user's own city rather than the
+      project default - and mirrored to the account so it survives a new
+      device. Both are skipped when nothing was chosen.
+    */
+    if (place) {
+      try {
+        localStorage.setItem('mausam_place_v2', JSON.stringify(place))
+      } catch {
+        // storage blocked - the dashboard falls back to the default place
+      }
+      if (getToken()) put('/users/locations/active', place).catch(() => {})
+    }
+
     onComplete(persona)
   }
 
@@ -112,6 +156,17 @@ export default function OnboardingPage({ onComplete }) {
           because the planet and the glass card anchor them; this screen is a
           wide, mostly-empty content area where they just read as noise. */}
       <div className="atmos-backdrop" />
+
+      <LocationPicker
+        open={pickerOpen}
+        activePlace={place || DEFAULT_PLACE}
+        savedLocations={place ? [place] : []}
+        onSelect={(next) => {
+          setPlace(next)
+          setPickerOpen(false)
+        }}
+        onClose={() => setPickerOpen(false)}
+      />
 
       <header className="ob-topbar">
         <div className="ob-topbar-inner">
@@ -193,7 +248,7 @@ export default function OnboardingPage({ onComplete }) {
                         key={opt.id}
                         type="button"
                         className={`ob-location-card ${locationContext === opt.id ? 'is-selected' : ''}`}
-                        onClick={() => setLocationContext(opt.id)}
+                        onClick={() => handleContextSelect(opt.id)}
                         variants={fadeUp}
                       >
                         <span className="ob-location-icon">
@@ -208,22 +263,31 @@ export default function OnboardingPage({ onComplete }) {
                   </motion.div>
 
                   <AnimatePresence>
-                    {locationContext === 'custom' && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                    {locationContext && (
+                      <motion.button
+                        type="button"
+                        className={`ob-place ${place ? 'has-place' : ''}`}
+                        onClick={() => setPickerOpen(true)}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.25 }}
                       >
-                        <input
-                          className="form-input ob-custom-input"
-                          type="text"
-                          placeholder={t('onboarding.customPlaceholder')}
-                          value={customLocation}
-                          onChange={(e) => setCustomLocation(e.target.value)}
-                          autoFocus
-                        />
-                      </motion.div>
+                        <span className="ob-place-icon">
+                          <MapPin size={17} strokeWidth={2} />
+                        </span>
+                        <span className="ob-place-text">
+                          <span className="ob-place-name">
+                            {place ? tCity(t, place.name) : t('picker.title')}
+                          </span>
+                          <span className="ob-place-meta">
+                            {place
+                              ? [tRegion(t, place.region), place.country].filter(Boolean).join(' · ')
+                              : t('locations.addHint')}
+                          </span>
+                        </span>
+                        <ArrowRight size={16} className="ob-place-arrow" />
+                      </motion.button>
                     )}
                   </AnimatePresence>
                 </>

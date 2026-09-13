@@ -10,14 +10,6 @@ const fadeUp = {
 }
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.04 } } }
 
-function timeAgo(iso, t) {
-  const diffMs = Date.now() - new Date(iso).getTime()
-  const hours = Math.floor(diffMs / 3600000)
-  if (hours < 1) return t('time.justNow')
-  if (hours < 24) return t('time.hoursAgo', { count: hours })
-  return t('time.daysAgo', { count: Math.floor(hours / 24) })
-}
-
 // `alerts`/`onMarkRead` are owned by DashboardPage (not local state) so that
 // marking an alert read here actually decrements the unread badge shown in
 // the sidebar and top nav, instead of only updating this tab's own copy.
@@ -51,9 +43,20 @@ export default function AlertsTab({ alerts, onMarkRead }) {
 
       <motion.div className="alerts-list" variants={stagger}>
         {filtered.length === 0 && (
-          <motion.p variants={fadeUp} style={{ color: 'var(--color-text-muted)' }}>
-            {t('alertsTab.empty')}
-          </motion.p>
+          /*
+            Two different empty states, because they mean different things.
+
+            Nothing in this filter is a filtering result. Nothing anywhere is
+            good news, and saying so plainly - with what we are actually
+            watching - is the difference between an alert centre that looks
+            broken and one that looks calm.
+          */
+          <motion.div className="alerts-empty" variants={fadeUp}>
+            <p className="alerts-empty-title">
+              {alerts.length === 0 ? t('alert.allClear') : t('alertsTab.empty')}
+            </p>
+            {alerts.length === 0 && <p className="alerts-empty-body">{t('alert.allClearBody')}</p>}
+          </motion.div>
         )}
         {filtered.map((a) => (
           <motion.div
@@ -66,15 +69,20 @@ export default function AlertsTab({ alerts, onMarkRead }) {
             <div className="alert-card-body">
               <div className="alert-card-top-row">
                 <span className="alert-card-category">{t(`alertCategory.${a.category}`)}</span>
-                <span className="alert-card-time">{timeAgo(a.timestamp, t)}</span>
+                <span className="alert-card-time">{t(`severity.${a.severity}`)}</span>
               </div>
-              <p className="alert-card-what">{t(a.whatKey)}</p>
-              <p className="alert-card-meta">{t(a.whenKey)}</p>
-              <p className="alert-card-meta">{t(a.whyKey)}</p>
-              <p className="alert-card-action">{t(a.actionKey)}</p>
+              <p className="alert-card-what">{t(a.whatKey, a.params)}</p>
+              <p className="alert-card-meta">{t(a.whenKey, a.whenParams)}</p>
+              <p className="alert-card-meta">{t(a.whyKey, a.params)}</p>
+              <p className="alert-card-action">{t(a.actionKey, a.params)}</p>
             </div>
           </motion.div>
         ))}
+        {alerts.length > 0 && (
+          <motion.p className="alerts-derived-note" variants={fadeUp}>
+            {t('alert.derivedNote')}
+          </motion.p>
+        )}
       </motion.div>
     </motion.div>
   )
