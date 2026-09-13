@@ -66,7 +66,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
 
   const isAuthenticated = Boolean(getToken())
   const persona = getPersona(userPersona)
-  const { weather, alerts: liveAlerts, isLoading, error, retry, isLive } = useWeather(
+  const { weather, alerts: liveAlerts, isLoading, error, retry, isLive, errorReason } = useWeather(
     place,
     userPersona,
     language,
@@ -212,6 +212,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
         dataSaver={dataSaver}
         weatherLoading={isLoading}
         weatherError={error}
+        weatherErrorReason={errorReason}
         weatherIsLive={isLive}
         onRetryWeather={retry}
       />
@@ -257,6 +258,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
       <DashboardSkeleton
         place={place}
         error={error}
+        reason={errorReason}
         onRetry={retry}
         onOpenPicker={() => setPickerOpen(true)}
       />

@@ -29,6 +29,18 @@ button.logo {
 .lg-stop-violet {
   stop-color: var(--color-violet-500);
 }
+.lg-stop-deep {
+  stop-color: var(--color-brand-700, #11317a);
+}
+
+/* Land reads green at every size; the ocean gradient carries the theme. */
+.logo-land {
+  fill: #3fae6a;
+}
+
+[data-theme='light'] .logo-land {
+  fill: #2f8f54;
+}
 
 .logo-terminator {
   fill: var(--color-bg-deep);
@@ -51,7 +63,7 @@ button.logo {
    "alive" rather than "animated GIF". */
 .logo-satellite {
   transform-origin: 24px 24px;
-  animation: logo-orbit 14s linear infinite;
+  animation: logo-orbit 18s linear infinite;
 }
 
 .logo-mark .logo-planet {

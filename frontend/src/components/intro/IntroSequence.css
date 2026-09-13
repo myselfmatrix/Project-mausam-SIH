@@ -262,14 +262,11 @@
   border-radius: inherit;
   background: linear-gradient(90deg, var(--color-cyan-400), var(--color-brand-500), var(--color-violet-500));
   transform-origin: left center;
+  /* The width is set inline from the sequence's real milestones; this only
+     smooths the step between them. A keyframe here would go back to
+     guessing. */
   transform: scaleX(0);
-  animation: intro-progress 2.1s var(--ease-out-expo) 1.1s forwards;
-}
-
-@keyframes intro-progress {
-  to {
-    transform: scaleX(1);
-  }
+  transition: transform 260ms linear;
 }
 
 .intro-status {

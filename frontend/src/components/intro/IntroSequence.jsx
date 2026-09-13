@@ -22,7 +22,7 @@ const IntroGlobe = lazy(() => import('./IntroGlobe'))
 const WORD = 'MAUSAM'
 
 const DWELL = 560 // beat held once the camera has settled
-const HARD_CAP = 7500 // absolute ceiling, whatever the network is doing
+const HARD_CAP = 6000 // absolute ceiling, whatever the network is doing
 const NO_GLOBE_HOLD = 2400 // CSS-only fallback has nothing to wait for
 const EXIT_FLIGHT = 900 // canvas travelling into the hero's box
 const EXIT_FADE = 380 // cross-fade once it has landed
@@ -30,6 +30,32 @@ const EXIT_FADE = 380 // cross-fade once it has landed
 // Cycles under the progress line. Each names something the product actually
 // does, so the wait reads as the system waking up.
 const STATUS_KEYS = ['intro.statusSky', 'intro.statusPersonas', 'intro.statusPrioritise']
+
+/*
+  What the progress line actually reports.
+
+  It used to be a fixed 2.1s CSS animation, which meant the bar reached full
+  after 3.2 seconds and then sat there for as long as the globe still needed -
+  up to another five. A progress bar that finishes before the thing it is
+  measuring is worse than none: it tells the user the wait is over and then
+  keeps them waiting, which is exactly what reads as the app having hung.
+
+  These are the real milestones the sequence passes through, so the bar now
+  moves when something happens and holds when nothing is.
+*/
+const PROGRESS = { start: 0.1, ready: 0.62, settled: 0.93, done: 1 }
+
+/*
+  Between milestones the bar creeps.
+
+  Reporting only the real events made it honest but not reassuring: on a cold
+  GPU the globe can take four seconds to arrive, and a bar frozen at ten
+  percent for four seconds looks as hung as one frozen at a hundred. So it
+  eases toward the next milestone without ever reaching it - always moving,
+  never claiming to have arrived somewhere it has not.
+*/
+const CREEP_MS = 180
+const CREEP_RATE = 0.09
 
 // Local copy rather than an import from globeParts, which would drag three.js
 // into the main bundle and undo the lazy chunk above.
@@ -86,6 +112,7 @@ export default function IntroSequence({ onDone }) {
   // State rather than a classList.add: the exit re-render rewrites className
   // wholesale, and would drop an imperatively-added class.
   const [handoff, setHandoff] = useState(false)
+  const [progress, setProgress] = useState(PROGRESS.start)
   const [webgl] = useState(supportsWebGL)
   const { t } = useTranslation()
   const rootRef = useRef(null)
@@ -111,6 +138,7 @@ export default function IntroSequence({ onDone }) {
 
     // Batched into one render, so the transform and the class that enables it
     // land on the same frame.
+    setProgress(PROGRESS.done)
     setHandoff(Boolean(target))
     setPhase('exit')
 
@@ -175,11 +203,36 @@ export default function IntroSequence({ onDone }) {
     }
   }, [after, finish, webgl])
 
-  const handleSettled = useCallback(() => after(DWELL, finish), [after, finish])
+  /*
+    Ease toward whatever the next milestone is, stopping just short of it so
+    the real event is still the thing that closes the gap.
+  */
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setProgress((p) => {
+        if (p >= PROGRESS.done) return p
+        // The ceiling is read from the current value inside the updater, so
+        // this interval is created once. Depending on `progress` instead
+        // rebuilt the timer on every tick, which made the creep stutter and
+        // run several times slower than its own rate.
+        const ceiling =
+          p < PROGRESS.ready ? PROGRESS.ready : p < PROGRESS.settled ? PROGRESS.settled : PROGRESS.done
+        return p >= ceiling - 0.015 ? p : p + (ceiling - p) * CREEP_RATE
+      })
+    }, CREEP_MS)
+    return () => window.clearInterval(id)
+  }, [])
+
+  const handleSettled = useCallback(() => {
+    setProgress(PROGRESS.settled)
+    after(DWELL, finish)
+  }, [after, finish])
   // Textures that land mid-exit must not fade the canvas back in behind the
   // hand-off.
   const handleReady = useCallback(() => {
-    if (!doneRef.current) setArmed(true)
+    if (doneRef.current) return
+    setArmed(true)
+    setProgress(PROGRESS.ready)
   }, [])
 
   return (
@@ -226,7 +279,7 @@ export default function IntroSequence({ onDone }) {
 
       <div className="intro-foot">
         <div className="intro-progress">
-          <span className="intro-progress-fill" />
+          <span className="intro-progress-fill" style={{ transform: `scaleX(${progress})` }} />
         </div>
         <p className="intro-status" key={statusIndex}>
           {t(STATUS_KEYS[statusIndex])}

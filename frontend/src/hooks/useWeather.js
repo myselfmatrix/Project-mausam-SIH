@@ -57,6 +57,7 @@ export function useWeather(place, personaId = null, lang = 'en') {
     placeId: null,
     isLoading: true,
     error: null,
+    errorReason: null,
     retryCount: 0,
   })
 
@@ -127,6 +128,7 @@ export function useWeather(place, personaId = null, lang = 'en') {
           placeId,
           isLoading: false,
           error: null,
+          errorReason: null,
           retryCount: 0,
         }))
       } catch (err) {
@@ -137,6 +139,9 @@ export function useWeather(place, personaId = null, lang = 'en') {
           ...s,
           isLoading: false,
           error: err.message || 'Failed to load weather',
+          // The server classifies why it could not answer; the UI shows a
+          // sentence for that reason rather than guessing from the text.
+          errorReason: err.body?.reason || null,
           retryCount: s.retryCount + 1,
         }))
       }
@@ -191,6 +196,7 @@ export function useWeather(place, personaId = null, lang = 'en') {
     meta: state.meta,
     isLoading: state.isLoading,
     error: state.error,
+    errorReason: state.errorReason,
     retryCount: state.retryCount,
     // "Live" means the last fetch reached the upstream. A cached or degraded
     // response says so, and the dashboard badge reflects it honestly.

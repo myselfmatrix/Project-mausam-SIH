@@ -173,11 +173,26 @@
   .auth-card-brand {
     display: block;
   }
+  /*
+    Bring Earth back on screen.
+
+    On two columns it sits off the right edge as a backdrop behind the story
+    panel. Stacked, that same offset pushed it a third of the way off the
+    right and nearly half below the fold, so the sign-in page on a phone was
+    a card on an empty gradient - the one screen where the product's own
+    subject had gone missing.
+
+    The card is top-aligned on a phone, which leaves the lower half free.
+    Centring Earth there gives it somewhere to be without ever sitting behind
+    the form.
+  */
   .auth-scene {
-    right: -34%;
-    bottom: -40%;
-    width: min(560px, 110vw);
-    opacity: 0.5;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -20%;
+    width: min(520px, 116vw);
+    opacity: 0.7;
   }
 }
 

@@ -1,0 +1,2709 @@
+{
+ "capturedAt": "2026-09-13T14:29:29.270Z",
+ "places": [
+  {
+   "id": "lucknow",
+   "lat": 26.8467,
+   "lon": 80.9462,
+   "weather": {
+    "location": "Lucknow",
+    "region": "Uttar Pradesh",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 26.8467,
+     "lon": 80.9462
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 117,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 29,
+    "feelsLike": 34,
+    "condition": "Mainly Clear",
+    "conditionCode": 1,
+    "conditionGroup": "clear",
+    "humidity": 80,
+    "cloudCover": 32,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 10,
+    "windGust": 20,
+    "windDirection": "E",
+    "windDirectionDegrees": 95,
+    "visibility": 9,
+    "pressure": 1009,
+    "precipitationNow": 0,
+    "high": 32,
+    "low": 27,
+    "sunrise": "05:50",
+    "sunset": "18:13",
+    "daylightHours": 12.4,
+    "uvIndexMax": 6.6,
+    "frostRisk": false,
+    "temperatureTrend": "steady",
+    "temperatureTrendDeltaC": -0.8,
+    "soilMoisture": 31,
+    "soilTemperature": 30,
+    "aqi": 128,
+    "aqiCategory": "Moderate",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.moderate",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 118.6,
+      "windowHours": 8,
+      "subIndex": 128
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 18.5,
+      "windowHours": 24,
+      "subIndex": 31
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 19.2,
+      "windowHours": 24,
+      "subIndex": 19
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.3,
+      "windowHours": 8,
+      "subIndex": 14
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 8.3,
+      "windowHours": 24,
+      "subIndex": 10
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 6.3,
+      "windowHours": 24,
+      "subIndex": 8
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 68,
+    "aqiEuropean": 42,
+    "pm25": 19,
+    "pm10": 19.4,
+    "dust": 0,
+    "pollen": null,
+    "isCoastal": false,
+    "waveHeightM": null,
+    "wavePeriodS": null,
+    "waveDirection": null,
+    "seaState": null,
+    "waterTemperature": null,
+    "seaLevelM": null,
+    "tide": null,
+    "workoutWindow": {
+     "start": "07:00",
+     "end": "09:00",
+     "quality": "Fair"
+    },
+    "rainProbability": 51,
+    "rainStartsAt": "05:00",
+    "rainPeakAt": "12:00",
+    "rainPeakPercent": 70,
+    "rainExpectedMm": 5.6,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": true,
+    "fogLikely": false,
+    "fogLowestVisibilityKm": 3,
+    "fogSource": "none",
+    "commuteDelay": {
+     "minutes": 0,
+     "level": "clear",
+     "reasons": []
+    },
+    "packingTipKey": "tip.maskSensitive",
+    "heatRiskLevel": "moderate",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 29,
+      "feelsLike": 34,
+      "rain": 19,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "20:00",
+      "temp": 29,
+      "feelsLike": 34,
+      "rain": 18,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "21:00",
+      "temp": 29,
+      "feelsLike": 34,
+      "rain": 17,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "22:00",
+      "temp": 28,
+      "feelsLike": 33,
+      "rain": 16,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "23:00",
+      "temp": 27,
+      "feelsLike": 32,
+      "rain": 18,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "00:00",
+      "temp": 27,
+      "feelsLike": 32,
+      "rain": 23,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "01:00",
+      "temp": 27,
+      "feelsLike": 32,
+      "rain": 30,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "02:00",
+      "temp": 27,
+      "feelsLike": 32,
+      "rain": 37,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "03:00",
+      "temp": 27,
+      "feelsLike": 31,
+      "rain": 43,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "04:00",
+      "temp": 26,
+      "feelsLike": 31,
+      "rain": 49,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "05:00",
+      "temp": 26,
+      "feelsLike": 30,
+      "rain": 51,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "06:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 43,
+      "uv": 0.1,
+      "isDay": true,
+      "condition": "Thunderstorm"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 32,
+      "low": 27,
+      "rain": 53,
+      "rainfallMm": 0.5,
+      "uvMax": 6.6,
+      "windMax": 17,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 31,
+      "low": 25,
+      "rain": 70,
+      "rainfallMm": 5.6,
+      "uvMax": 7.1,
+      "windMax": 14,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 32,
+      "low": 25,
+      "rain": 78,
+      "rainfallMm": 9.5,
+      "uvMax": 6.8,
+      "windMax": 10,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 29,
+      "low": 25,
+      "rain": 91,
+      "rainfallMm": 7.5,
+      "uvMax": 5.6,
+      "windMax": 9,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 32,
+      "low": 25,
+      "rain": 57,
+      "rainfallMm": 1.2,
+      "uvMax": 5.6,
+      "windMax": 11,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 32,
+      "low": 25,
+      "rain": 39,
+      "rainfallMm": 0.3,
+      "uvMax": 7.1,
+      "windMax": 8,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 32,
+      "low": 25,
+      "rain": 43,
+      "rainfallMm": 1.5,
+      "uvMax": 7.4,
+      "windMax": 4,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     }
+    ]
+   }
+  },
+  {
+   "id": "delhi",
+   "lat": 28.6139,
+   "lon": 77.209,
+   "weather": {
+    "location": "Delhi",
+    "region": "Delhi",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 28.6139,
+     "lon": 77.209
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 217,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 29,
+    "feelsLike": 35,
+    "condition": "Clear",
+    "conditionCode": 0,
+    "conditionGroup": "clear",
+    "humidity": 77,
+    "cloudCover": 7,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 9,
+    "windGust": 18,
+    "windDirection": "ENE",
+    "windDirectionDegrees": 74,
+    "visibility": 9,
+    "pressure": 1009,
+    "precipitationNow": 0,
+    "high": 33,
+    "low": 27,
+    "sunrise": "06:05",
+    "sunset": "18:28",
+    "daylightHours": 12.4,
+    "uvIndexMax": 6.7,
+    "frostRisk": false,
+    "temperatureTrend": "steady",
+    "temperatureTrendDeltaC": 0.4,
+    "soilMoisture": 38,
+    "soilTemperature": 31,
+    "aqi": 195,
+    "aqiCategory": "Moderate",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.moderate",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 164.9,
+      "windowHours": 8,
+      "subIndex": 195
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 29.9,
+      "windowHours": 24,
+      "subIndex": 50
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.7,
+      "windowHours": 8,
+      "subIndex": 33
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 31.2,
+      "windowHours": 24,
+      "subIndex": 31
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 23.9,
+      "windowHours": 24,
+      "subIndex": 30
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 20.4,
+      "windowHours": 24,
+      "subIndex": 25
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 138,
+    "aqiEuropean": 49,
+    "pm25": 30.5,
+    "pm10": 31,
+    "dust": 0,
+    "pollen": null,
+    "isCoastal": false,
+    "waveHeightM": null,
+    "wavePeriodS": null,
+    "waveDirection": null,
+    "seaState": null,
+    "waterTemperature": null,
+    "seaLevelM": null,
+    "tide": null,
+    "workoutWindow": {
+     "start": "06:00",
+     "end": "08:00",
+     "quality": "Fair"
+    },
+    "rainProbability": 18,
+    "rainStartsAt": "10:00",
+    "rainPeakAt": "12:00",
+    "rainPeakPercent": 94,
+    "rainExpectedMm": 5,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": true,
+    "fogLikely": false,
+    "fogLowestVisibilityKm": 5,
+    "fogSource": "none",
+    "commuteDelay": {
+     "minutes": 0,
+     "level": "clear",
+     "reasons": []
+    },
+    "packingTipKey": "tip.maskSensitive",
+    "heatRiskLevel": "moderate",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 29,
+      "feelsLike": 35,
+      "rain": 9,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "20:00",
+      "temp": 29,
+      "feelsLike": 34,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "21:00",
+      "temp": 28,
+      "feelsLike": 33,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "22:00",
+      "temp": 28,
+      "feelsLike": 33,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "23:00",
+      "temp": 27,
+      "feelsLike": 33,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "00:00",
+      "temp": 27,
+      "feelsLike": 33,
+      "rain": 5,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "01:00",
+      "temp": 27,
+      "feelsLike": 32,
+      "rain": 11,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "02:00",
+      "temp": 27,
+      "feelsLike": 32,
+      "rain": 16,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "03:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 18,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "04:00",
+      "temp": 26,
+      "feelsLike": 31,
+      "rain": 17,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "05:00",
+      "temp": 26,
+      "feelsLike": 31,
+      "rain": 18,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "06:00",
+      "temp": 26,
+      "feelsLike": 31,
+      "rain": 18,
+      "uv": 0,
+      "isDay": true,
+      "condition": "Sunny"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 33,
+      "low": 27,
+      "rain": 49,
+      "rainfallMm": 0.6,
+      "uvMax": 6.7,
+      "windMax": 10,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 31,
+      "low": 26,
+      "rain": 94,
+      "rainfallMm": 5,
+      "uvMax": 6.1,
+      "windMax": 12,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 30,
+      "low": 25,
+      "rain": 96,
+      "rainfallMm": 1.9,
+      "uvMax": 6.6,
+      "windMax": 8,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 32,
+      "low": 25,
+      "rain": 67,
+      "rainfallMm": 2.9,
+      "uvMax": 6.6,
+      "windMax": 19,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 32,
+      "low": 24,
+      "rain": 29,
+      "rainfallMm": 0,
+      "uvMax": 6.6,
+      "windMax": 6,
+      "condition": "Partly Cloudy",
+      "conditionGroup": "partly"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 31,
+      "low": 24,
+      "rain": 29,
+      "rainfallMm": 0,
+      "uvMax": 5.5,
+      "windMax": 7,
+      "condition": "Overcast",
+      "conditionGroup": "cloudy"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 32,
+      "low": 25,
+      "rain": 20,
+      "rainfallMm": 0,
+      "uvMax": 6.6,
+      "windMax": 4,
+      "condition": "Overcast",
+      "conditionGroup": "cloudy"
+     }
+    ]
+   }
+  },
+  {
+   "id": "mumbai",
+   "lat": 19.076,
+   "lon": 72.8777,
+   "weather": {
+    "location": "Mumbai",
+    "region": "Maharashtra",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 19.076,
+     "lon": 72.8777
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 9,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 27,
+    "feelsLike": 31,
+    "condition": "Drizzle",
+    "conditionCode": 53,
+    "conditionGroup": "drizzle",
+    "humidity": 83,
+    "cloudCover": 100,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 8,
+    "windGust": 21,
+    "windDirection": "WSW",
+    "windDirectionDegrees": 250,
+    "visibility": 7,
+    "pressure": 1010,
+    "precipitationNow": 0.2,
+    "high": 27,
+    "low": 25,
+    "sunrise": "06:25",
+    "sunset": "18:43",
+    "daylightHours": 12.3,
+    "uvIndexMax": 1.3,
+    "frostRisk": false,
+    "temperatureTrend": "steady",
+    "temperatureTrendDeltaC": 0.8,
+    "soilMoisture": 35,
+    "soilTemperature": 28,
+    "aqi": 61,
+    "aqiCategory": "Satisfactory",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.satisfactory",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 60.5,
+      "windowHours": 8,
+      "subIndex": 61
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 27.5,
+      "windowHours": 24,
+      "subIndex": 27
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 12.7,
+      "windowHours": 24,
+      "subIndex": 21
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.4,
+      "windowHours": 8,
+      "subIndex": 18
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 6.7,
+      "windowHours": 24,
+      "subIndex": 8
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 4.3,
+      "windowHours": 24,
+      "subIndex": 5
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 57,
+    "aqiEuropean": 33,
+    "pm25": 11.5,
+    "pm10": 20.6,
+    "dust": 12,
+    "pollen": null,
+    "isCoastal": true,
+    "waveHeightM": 0.86,
+    "wavePeriodS": 8.2,
+    "waveDirection": "WSW",
+    "seaState": "Moderate",
+    "waterTemperature": 30,
+    "seaLevelM": -1.53,
+    "tide": {
+     "next": "High",
+     "time": "00:44",
+     "heightM": 1.93
+    },
+    "workoutWindow": {
+     "start": "06:00",
+     "end": "08:00",
+     "quality": "Poor"
+    },
+    "rainProbability": 99,
+    "rainStartsAt": "19:00",
+    "rainPeakAt": "07:00",
+    "rainPeakPercent": 100,
+    "rainExpectedMm": 10.7,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": true,
+    "fogLikely": false,
+    "fogLowestVisibilityKm": 3,
+    "fogSource": "none",
+    "commuteDelay": {
+     "minutes": 0,
+     "level": "clear",
+     "reasons": []
+    },
+    "packingTipKey": "tip.monsoon",
+    "heatRiskLevel": "low",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 27,
+      "feelsLike": 31,
+      "rain": 92,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "20:00",
+      "temp": 26,
+      "feelsLike": 31,
+      "rain": 94,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Drizzle"
+     },
+     {
+      "time": "21:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 94,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Drizzle"
+     },
+     {
+      "time": "22:00",
+      "temp": 26,
+      "feelsLike": 31,
+      "rain": 92,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Drizzle"
+     },
+     {
+      "time": "23:00",
+      "temp": 26,
+      "feelsLike": 31,
+      "rain": 92,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "00:00",
+      "temp": 25,
+      "feelsLike": 31,
+      "rain": 94,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Showers"
+     },
+     {
+      "time": "01:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 96,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "02:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 98,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Drizzle"
+     },
+     {
+      "time": "03:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 98,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Drizzle"
+     },
+     {
+      "time": "04:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 98,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "05:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 98,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "06:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 99,
+      "uv": 0,
+      "isDay": true,
+      "condition": "Drizzle"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 27,
+      "low": 25,
+      "rain": 100,
+      "rainfallMm": 23.8,
+      "uvMax": 1.3,
+      "windMax": 12,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 29,
+      "low": 25,
+      "rain": 100,
+      "rainfallMm": 12.3,
+      "uvMax": 6.1,
+      "windMax": 18,
+      "condition": "Light Showers",
+      "conditionGroup": "showers"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 28,
+      "low": 25,
+      "rain": 100,
+      "rainfallMm": 12.6,
+      "uvMax": 7.4,
+      "windMax": 18,
+      "condition": "Light Showers",
+      "conditionGroup": "showers"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 29,
+      "low": 25,
+      "rain": 97,
+      "rainfallMm": 8.5,
+      "uvMax": 7.7,
+      "windMax": 17,
+      "condition": "Light Showers",
+      "conditionGroup": "showers"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 29,
+      "low": 25,
+      "rain": 95,
+      "rainfallMm": 6.2,
+      "uvMax": 7.6,
+      "windMax": 13,
+      "condition": "Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 29,
+      "low": 25,
+      "rain": 91,
+      "rainfallMm": 5.1,
+      "uvMax": 7.4,
+      "windMax": 14,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 30,
+      "low": 26,
+      "rain": 65,
+      "rainfallMm": 5.4,
+      "uvMax": 7.7,
+      "windMax": 11,
+      "condition": "Drizzle",
+      "conditionGroup": "drizzle"
+     }
+    ]
+   }
+  },
+  {
+   "id": "chennai",
+   "lat": 13.0827,
+   "lon": 80.2707,
+   "weather": {
+    "location": "Chennai",
+    "region": "Tamil Nadu",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 13.0827,
+     "lon": 80.2707
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 10,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 29,
+    "feelsLike": 35,
+    "condition": "Overcast",
+    "conditionCode": 3,
+    "conditionGroup": "cloudy",
+    "humidity": 87,
+    "cloudCover": 85,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 11,
+    "windGust": 23,
+    "windDirection": "SE",
+    "windDirectionDegrees": 131,
+    "visibility": 16,
+    "pressure": 1010,
+    "precipitationNow": 0,
+    "high": 33,
+    "low": 26,
+    "sunrise": "05:58",
+    "sunset": "18:11",
+    "daylightHours": 12.2,
+    "uvIndexMax": 8.4,
+    "frostRisk": false,
+    "temperatureTrend": "steady",
+    "temperatureTrendDeltaC": 1.2,
+    "soilMoisture": 15,
+    "soilTemperature": 31,
+    "aqi": 116,
+    "aqiCategory": "Moderate",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.moderate",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 110,
+      "windowHours": 8,
+      "subIndex": 116
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 16.5,
+      "windowHours": 24,
+      "subIndex": 28
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 23.8,
+      "windowHours": 24,
+      "subIndex": 24
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.3,
+      "windowHours": 8,
+      "subIndex": 15
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 7.8,
+      "windowHours": 24,
+      "subIndex": 10
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 5.4,
+      "windowHours": 24,
+      "subIndex": 7
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 65,
+    "aqiEuropean": 37,
+    "pm25": 13.3,
+    "pm10": 18.9,
+    "dust": 2,
+    "pollen": null,
+    "isCoastal": true,
+    "waveHeightM": 0.8,
+    "wavePeriodS": 8.2,
+    "waveDirection": "SE",
+    "seaState": "Moderate",
+    "waterTemperature": 30,
+    "seaLevelM": 0.73,
+    "tide": {
+     "next": "High",
+     "time": "20:45",
+     "heightM": 0.9
+    },
+    "workoutWindow": {
+     "start": "16:00",
+     "end": "18:00",
+     "quality": "Fair"
+    },
+    "rainProbability": 67,
+    "rainStartsAt": "04:00",
+    "rainPeakAt": "06:00",
+    "rainPeakPercent": 67,
+    "rainExpectedMm": 10.9,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": true,
+    "fogLikely": true,
+    "fogLowestVisibilityKm": 1,
+    "fogSource": "derived",
+    "commuteDelay": {
+     "minutes": 7,
+     "level": "slight",
+     "reasons": [
+      "lowVisibility"
+     ]
+    },
+    "packingTipKey": "tip.maskSensitive",
+    "heatRiskLevel": "moderate",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 29,
+      "feelsLike": 35,
+      "rain": 1,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "20:00",
+      "temp": 29,
+      "feelsLike": 35,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "21:00",
+      "temp": 29,
+      "feelsLike": 35,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "22:00",
+      "temp": 29,
+      "feelsLike": 35,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "23:00",
+      "temp": 29,
+      "feelsLike": 35,
+      "rain": 2,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "00:00",
+      "temp": 29,
+      "feelsLike": 35,
+      "rain": 8,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "01:00",
+      "temp": 28,
+      "feelsLike": 33,
+      "rain": 17,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Thunderstorm"
+     },
+     {
+      "time": "02:00",
+      "temp": 28,
+      "feelsLike": 34,
+      "rain": 27,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "03:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 40,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Thunderstorm with Hail"
+     },
+     {
+      "time": "04:00",
+      "temp": 25,
+      "feelsLike": 31,
+      "rain": 55,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Thunderstorm"
+     },
+     {
+      "time": "05:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 65,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Drizzle"
+     },
+     {
+      "time": "06:00",
+      "temp": 25,
+      "feelsLike": 30,
+      "rain": 67,
+      "uv": 0.1,
+      "isDay": true,
+      "condition": "Light Drizzle"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 33,
+      "low": 26,
+      "rain": 76,
+      "rainfallMm": 2,
+      "uvMax": 8.4,
+      "windMax": 13,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 31,
+      "low": 25,
+      "rain": 67,
+      "rainfallMm": 10.9,
+      "uvMax": 8.6,
+      "windMax": 11,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 32,
+      "low": 26,
+      "rain": 33,
+      "rainfallMm": 0.8,
+      "uvMax": 8.6,
+      "windMax": 12,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 33,
+      "low": 25,
+      "rain": 61,
+      "rainfallMm": 3.5,
+      "uvMax": 8.6,
+      "windMax": 17,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 33,
+      "low": 25,
+      "rain": 47,
+      "rainfallMm": 2.4,
+      "uvMax": 5.4,
+      "windMax": 14,
+      "condition": "Heavy Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 34,
+      "low": 25,
+      "rain": 69,
+      "rainfallMm": 3.6,
+      "uvMax": 9,
+      "windMax": 12,
+      "condition": "Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 34,
+      "low": 25,
+      "rain": 63,
+      "rainfallMm": 4.5,
+      "uvMax": 8.5,
+      "windMax": 12,
+      "condition": "Drizzle",
+      "conditionGroup": "drizzle"
+     }
+    ]
+   }
+  },
+  {
+   "id": "puri",
+   "lat": 19.8135,
+   "lon": 85.8312,
+   "weather": {
+    "location": "Puri",
+    "region": "Odisha",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 19.8135,
+     "lon": 85.8312
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 12,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 27,
+    "feelsLike": 33,
+    "condition": "Overcast",
+    "conditionCode": 3,
+    "conditionGroup": "cloudy",
+    "humidity": 89,
+    "cloudCover": 91,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 10,
+    "windGust": 16,
+    "windDirection": "S",
+    "windDirectionDegrees": 178,
+    "visibility": 11,
+    "pressure": 1011,
+    "precipitationNow": 0,
+    "high": 30,
+    "low": 26,
+    "sunrise": "05:33",
+    "sunset": "17:51",
+    "daylightHours": 12.3,
+    "uvIndexMax": 8.2,
+    "frostRisk": false,
+    "temperatureTrend": "steady",
+    "temperatureTrendDeltaC": 1.4,
+    "soilMoisture": 30,
+    "soilTemperature": 29,
+    "aqi": 93,
+    "aqiCategory": "Satisfactory",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.satisfactory",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 93.3,
+      "windowHours": 8,
+      "subIndex": 93
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 10.8,
+      "windowHours": 24,
+      "subIndex": 18
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 14.6,
+      "windowHours": 24,
+      "subIndex": 15
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.1,
+      "windowHours": 8,
+      "subIndex": 7
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 3.4,
+      "windowHours": 24,
+      "subIndex": 4
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 1.8,
+      "windowHours": 24,
+      "subIndex": 2
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 53,
+    "aqiEuropean": 37,
+    "pm25": 13.4,
+    "pm10": 15.9,
+    "dust": 2,
+    "pollen": null,
+    "isCoastal": true,
+    "waveHeightM": 1,
+    "wavePeriodS": 12,
+    "waveDirection": "S",
+    "seaState": "Moderate",
+    "waterTemperature": 30,
+    "seaLevelM": 1.29,
+    "tide": {
+     "next": "High",
+     "time": "20:47",
+     "heightM": 1.52
+    },
+    "workoutWindow": {
+     "start": "06:00",
+     "end": "08:00",
+     "quality": "Fair"
+    },
+    "rainProbability": 23,
+    "rainStartsAt": "10:00",
+    "rainPeakAt": "15:00",
+    "rainPeakPercent": 100,
+    "rainExpectedMm": 4.7,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": true,
+    "fogLikely": false,
+    "fogLowestVisibilityKm": 5,
+    "fogSource": "none",
+    "commuteDelay": {
+     "minutes": 0,
+     "level": "clear",
+     "reasons": []
+    },
+    "packingTipKey": "tip.pleasant",
+    "heatRiskLevel": "moderate",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 27,
+      "feelsLike": 33,
+      "rain": 20,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "20:00",
+      "temp": 27,
+      "feelsLike": 33,
+      "rain": 4,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "21:00",
+      "temp": 27,
+      "feelsLike": 33,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "22:00",
+      "temp": 27,
+      "feelsLike": 33,
+      "rain": 2,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "23:00",
+      "temp": 27,
+      "feelsLike": 33,
+      "rain": 6,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Drizzle"
+     },
+     {
+      "time": "00:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 10,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Light Drizzle"
+     },
+     {
+      "time": "01:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 16,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "02:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 20,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "03:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 22,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "04:00",
+      "temp": 25,
+      "feelsLike": 32,
+      "rain": 23,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "05:00",
+      "temp": 25,
+      "feelsLike": 32,
+      "rain": 22,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "06:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 17,
+      "uv": 0.3,
+      "isDay": true,
+      "condition": "Mainly Clear"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 30,
+      "low": 26,
+      "rain": 94,
+      "rainfallMm": 3.5,
+      "uvMax": 8.2,
+      "windMax": 14,
+      "condition": "Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 30,
+      "low": 25,
+      "rain": 100,
+      "rainfallMm": 4.2,
+      "uvMax": 8.2,
+      "windMax": 11,
+      "condition": "Light Showers",
+      "conditionGroup": "showers"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 30,
+      "low": 25,
+      "rain": 90,
+      "rainfallMm": 5,
+      "uvMax": 8.6,
+      "windMax": 12,
+      "condition": "Light Showers",
+      "conditionGroup": "showers"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 32,
+      "low": 27,
+      "rain": 87,
+      "rainfallMm": 3.4,
+      "uvMax": 8.4,
+      "windMax": 15,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 32,
+      "low": 26,
+      "rain": 78,
+      "rainfallMm": 5.6,
+      "uvMax": 8.5,
+      "windMax": 13,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 32,
+      "low": 25,
+      "rain": 81,
+      "rainfallMm": 6.6,
+      "uvMax": 8.3,
+      "windMax": 12,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 31,
+      "low": 25,
+      "rain": 96,
+      "rainfallMm": 18.3,
+      "uvMax": 7.7,
+      "windMax": 10,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     }
+    ]
+   }
+  },
+  {
+   "id": "leh",
+   "lat": 34.1526,
+   "lon": 77.5771,
+   "weather": {
+    "location": "Leh",
+    "region": "Ladakh",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 34.1526,
+     "lon": 77.5771
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 3411,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 15,
+    "feelsLike": 12,
+    "condition": "Clear",
+    "conditionCode": 0,
+    "conditionGroup": "clear",
+    "humidity": 25,
+    "cloudCover": 2,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 1,
+    "windGust": 18,
+    "windDirection": "S",
+    "windDirectionDegrees": 189,
+    "visibility": 41,
+    "pressure": 1015,
+    "precipitationNow": 0,
+    "high": 19,
+    "low": 10,
+    "sunrise": "06:01",
+    "sunset": "18:29",
+    "daylightHours": 12.5,
+    "uvIndexMax": 8.6,
+    "frostRisk": false,
+    "temperatureTrend": "cooling",
+    "temperatureTrendDeltaC": -3.3,
+    "soilMoisture": 10,
+    "soilTemperature": 19,
+    "aqi": 170,
+    "aqiCategory": "Moderate",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.moderate",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 147.6,
+      "windowHours": 8,
+      "subIndex": 170
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 7,
+      "windowHours": 24,
+      "subIndex": 12
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 10.1,
+      "windowHours": 24,
+      "subIndex": 10
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.2,
+      "windowHours": 8,
+      "subIndex": 9
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 5.5,
+      "windowHours": 24,
+      "subIndex": 7
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 0.7,
+      "windowHours": 24,
+      "subIndex": 1
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 117,
+    "aqiEuropean": 69,
+    "pm25": 4,
+    "pm10": 6.7,
+    "dust": 8,
+    "pollen": null,
+    "isCoastal": false,
+    "waveHeightM": null,
+    "wavePeriodS": null,
+    "waveDirection": null,
+    "seaState": null,
+    "waterTemperature": null,
+    "seaLevelM": null,
+    "tide": null,
+    "workoutWindow": {
+     "start": "13:00",
+     "end": "15:00",
+     "quality": "Fair"
+    },
+    "rainProbability": 0,
+    "rainStartsAt": null,
+    "rainPeakAt": "19:00",
+    "rainPeakPercent": 0,
+    "rainExpectedMm": 0,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": false,
+    "fogLikely": false,
+    "fogLowestVisibilityKm": 41,
+    "fogSource": "none",
+    "commuteDelay": {
+     "minutes": 0,
+     "level": "clear",
+     "reasons": []
+    },
+    "packingTipKey": "tip.maskSensitive",
+    "heatRiskLevel": "low",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 15,
+      "feelsLike": 12,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "20:00",
+      "temp": 15,
+      "feelsLike": 12,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "21:00",
+      "temp": 14,
+      "feelsLike": 11,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "22:00",
+      "temp": 13,
+      "feelsLike": 10,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "23:00",
+      "temp": 12,
+      "feelsLike": 9,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "00:00",
+      "temp": 11,
+      "feelsLike": 8,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "01:00",
+      "temp": 10,
+      "feelsLike": 7,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "02:00",
+      "temp": 10,
+      "feelsLike": 7,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "03:00",
+      "temp": 9,
+      "feelsLike": 7,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "04:00",
+      "temp": 9,
+      "feelsLike": 6,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "05:00",
+      "temp": 8,
+      "feelsLike": 6,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "06:00",
+      "temp": 9,
+      "feelsLike": 6,
+      "rain": 0,
+      "uv": 0.1,
+      "isDay": true,
+      "condition": "Mainly Clear"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 19,
+      "low": 10,
+      "rain": 0,
+      "rainfallMm": 0,
+      "uvMax": 8.6,
+      "windMax": 4,
+      "condition": "Partly Cloudy",
+      "conditionGroup": "partly"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 20,
+      "low": 8,
+      "rain": 0,
+      "rainfallMm": 0,
+      "uvMax": 8.4,
+      "windMax": 11,
+      "condition": "Overcast",
+      "conditionGroup": "cloudy"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 18,
+      "low": 8,
+      "rain": 0,
+      "rainfallMm": 0,
+      "uvMax": 8.3,
+      "windMax": 7,
+      "condition": "Overcast",
+      "conditionGroup": "cloudy"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 17,
+      "low": 7,
+      "rain": 8,
+      "rainfallMm": 0,
+      "uvMax": 7.9,
+      "windMax": 6,
+      "condition": "Partly Cloudy",
+      "conditionGroup": "partly"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 16,
+      "low": 6,
+      "rain": 49,
+      "rainfallMm": 1.5,
+      "uvMax": 8.1,
+      "windMax": 9,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 14,
+      "low": 5,
+      "rain": 45,
+      "rainfallMm": 1.2,
+      "uvMax": 7.1,
+      "windMax": 6,
+      "condition": "Light Snow",
+      "conditionGroup": "snow"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 16,
+      "low": 2,
+      "rain": 10,
+      "rainfallMm": 0.9,
+      "uvMax": 8,
+      "windMax": 5,
+      "condition": "Light Snow Showers",
+      "conditionGroup": "snow"
+     }
+    ]
+   }
+  },
+  {
+   "id": "bengaluru",
+   "lat": 12.9716,
+   "lon": 77.5946,
+   "weather": {
+    "location": "Bengaluru",
+    "region": "Karnataka",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 12.9716,
+     "lon": 77.5946
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 914,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 27,
+    "feelsLike": 28,
+    "condition": "Overcast",
+    "conditionCode": 3,
+    "conditionGroup": "cloudy",
+    "humidity": 46,
+    "cloudCover": 100,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 4,
+    "windGust": 12,
+    "windDirection": "WSW",
+    "windDirectionDegrees": 246,
+    "visibility": 36,
+    "pressure": 1012,
+    "precipitationNow": 0,
+    "high": 30,
+    "low": 21,
+    "sunrise": "06:08",
+    "sunset": "18:22",
+    "daylightHours": 12.2,
+    "uvIndexMax": 7.3,
+    "frostRisk": false,
+    "temperatureTrend": "cooling",
+    "temperatureTrendDeltaC": -1.7,
+    "soilMoisture": 24,
+    "soilTemperature": 27,
+    "aqi": 97,
+    "aqiCategory": "Satisfactory",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.satisfactory",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 97.3,
+      "windowHours": 8,
+      "subIndex": 97
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.4,
+      "windowHours": 8,
+      "subIndex": 22
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 12,
+      "windowHours": 24,
+      "subIndex": 20
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 17,
+      "windowHours": 24,
+      "subIndex": 17
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 13.5,
+      "windowHours": 24,
+      "subIndex": 17
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 5.4,
+      "windowHours": 24,
+      "subIndex": 7
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 56,
+    "aqiEuropean": 43,
+    "pm25": 20,
+    "pm10": 25.7,
+    "dust": 10,
+    "pollen": null,
+    "isCoastal": false,
+    "waveHeightM": null,
+    "wavePeriodS": null,
+    "waveDirection": null,
+    "seaState": null,
+    "waterTemperature": null,
+    "seaLevelM": null,
+    "tide": null,
+    "workoutWindow": {
+     "start": "06:00",
+     "end": "08:00",
+     "quality": "Excellent"
+    },
+    "rainProbability": 2,
+    "rainStartsAt": "16:00",
+    "rainPeakAt": "18:00",
+    "rainPeakPercent": 76,
+    "rainExpectedMm": 0.1,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": true,
+    "fogLikely": false,
+    "fogLowestVisibilityKm": 24,
+    "fogSource": "none",
+    "commuteDelay": {
+     "minutes": 0,
+     "level": "clear",
+     "reasons": []
+    },
+    "packingTipKey": "tip.pleasant",
+    "heatRiskLevel": "low",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 27,
+      "feelsLike": 28,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "20:00",
+      "temp": 26,
+      "feelsLike": 27,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "21:00",
+      "temp": 26,
+      "feelsLike": 27,
+      "rain": 1,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "22:00",
+      "temp": 26,
+      "feelsLike": 27,
+      "rain": 2,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "23:00",
+      "temp": 25,
+      "feelsLike": 26,
+      "rain": 2,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "00:00",
+      "temp": 25,
+      "feelsLike": 25,
+      "rain": 2,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "01:00",
+      "temp": 23,
+      "feelsLike": 24,
+      "rain": 1,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "02:00",
+      "temp": 23,
+      "feelsLike": 25,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "03:00",
+      "temp": 23,
+      "feelsLike": 24,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "04:00",
+      "temp": 22,
+      "feelsLike": 24,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "05:00",
+      "temp": 22,
+      "feelsLike": 24,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Overcast"
+     },
+     {
+      "time": "06:00",
+      "temp": 21,
+      "feelsLike": 23,
+      "rain": 0,
+      "uv": 0,
+      "isDay": true,
+      "condition": "Overcast"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 30,
+      "low": 21,
+      "rain": 2,
+      "rainfallMm": 0,
+      "uvMax": 7.3,
+      "windMax": 10,
+      "condition": "Overcast",
+      "conditionGroup": "cloudy"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 32,
+      "low": 21,
+      "rain": 78,
+      "rainfallMm": 0.3,
+      "uvMax": 9.2,
+      "windMax": 13,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 33,
+      "low": 21,
+      "rain": 95,
+      "rainfallMm": 1.9,
+      "uvMax": 7.9,
+      "windMax": 12,
+      "condition": "Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 31,
+      "low": 21,
+      "rain": 89,
+      "rainfallMm": 6.7,
+      "uvMax": 8.8,
+      "windMax": 11,
+      "condition": "Light Showers",
+      "conditionGroup": "showers"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 31,
+      "low": 21,
+      "rain": 68,
+      "rainfallMm": 1.5,
+      "uvMax": 8,
+      "windMax": 9,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 31,
+      "low": 21,
+      "rain": 84,
+      "rainfallMm": 2.1,
+      "uvMax": 9.9,
+      "windMax": 10,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 27,
+      "low": 21,
+      "rain": 100,
+      "rainfallMm": 5.4,
+      "uvMax": 10.3,
+      "windMax": 9,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kolkata",
+   "lat": 22.5726,
+   "lon": 88.3639,
+   "weather": {
+    "location": "Kolkata",
+    "region": "West Bengal",
+    "country": null,
+    "countryCode": null,
+    "coordinates": {
+     "lat": 22.5726,
+     "lon": 88.3639
+    },
+    "timezone": "Asia/Kolkata",
+    "elevation": 12,
+    "updatedAt": "2026-09-13T19:45",
+    "isDay": false,
+    "temperature": 26,
+    "feelsLike": 33,
+    "condition": "Clear",
+    "conditionCode": 0,
+    "conditionGroup": "clear",
+    "humidity": 95,
+    "cloudCover": 11,
+    "uvIndex": 0,
+    "uvBand": "Low",
+    "windSpeed": 3,
+    "windGust": 8,
+    "windDirection": "S",
+    "windDirectionDegrees": 174,
+    "visibility": 8,
+    "pressure": 1012,
+    "precipitationNow": 0,
+    "high": 31,
+    "low": 26,
+    "sunrise": "05:22",
+    "sunset": "17:42",
+    "daylightHours": 12.3,
+    "uvIndexMax": 8.3,
+    "frostRisk": false,
+    "temperatureTrend": "steady",
+    "temperatureTrendDeltaC": -0.2,
+    "soilMoisture": 39,
+    "soilTemperature": 29,
+    "aqi": 99,
+    "aqiCategory": "Satisfactory",
+    "aqiScale": "CPCB",
+    "aqiAdvisoryKey": "aqiAdvisory.satisfactory",
+    "aqiDominantPollutant": "o3",
+    "aqiDominantLabel": "O3",
+    "aqiPollutants": [
+     {
+      "pollutant": "o3",
+      "label": "O3",
+      "unit": "ug/m3",
+      "concentration": 99.4,
+      "windowHours": 8,
+      "subIndex": 99
+     },
+     {
+      "pollutant": "pm25",
+      "label": "PM2.5",
+      "unit": "ug/m3",
+      "concentration": 11.9,
+      "windowHours": 24,
+      "subIndex": 20
+     },
+     {
+      "pollutant": "co",
+      "label": "CO",
+      "unit": "mg/m3",
+      "concentration": 0.3,
+      "windowHours": 8,
+      "subIndex": 17
+     },
+     {
+      "pollutant": "pm10",
+      "label": "PM10",
+      "unit": "ug/m3",
+      "concentration": 13.5,
+      "windowHours": 24,
+      "subIndex": 14
+     },
+     {
+      "pollutant": "no2",
+      "label": "NO2",
+      "unit": "ug/m3",
+      "concentration": 8.8,
+      "windowHours": 24,
+      "subIndex": 11
+     },
+     {
+      "pollutant": "so2",
+      "label": "SO2",
+      "unit": "ug/m3",
+      "concentration": 8.7,
+      "windowHours": 24,
+      "subIndex": 11
+     }
+    ],
+    "aqiHoursUsed": 24,
+    "aqiUs": 55,
+    "aqiEuropean": 42,
+    "pm25": 19,
+    "pm10": 20.1,
+    "dust": 0,
+    "pollen": null,
+    "isCoastal": false,
+    "waveHeightM": null,
+    "wavePeriodS": null,
+    "waveDirection": null,
+    "seaState": null,
+    "waterTemperature": null,
+    "seaLevelM": null,
+    "tide": null,
+    "workoutWindow": {
+     "start": "05:00",
+     "end": "07:00",
+     "quality": "Good"
+    },
+    "rainProbability": 28,
+    "rainStartsAt": null,
+    "rainPeakAt": "17:00",
+    "rainPeakPercent": 49,
+    "rainExpectedMm": 0.3,
+    "schoolCommuteWindow": "07:00 - 08:30",
+    "schoolCommuteAfternoonWindow": "14:30 - 16:00",
+    "rainDuringSchool": false,
+    "fogLikely": true,
+    "fogLowestVisibilityKm": 1,
+    "fogSource": "derived",
+    "commuteDelay": {
+     "minutes": 7,
+     "level": "slight",
+     "reasons": [
+      "lowVisibility"
+     ]
+    },
+    "packingTipKey": "tip.pleasant",
+    "heatRiskLevel": "moderate",
+    "hourlyForecast": [
+     {
+      "time": "19:00",
+      "temp": 26,
+      "feelsLike": 33,
+      "rain": 28,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Clear"
+     },
+     {
+      "time": "20:00",
+      "temp": 26,
+      "feelsLike": 33,
+      "rain": 2,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "21:00",
+      "temp": 26,
+      "feelsLike": 33,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "22:00",
+      "temp": 26,
+      "feelsLike": 33,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "23:00",
+      "temp": 26,
+      "feelsLike": 33,
+      "rain": 0,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "00:00",
+      "temp": 26,
+      "feelsLike": 33,
+      "rain": 1,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Partly Cloudy"
+     },
+     {
+      "time": "01:00",
+      "temp": 26,
+      "feelsLike": 33,
+      "rain": 1,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Hazy"
+     },
+     {
+      "time": "02:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 2,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Hazy"
+     },
+     {
+      "time": "03:00",
+      "temp": 25,
+      "feelsLike": 32,
+      "rain": 1,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Mainly Clear"
+     },
+     {
+      "time": "04:00",
+      "temp": 25,
+      "feelsLike": 32,
+      "rain": 1,
+      "uv": 0,
+      "isDay": false,
+      "condition": "Hazy"
+     },
+     {
+      "time": "05:00",
+      "temp": 25,
+      "feelsLike": 32,
+      "rain": 0,
+      "uv": 0,
+      "isDay": true,
+      "condition": "Hazy Sun"
+     },
+     {
+      "time": "06:00",
+      "temp": 26,
+      "feelsLike": 32,
+      "rain": 0,
+      "uv": 0.4,
+      "isDay": true,
+      "condition": "Hazy Sun"
+     }
+    ],
+    "dailyForecast": [
+     {
+      "date": "2026-09-13",
+      "day": "Today",
+      "high": 31,
+      "low": 26,
+      "rain": 99,
+      "rainfallMm": 10.8,
+      "uvMax": 8.3,
+      "windMax": 11,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-14",
+      "day": "Mon",
+      "high": 32,
+      "low": 25,
+      "rain": 49,
+      "rainfallMm": 0.3,
+      "uvMax": 8.3,
+      "windMax": 9,
+      "condition": "Light Drizzle",
+      "conditionGroup": "drizzle"
+     },
+     {
+      "date": "2026-09-15",
+      "day": "Tue",
+      "high": 33,
+      "low": 26,
+      "rain": 32,
+      "rainfallMm": 0,
+      "uvMax": 8.3,
+      "windMax": 10,
+      "condition": "Overcast",
+      "conditionGroup": "cloudy"
+     },
+     {
+      "date": "2026-09-16",
+      "day": "Wed",
+      "high": 32,
+      "low": 26,
+      "rain": 81,
+      "rainfallMm": 3,
+      "uvMax": 8.3,
+      "windMax": 10,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-17",
+      "day": "Thu",
+      "high": 32,
+      "low": 24,
+      "rain": 88,
+      "rainfallMm": 18.8,
+      "uvMax": 7.8,
+      "windMax": 7,
+      "condition": "Thunderstorm with Hail",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-18",
+      "day": "Fri",
+      "high": 32,
+      "low": 25,
+      "rain": 82,
+      "rainfallMm": 7.5,
+      "uvMax": 7.7,
+      "windMax": 6,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     },
+     {
+      "date": "2026-09-19",
+      "day": "Sat",
+      "high": 31,
+      "low": 26,
+      "rain": 78,
+      "rainfallMm": 7.5,
+      "uvMax": 7.9,
+      "windMax": 5,
+      "condition": "Thunderstorm",
+      "conditionGroup": "thunder"
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -34,11 +34,19 @@ const DEFAULT_RETRIES = Number(process.env.UPSTREAM_RETRIES || 2);
  * A status worth trying again.
  *
  * 4xx means we asked the wrong question and asking again won't change the
- * answer — retrying it just burns the rate limit we're trying to protect. The
- * exceptions are 429 (asked too often, not wrongly) and 408 (upstream's own
- * timeout).
+ * answer — retrying it just burns the rate limit we're trying to protect. 408
+ * is the exception: that is the upstream's own timeout, not a judgement about
+ * the request.
+ *
+ * 429 is deliberately NOT retried. It reads like the one status retrying was
+ * invented for, and that is the trap: the provider's limit is a daily quota,
+ * so a second attempt 400ms later cannot succeed and every retry spends more
+ * of the allowance that ran out. With two retries this turned one refused
+ * request into three, at exactly the moment we could least afford them. A
+ * 429 is answered by serving what we already hold and waiting for the next
+ * scheduled refresh.
  */
-const isRetryableStatus = (status) => status === 429 || status === 408 || status >= 500;
+const isRetryableStatus = (status) => status === 408 || status >= 500;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -46,8 +54,8 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
  * Backoff with jitter.
  *
  * Several panels refresh at once, so a flat delay would line their retries up
- * into exactly the synchronised burst that caused the 429. The random spread
- * pulls them apart.
+ * into exactly the synchronised burst that caused the failure. The random
+ * spread pulls them apart.
  */
 const backoffFor = (attempt) => Math.round(400 * 2 ** attempt + Math.random() * 250);
 

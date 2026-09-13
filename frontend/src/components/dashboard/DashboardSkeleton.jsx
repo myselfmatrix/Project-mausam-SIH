@@ -17,8 +17,12 @@ import './DashboardSkeleton.css'
   pick a different location, since a coordinate the upstream cannot serve is
   one of the reasons a first load fails.
 */
-export default function DashboardSkeleton({ place, error, onRetry, onOpenPicker }) {
+export default function DashboardSkeleton({ place, error, onRetry, onOpenPicker, reason = null }) {
   const { t } = useTranslation()
+
+  // Reasons the server can report; anything else is the generic line.
+  const KNOWN = ['rateLimited', 'timeout', 'upstreamDown', 'network', 'parse']
+  const reasonKey = KNOWN.includes(reason) ? reason : 'default'
 
   return (
     <div className="dskel">
@@ -34,7 +38,17 @@ export default function DashboardSkeleton({ place, error, onRetry, onOpenPicker 
         {error ? (
           <div className="dskel-error">
             <h2>{t('weatherError.title')}</h2>
-            <p>{error}</p>
+            {/*
+              The server's classification, translated — never the upstream's
+              own string. A spent API quota used to arrive here verbatim, so
+              the failure screen read `Upstream 429: {"error":true,...}`: a
+              provider's internal JSON, in English, shown to someone who only
+              wanted to know whether to carry an umbrella.
+            */}
+            <p>{t(`weatherError.${reasonKey}`)}</p>
+            {reasonKey === 'rateLimited' && (
+              <p className="dskel-error-hint">{t('weatherError.rateLimitedHint')}</p>
+            )}
             <div className="dskel-error-actions">
               <button type="button" className="btn-primary-sm" onClick={onRetry}>
                 <RefreshCw size={15} /> {t('common.retry')}

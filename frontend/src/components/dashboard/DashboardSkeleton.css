@@ -146,3 +146,12 @@
   .dskel-main { padding: var(--space-6) var(--space-4) var(--space-12); }
   .dskel-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 }
+
+/* The "why", under the headline: quieter than the message it explains. */
+.dskel-error-hint {
+  max-width: 46ch;
+  margin: var(--space-2) auto 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}

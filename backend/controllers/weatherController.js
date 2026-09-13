@@ -21,6 +21,7 @@
 
 const om = require('../weather/openMeteo');
 const { buildAlerts } = require('../weather/alerts');
+const { sampleFor } = require('../weather/sample');
 const { createCache } = require('../services/cache');
 const geo = require('../geo/geocoding');
 const { buildWeatherPayload, buildSummary } = require('../weather/normalize');
@@ -63,8 +64,60 @@ async function loadWeather(place) {
   const marine = settled(marineResult);
 
   if (!forecast.data) {
-    const error = new Error(forecast.error || 'Forecast upstream unavailable');
+    /*
+      Classify the failure; never forward the upstream's own words.
+
+      The raw message was being rendered to the user, so a spent quota
+      arrived on screen as `Upstream 429: {"error":true,"reason":"Daily API
+      request limit exceeded."}` - a provider's internal JSON, in English,
+      shown to someone who just wanted the temperature. The client gets a
+      stable code it can translate and act on instead.
+    */
+    const raw = String(forecast.error || '');
+    const reason = /429|rate limit|request limit/i.test(raw)
+      ? 'rateLimited'
+      : /timed out|timeout|504/i.test(raw)
+        ? 'timeout'
+        : /5\d\d/.test(raw)
+          ? 'upstreamDown'
+          : 'default';
+
+    console.error('[weather] forecast unavailable (%s): %s', reason, raw.slice(0, 200));
+
+    /*
+      Fall back to a recorded reading rather than an empty page.
+
+      Reached only when the live service refused AND we hold nothing cached
+      for this place - the case where the alternative is a dead dashboard. The
+      payload is a real response captured from the same API, moved onto
+      today's clock, and every part of the app works on it: personas re-sort,
+      alerts derive, the brief speaks.
+
+      What it is never allowed to do is pass for live. `sources.forecast` says
+      `sample`, `meta.sample` carries where the reading came from, and the
+      interface shows a banner for as long as one is on screen. An outage
+      turning into a wrong answer would be worse than the outage.
+    */
+    const fallback = sampleFor(place);
+    if (fallback) {
+      const weather = fallback.weather;
+      return {
+        weather,
+        alerts: buildAlerts(weather),
+        meta: {
+          sources: { forecast: 'sample', airQuality: 'sample', marine: 'sample' },
+          provider: 'Recorded sample (live service unavailable)',
+          aqiScale: weather.aqiScale || null,
+          fetchedAt: new Date().toISOString(),
+          degraded: true,
+          sample: { ...fallback.source, reason },
+        },
+      };
+    }
+
+    const error = new Error('Forecast is temporarily unavailable.');
     error.status = 503;
+    error.reason = reason;
     throw error;
   }
 
@@ -236,7 +289,7 @@ exports.getPersonalizedWeather = async (req, res) => {
   } catch (error) {
     const status = error.status || 500;
     console.error('[weather] personalized failed:', error.message);
-    res.status(status).json({ error: error.message });
+    res.status(status).json({ error: error.message, reason: error.reason || 'default' });
   }
 };
 

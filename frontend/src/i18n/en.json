@@ -492,7 +492,10 @@
     "timeout": "Weather service is slow",
     "parse": "Data format issue",
     "retryTitle": "Retry loading weather",
-    "title": "Could not load the forecast"
+    "title": "Could not load the forecast",
+    "rateLimited": "Daily limit reached on the weather service",
+    "rateLimitedHint": "The free forecast service allows a fixed number of requests a day and today's are used up. Cached readings stay available, and it resets overnight.",
+    "upstreamDown": "The weather service is not responding"
   },
   "theme": {
     "toLight": "Switch to light theme",

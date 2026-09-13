@@ -3,18 +3,33 @@ import { motion } from 'framer-motion'
 import { useTranslation } from '../../i18n/useTranslation'
 import './WeatherError.css'
 
-export default function WeatherError({ error, onRetry, isRetrying = false }) {
+const REASONS = new Set(['rateLimited', 'timeout', 'upstreamDown', 'network', 'parse'])
+
+export default function WeatherError({ error, reason = null, onRetry, isRetrying = false }) {
   const { t } = useTranslation()
 
-  const getMessage = () => {
-    if (error?.includes('Network')) return 'network'
-    if (error?.includes('timeout')) return 'timeout'
-    if (error?.includes('parse')) return 'parse'
-    return 'default'
-  }
+  /*
+    The server's own classification first.
 
-  const msgKey = getMessage()
+    Reading the message text was all there was before, which meant anything
+    unrecognised fell through to a generic line - and worse, the raw upstream
+    string was being shown verbatim, so a spent API quota reached the user as
+    a provider's JSON. Sniffing is kept only for failures that never reach the
+    server, like the browser being offline.
+  */
+  const msgKey = REASONS.has(reason)
+    ? reason
+    : error?.includes('Network') || error?.includes('reach the server')
+      ? 'network'
+      : error?.includes('timeout')
+        ? 'timeout'
+        : error?.includes('parse')
+          ? 'parse'
+          : 'default'
+
   const msg = t(`weatherError.${msgKey}`)
+  // Only the quota case has something worth explaining; the rest are obvious.
+  const hint = msgKey === 'rateLimited' ? t('weatherError.rateLimitedHint') : null
 
   return (
     <motion.div
@@ -34,7 +49,10 @@ export default function WeatherError({ error, onRetry, isRetrying = false }) {
         </div>
         <div className="weather-error-text">
           <p className="weather-error-title">{msg}</p>
-          {error && <p className="weather-error-detail">{error}</p>}
+          {/* A translated explanation, never the upstream's own text: that
+              string is written for an operator reading a log, not for someone
+              standing in front of the app. */}
+          {hint && <p className="weather-error-detail">{hint}</p>}
         </div>
       </div>
 

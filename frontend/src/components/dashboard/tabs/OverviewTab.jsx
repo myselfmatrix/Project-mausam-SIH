@@ -49,6 +49,7 @@ export default function OverviewTab({
   dataSaver = false,
   weatherLoading = false,
   weatherError = null,
+  weatherErrorReason = null,
   weatherIsLive = false,
   onRetryWeather,
 }) {
@@ -227,7 +228,8 @@ export default function OverviewTab({
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <WeatherError error={weatherError} onRetry={onRetryWeather} isRetrying={weatherLoading} />
+            <WeatherError error={weatherError}
+          reason={weatherErrorReason} onRetry={onRetryWeather} isRetrying={weatherLoading} />
           </motion.div>
         )}
       </AnimatePresence>

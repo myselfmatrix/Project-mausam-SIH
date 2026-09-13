@@ -22,10 +22,23 @@ const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
 const AIR_QUALITY_URL = 'https://air-quality-api.open-meteo.com/v1/air-quality';
 const MARINE_URL = 'https://marine-api.open-meteo.com/v1/marine';
 
-const forecastCache = createCache({ ttl: 10 * 60 * 1000, name: 'forecast' });
-const airQualityCache = createCache({ ttl: 20 * 60 * 1000, name: 'air-quality' });
-const marineCache = createCache({ ttl: 30 * 60 * 1000, name: 'marine' });
-const bulkCache = createCache({ ttl: 10 * 60 * 1000, name: 'bulk' });
+/*
+  `graceFactor` is how long past the TTL an entry may still be served when the
+  upstream refuses. The default of 12 gives the forecast a two-hour fallback,
+  which covers a blip but not a quota: Open-Meteo's limit is daily, and it is
+  counted per IP, so on shared hosting it can be spent by traffic that is not
+  even ours and stay spent until midnight.
+
+  Six hours of fallback is the trade. A temperature from this morning shown
+  with a "cached" badge is worth far more to someone standing in front of the
+  app than a correct refusal to answer, and the badge is what keeps that
+  honest. Air quality and marine move more slowly still, so their windows are
+  longer in absolute terms without being less accurate.
+*/
+const forecastCache = createCache({ ttl: 10 * 60 * 1000, graceFactor: 36, name: 'forecast' });
+const airQualityCache = createCache({ ttl: 20 * 60 * 1000, graceFactor: 24, name: 'air-quality' });
+const marineCache = createCache({ ttl: 30 * 60 * 1000, graceFactor: 16, name: 'marine' });
+const bulkCache = createCache({ ttl: 10 * 60 * 1000, graceFactor: 36, name: 'bulk' });
 
 /*
   Coordinates are rounded to two decimals for both the request and the cache
