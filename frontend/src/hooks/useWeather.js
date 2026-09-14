@@ -208,6 +208,10 @@ export function useWeather(place, personaId = null, lang = 'en') {
       — a fallback that looks live turns an outage into a wrong answer.
     */
     sample: state.meta?.sample || null,
+    // Live data, just not from the primary provider - a distinct third state
+    // from both "cached" (old data, same provider) and "sample" (a recorded
+    // reading standing in for any provider at all).
+    secondary: state.meta?.secondary || null,
     retry,
   }
 }

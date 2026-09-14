@@ -52,6 +52,7 @@ export default function OverviewTab({
   weatherErrorReason = null,
   weatherIsLive = false,
   weatherSample = null,
+  weatherSecondary = null,
   onRetryWeather,
 }) {
   const [customizeMode, setCustomizeMode] = useState(false)
@@ -148,26 +149,31 @@ export default function OverviewTab({
             <span>
               <MapPin size={13} strokeWidth={2.2} /> {tCity(t, weather.location)}
             </span>
-            {/* Three states, not two: live, cached, and a recorded sample —
-                which must never be mistaken for either of the others. */}
+            {/* Four states: live, cached, a live reading from the backup
+                provider, and a recorded sample — each must read as itself,
+                never as one of the others. */}
             <span
               className={`ov-live ${
                 weatherLoading
                   ? 'is-syncing'
                   : weatherSample
                     ? 'is-sample'
-                    : weatherIsLive
-                      ? 'is-live'
-                      : 'is-cached'
+                    : weatherSecondary
+                      ? 'is-secondary'
+                      : weatherIsLive
+                        ? 'is-live'
+                        : 'is-cached'
               }`}
               title={
                 weatherLoading
                   ? t('overview.syncingTitle')
                   : weatherSample
                     ? t('overview.sampleTitle')
-                    : weatherIsLive
-                      ? t('overview.liveTitle')
-                      : t('overview.cachedTitle')
+                    : weatherSecondary
+                      ? t('overview.secondaryTitle')
+                      : weatherIsLive
+                        ? t('overview.liveTitle')
+                        : t('overview.cachedTitle')
               }
             >
               <Radio size={11} strokeWidth={2.4} />
@@ -175,9 +181,11 @@ export default function OverviewTab({
                 ? t('overview.syncing')
                 : weatherSample
                   ? t('overview.sample')
-                  : weatherIsLive
-                    ? t('overview.live')
-                    : t('overview.cached')}
+                  : weatherSecondary
+                    ? t('overview.secondary')
+                    : weatherIsLive
+                      ? t('overview.live')
+                      : t('overview.cached')}
             </span>
           </p>
           <h1>
@@ -256,6 +264,18 @@ export default function OverviewTab({
         the tiles, so the only thing that keeps it honest is a statement the
         reader cannot miss, naming where the reading actually came from.
       */}
+      {/*
+        The backup provider is still live data, just from a different source
+        — worth a lighter note than the sample banner, but a note all the
+        same, since some readings (air quality, UV) it cannot supply.
+      */}
+      {weatherSecondary && !weatherSample && (
+        <motion.div className="ov-secondary-notice" variants={fadeUp} role="status">
+          <Info size={16} strokeWidth={2.2} />
+          <span>{t('overview.secondaryBanner')}</span>
+        </motion.div>
+      )}
+
       {weatherSample && (
         <motion.div className="ov-sample-notice" variants={fadeUp} role="status">
           <Info size={16} strokeWidth={2.2} />

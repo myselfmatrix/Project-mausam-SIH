@@ -338,7 +338,10 @@
     "sample": "Sample",
     "sampleTitle": "Recorded reading — the live service is unavailable",
     "sampleBanner": "Showing a recorded reading, not live weather",
-    "sampleBannerBody": "The live forecast service is unavailable right now, so this is a real reading recorded earlier from {place}. Every feature works on it, but the numbers are not current."
+    "sampleBannerBody": "The live forecast service is unavailable right now, so this is a real reading recorded earlier from {place}. Every feature works on it, but the numbers are not current.",
+    "secondary": "Backup source",
+    "secondaryTitle": "Live reading from a backup weather source",
+    "secondaryBanner": "Our main weather source is unavailable right now, so this is a live reading from a backup source. Air quality and a couple of other readings are not available from it."
   },
   "gauge": {
     "outOf": "out of 10",

@@ -66,7 +66,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
 
   const isAuthenticated = Boolean(getToken())
   const persona = getPersona(userPersona)
-  const { weather, alerts: liveAlerts, isLoading, error, retry, isLive, errorReason, sample } = useWeather(
+  const { weather, alerts: liveAlerts, isLoading, error, retry, isLive, errorReason, sample, secondary } = useWeather(
     place,
     userPersona,
     language,
@@ -215,6 +215,7 @@ export default function DashboardPage({ userId, userName, userEmail, userPersona
         weatherErrorReason={errorReason}
         weatherIsLive={isLive}
         weatherSample={sample}
+        weatherSecondary={secondary}
         onRetryWeather={retry}
       />
     ),

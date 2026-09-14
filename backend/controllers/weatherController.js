@@ -20,6 +20,7 @@
 */
 
 const om = require('../weather/openMeteo');
+const metno = require('../weather/metno');
 const { buildAlerts } = require('../weather/alerts');
 const { sampleFor } = require('../weather/sample');
 const { createCache } = require('../services/cache');
@@ -83,6 +84,44 @@ async function loadWeather(place) {
           : 'default';
 
     console.error('[weather] forecast unavailable (%s): %s', reason, raw.slice(0, 200));
+
+    /*
+      Second live provider, tried before giving up on "live" altogether.
+
+      Reached only when Open-Meteo has no fresh answer AND no stale one
+      cached for this exact place - a location nobody here has asked for
+      today, at the exact moment the primary quota is spent. Air quality and
+      marine are left on Open-Meteo: they live on separate hosts with their
+      own quotas, so one going down says nothing about whether the others
+      are also down, and there is no fallback for either that would not mean
+      inventing an AQI reading, which this app does not do.
+    */
+    let secondary = null;
+    try {
+      secondary = await metno.getMetnoForecast(place.lat, place.lon);
+    } catch (secondaryErr) {
+      console.error('[weather] secondary provider (met.no) also unavailable: %s', secondaryErr.message);
+    }
+
+    if (secondary) {
+      const weather = buildWeatherPayload({ place, forecast: secondary, airQuality: air.data, marine: marine.data });
+      return {
+        weather,
+        alerts: buildAlerts(weather),
+        meta: {
+          sources: {
+            forecast: 'secondary',
+            airQuality: air.data ? (air.fresh ? 'live' : 'cached') : 'unavailable',
+            marine: marine.data ? (marine.fresh ? 'live' : 'cached') : 'unavailable',
+          },
+          provider: 'MET Norway (secondary — Open-Meteo unavailable)',
+          aqiScale: weather.aqiScale || null,
+          fetchedAt: new Date().toISOString(),
+          degraded: true,
+          secondary: { name: 'met.no', reason },
+        },
+      };
+    }
 
     /*
       Fall back to a recorded reading rather than an empty page.
