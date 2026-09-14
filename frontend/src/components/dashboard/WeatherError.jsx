@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { useTranslation } from '../../i18n/useTranslation'
 import './WeatherError.css'
 
-const REASONS = new Set(['rateLimited', 'timeout', 'upstreamDown', 'network', 'parse'])
+const REASONS = new Set(['rateLimited', 'tooFast', 'timeout', 'upstreamDown', 'network', 'parse'])
 
 export default function WeatherError({ error, reason = null, onRetry, isRetrying = false }) {
   const { t } = useTranslation()
@@ -28,8 +28,14 @@ export default function WeatherError({ error, reason = null, onRetry, isRetrying
           : 'default'
 
   const msg = t(`weatherError.${msgKey}`)
-  // Only the quota case has something worth explaining; the rest are obvious.
-  const hint = msgKey === 'rateLimited' ? t('weatherError.rateLimitedHint') : null
+  // Only these two need the extra line explaining when it clears; the rest
+  // are self-explanatory from the title alone.
+  const hint =
+    msgKey === 'rateLimited'
+      ? t('weatherError.rateLimitedHint')
+      : msgKey === 'tooFast'
+        ? t('weatherError.tooFastHint')
+        : null
 
   return (
     <motion.div

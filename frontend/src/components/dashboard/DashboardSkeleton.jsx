@@ -21,7 +21,7 @@ export default function DashboardSkeleton({ place, error, onRetry, onOpenPicker,
   const { t } = useTranslation()
 
   // Reasons the server can report; anything else is the generic line.
-  const KNOWN = ['rateLimited', 'timeout', 'upstreamDown', 'network', 'parse']
+  const KNOWN = ['rateLimited', 'tooFast', 'timeout', 'upstreamDown', 'network', 'parse']
   const reasonKey = KNOWN.includes(reason) ? reason : 'default'
 
   return (
@@ -46,8 +46,10 @@ export default function DashboardSkeleton({ place, error, onRetry, onOpenPicker,
               wanted to know whether to carry an umbrella.
             */}
             <p>{t(`weatherError.${reasonKey}`)}</p>
-            {reasonKey === 'rateLimited' && (
-              <p className="dskel-error-hint">{t('weatherError.rateLimitedHint')}</p>
+            {(reasonKey === 'rateLimited' || reasonKey === 'tooFast') && (
+              <p className="dskel-error-hint">
+                {t(reasonKey === 'rateLimited' ? 'weatherError.rateLimitedHint' : 'weatherError.tooFastHint')}
+              </p>
             )}
             <div className="dskel-error-actions">
               <button type="button" className="btn-primary-sm" onClick={onRetry}>

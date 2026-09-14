@@ -9,6 +9,7 @@ const weatherRoutes = require('./routes/weather');
 const userRoutes = require('./routes/user');
 const i18nRoutes = require('./routes/i18n');
 const geoRoutes = require('./routes/geo');
+const { weatherLimiter, geoLimiter, authLimiter } = require('./middleware/rateLimit');
 
 const app = express();
 
@@ -41,11 +42,11 @@ app.get('/api', (req, res) => {
 });
 
 // Mount routes
-app.use('/api/auth', requireDatabase, authRoutes);
-app.use('/api/weather', weatherRoutes);
+app.use('/api/auth', authLimiter, requireDatabase, authRoutes);
+app.use('/api/weather', weatherLimiter, weatherRoutes);
 app.use('/api/users', requireDatabase, userRoutes);
 app.use('/api/i18n', i18nRoutes);
-app.use('/api/geo', geoRoutes);
+app.use('/api/geo', geoLimiter, geoRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {

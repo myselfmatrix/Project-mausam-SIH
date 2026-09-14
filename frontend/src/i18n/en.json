@@ -502,7 +502,9 @@
     "title": "Could not load the forecast",
     "rateLimited": "Daily limit reached on the weather service",
     "rateLimitedHint": "The free forecast service allows a fixed number of requests a day and today's are used up. Cached readings stay available, and it resets overnight.",
-    "upstreamDown": "The weather service is not responding"
+    "upstreamDown": "The weather service is not responding",
+    "tooFast": "Too many requests, too fast",
+    "tooFastHint": "Please wait a few seconds and try again — this resets almost immediately, unlike a daily limit."
   },
   "theme": {
     "toLight": "Switch to light theme",
