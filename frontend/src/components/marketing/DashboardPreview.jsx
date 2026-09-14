@@ -3,8 +3,10 @@ import { useTranslation } from '../../i18n/useTranslation'
 import { tCity, tCondition, tRegion } from '../../i18n/vocab'
 import './DashboardPreview.css'
 
-// Static preview built from real mock data (data/weatherData.js) — not a
-// screenshot, so it stays truthful to what the actual dashboard renders.
+// Rendered from the same live weather the hero fetches for the project's
+// home city (see HomePage's useWeather call) - not a screenshot, and not
+// sample data, so what a visitor sees here is never out of step with what
+// the real dashboard shows once they sign in.
 export default function DashboardPreview({ weather }) {
   const { t, n } = useTranslation()
 
