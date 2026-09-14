@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CalendarDays, MapPin, Radio } from 'lucide-react'
+import { CalendarDays, Info, MapPin, Radio } from 'lucide-react'
 import AlertBanner from '../AlertBanner'
 import VoiceBrief from '../VoiceBrief'
 import MetricCard from '../MetricCard'
@@ -51,6 +51,7 @@ export default function OverviewTab({
   weatherError = null,
   weatherErrorReason = null,
   weatherIsLive = false,
+  weatherSample = null,
   onRetryWeather,
 }) {
   const [customizeMode, setCustomizeMode] = useState(false)
@@ -147,22 +148,36 @@ export default function OverviewTab({
             <span>
               <MapPin size={13} strokeWidth={2.2} /> {tCity(t, weather.location)}
             </span>
+            {/* Three states, not two: live, cached, and a recorded sample —
+                which must never be mistaken for either of the others. */}
             <span
-              className={`ov-live ${weatherLoading ? 'is-syncing' : weatherIsLive ? 'is-live' : 'is-cached'}`}
+              className={`ov-live ${
+                weatherLoading
+                  ? 'is-syncing'
+                  : weatherSample
+                    ? 'is-sample'
+                    : weatherIsLive
+                      ? 'is-live'
+                      : 'is-cached'
+              }`}
               title={
                 weatherLoading
                   ? t('overview.syncingTitle')
-                  : weatherIsLive
-                    ? t('overview.liveTitle')
-                    : t('overview.cachedTitle')
+                  : weatherSample
+                    ? t('overview.sampleTitle')
+                    : weatherIsLive
+                      ? t('overview.liveTitle')
+                      : t('overview.cachedTitle')
               }
             >
               <Radio size={11} strokeWidth={2.4} />
               {weatherLoading
                 ? t('overview.syncing')
-                : weatherIsLive
-                  ? t('overview.live')
-                  : t('overview.cached')}
+                : weatherSample
+                  ? t('overview.sample')
+                  : weatherIsLive
+                    ? t('overview.live')
+                    : t('overview.cached')}
             </span>
           </p>
           <h1>
@@ -233,6 +248,27 @@ export default function OverviewTab({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/*
+        Said plainly, above the forecast rather than beside it.
+
+        A recorded reading is indistinguishable from a live one once it is in
+        the tiles, so the only thing that keeps it honest is a statement the
+        reader cannot miss, naming where the reading actually came from.
+      */}
+      {weatherSample && (
+        <motion.div className="ov-sample-notice" variants={fadeUp} role="status">
+          <Info size={16} strokeWidth={2.2} />
+          <span>
+            <strong>{t('overview.sampleBanner')}</strong>
+            <span>
+              {t('overview.sampleBannerBody', {
+                place: tCity(t, weatherSample.recordedFor),
+              })}
+            </span>
+          </span>
+        </motion.div>
+      )}
 
       {topAlert && (
         <motion.div variants={fadeUp}>

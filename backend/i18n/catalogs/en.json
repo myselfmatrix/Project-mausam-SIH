@@ -334,7 +334,11 @@
     "viewingAs": "Viewing as",
     "comfortTitle": "{persona} comfort score",
     "prioritized": "Prioritized for you — {persona}",
-    "personaNotHere": "{persona} needs readings {location} does not have — showing the general view."
+    "personaNotHere": "{persona} needs readings {location} does not have — showing the general view.",
+    "sample": "Sample",
+    "sampleTitle": "Recorded reading — the live service is unavailable",
+    "sampleBanner": "Showing a recorded reading, not live weather",
+    "sampleBannerBody": "The live forecast service is unavailable right now, so this is a real reading recorded earlier from {place}. Every feature works on it, but the numbers are not current."
   },
   "gauge": {
     "outOf": "out of 10",

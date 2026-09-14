@@ -202,6 +202,12 @@ export function useWeather(place, personaId = null, lang = 'en') {
     // response says so, and the dashboard badge reflects it honestly.
     isLive: Boolean(state.weather) && !state.error && state.meta?.degraded !== true,
     sources: state.meta?.sources || null,
+    /*
+      Set when the server could not reach the live service at all and answered
+      with a recorded reading instead. The UI must say so wherever it appears
+      — a fallback that looks live turns an outage into a wrong answer.
+    */
+    sample: state.meta?.sample || null,
     retry,
   }
 }

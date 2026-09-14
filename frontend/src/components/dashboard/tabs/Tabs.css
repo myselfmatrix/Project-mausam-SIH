@@ -1196,3 +1196,52 @@
   line-height: 1.5;
   color: var(--color-text-muted);
 }
+
+/* ---- Recorded-sample mode ---- */
+
+/*
+  Amber rather than red: nothing is broken and nothing needs fixing by the
+  user, but what they are reading is not current and they have to know it.
+  Given its own colour so it can never be mistaken for a weather alert.
+*/
+.ov-sample-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid color-mix(in srgb, #f0a830 45%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, #f0a830 10%, transparent);
+  color: var(--color-text);
+}
+
+.ov-sample-notice > svg {
+  flex: none;
+  margin-top: 1px;
+  color: #f0a830;
+}
+
+.ov-sample-notice > span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.ov-sample-notice strong {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.ov-sample-notice span span {
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 70ch;
+}
+
+.ov-live.is-sample {
+  color: #f0a830;
+  border-color: color-mix(in srgb, #f0a830 45%, transparent);
+  background: color-mix(in srgb, #f0a830 12%, transparent);
+}
